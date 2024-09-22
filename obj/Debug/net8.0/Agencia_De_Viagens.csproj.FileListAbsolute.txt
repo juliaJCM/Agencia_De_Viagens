@@ -1,0 +1,15 @@
+/home/alpha/Documentos/PucMinas/4 - Semestre/POO/Agencia_De_Viagens/bin/Debug/net8.0/Agencia_De_Viagens
+/home/alpha/Documentos/PucMinas/4 - Semestre/POO/Agencia_De_Viagens/bin/Debug/net8.0/Agencia_De_Viagens.deps.json
+/home/alpha/Documentos/PucMinas/4 - Semestre/POO/Agencia_De_Viagens/bin/Debug/net8.0/Agencia_De_Viagens.runtimeconfig.json
+/home/alpha/Documentos/PucMinas/4 - Semestre/POO/Agencia_De_Viagens/bin/Debug/net8.0/Agencia_De_Viagens.dll
+/home/alpha/Documentos/PucMinas/4 - Semestre/POO/Agencia_De_Viagens/bin/Debug/net8.0/Agencia_De_Viagens.pdb
+/home/alpha/Documentos/PucMinas/4 - Semestre/POO/Agencia_De_Viagens/obj/Debug/net8.0/Agencia_De_Viagens.GeneratedMSBuildEditorConfig.editorconfig
+/home/alpha/Documentos/PucMinas/4 - Semestre/POO/Agencia_De_Viagens/obj/Debug/net8.0/Agencia_De_Viagens.AssemblyInfoInputs.cache
+/home/alpha/Documentos/PucMinas/4 - Semestre/POO/Agencia_De_Viagens/obj/Debug/net8.0/Agencia_De_Viagens.AssemblyInfo.cs
+/home/alpha/Documentos/PucMinas/4 - Semestre/POO/Agencia_De_Viagens/obj/Debug/net8.0/Agencia_De_Viagens.csproj.CoreCompileInputs.cache
+/home/alpha/Documentos/PucMinas/4 - Semestre/POO/Agencia_De_Viagens/obj/Debug/net8.0/Agencia_De_Viagens.sourcelink.json
+/home/alpha/Documentos/PucMinas/4 - Semestre/POO/Agencia_De_Viagens/obj/Debug/net8.0/Agencia_De_Viagens.dll
+/home/alpha/Documentos/PucMinas/4 - Semestre/POO/Agencia_De_Viagens/obj/Debug/net8.0/refint/Agencia_De_Viagens.dll
+/home/alpha/Documentos/PucMinas/4 - Semestre/POO/Agencia_De_Viagens/obj/Debug/net8.0/Agencia_De_Viagens.pdb
+/home/alpha/Documentos/PucMinas/4 - Semestre/POO/Agencia_De_Viagens/obj/Debug/net8.0/Agencia_De_Viagens.genruntimeconfig.cache
+/home/alpha/Documentos/PucMinas/4 - Semestre/POO/Agencia_De_Viagens/obj/Debug/net8.0/ref/Agencia_De_Viagens.dll
