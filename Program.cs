@@ -37,8 +37,9 @@ public class Program
                     break;
 
                 case "2":
-                    
-                    break;
+              { 
+                          ExibirMenuCliente();
+                          break;
 
                 case "6":
                 {
@@ -61,5 +62,69 @@ public class Program
             }
         }
     }
+  //MENU Cliente
+   private static void ExibirMenuCliente()
+  {
+      Cliente cliente = new Cliente();
+
+      while (true)
+      {
+          Console.Clear();
+          Console.WriteLine("Menu de Clientes");
+          Console.WriteLine("1. Criar Cliente");
+          Console.WriteLine("2. Listar Clientes");
+          Console.WriteLine("3. Excluir Cliente");
+          Console.WriteLine("0. Voltar");
+
+          string? opcaoCliente = Console.ReadLine();
+
+          switch (opcaoCliente)
+          {
+              case "1":
+                  Console.WriteLine("Digite o Nome:");
+                  string nome = Console.ReadLine()!;
+                  Console.WriteLine("Digite o CPF:");
+                  string cpf = Console.ReadLine()!;
+                  Console.WriteLine("Digite o RG:");
+                  string rg = Console.ReadLine()!;
+                  Console.WriteLine("Digite o Email:");
+                  string email = Console.ReadLine()!;
+                  Console.WriteLine("Digite o Passaporte:");
+                  string passaporte = Console.ReadLine()!;
+
+                  cliente.CriarCliente(nome, cpf, rg, email, passaporte);
+                  break;
+
+              case "2":
+                  cliente.ListarClientes();
+                  Console.WriteLine("Pressione qualquer tecla para continuar...");
+                  Console.ReadKey();
+                  break;
+
+              case "3":
+                  Console.WriteLine("Digite o CPF do cliente a ser excluído:");
+                  string cpfExcluir = Console.ReadLine()!;
+                  bool removido = cliente.ExcluirCliente(cpfExcluir);
+
+                  if (removido)
+                  {
+                      Console.WriteLine("Cliente removido com sucesso.");
+                  }
+                  else
+                  {
+                      Console.WriteLine("Cliente não encontrado.");
+                  }
+                  Console.ReadKey();
+                  break;
+
+              case "0":
+                  return; 
+
+              default:
+                  Console.WriteLine("Opção inválida!");
+                  break;
+          }
+      }
+  }
 }
 }
