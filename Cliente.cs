@@ -5,20 +5,20 @@ namespace Agencia_De_Viagens
 {
     public class Cliente
     {
-        // Lista de clientes armazenados
+        // Lista de clientes cadastrados
         static List<Cliente> Clientes = new List<Cliente>();
 
-        // Propriedades
+    
         public string? Nome { get; set; }
         public string? CPF { get; set; }
         public string? RG { get; set; }
         public string? Email { get; set; }
         public string? Passaporte { get; set; }
 
-        // Método para criar um novo cliente
+        // Método para criar um novo registro de cliente
         public bool CriarCliente(string nome, string cpf, string rg, string email, string passaporte)
         {
-            // Verifica se o cliente com o mesmo CPF já existe
+            // Verifica se já esta cadastrado o mesmo CPF
             if (Clientes.Exists(c => c.CPF == cpf))
             {
                 Console.WriteLine("Cliente com o mesmo CPF já existe!");
