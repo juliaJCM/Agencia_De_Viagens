@@ -7,8 +7,42 @@ namespace Agencia_De_Viagens
     {
         private static void Main(string[] args)
         {
+            while (true){
+                Console.WriteLine(" _________________________________________ ");
+                Console.WriteLine("|_____________Visualizar voos_____________|");
+                Console.WriteLine("| Código |       Opções                   |");
+                Console.WriteLine("|   1    |  Funcionario                   |");
+                Console.WriteLine("|   2    |  Cliente                       |");
+                Console.WriteLine("|   0    |  Sair                          |");
+                Console.WriteLine("|_________________________________________|");
+                Console.WriteLine("Insira o código do menu voos e digite 'Enter'");
+
+            string? opcao1 = Console.ReadLine();
+
+                switch (opcao1)
+                {
+                    case "1":
+                        MenuFuncionario menu = new MenuFuncionario();
+                        menu.ExibirMenu();
+                        break;
+
+                    case "2":
+                        Console.WriteLine("Você selevionou a opção Cliente!");
+                        break;
+
+                    case "0":
+                        return;
+
+                    default:
+                        Console.WriteLine("Opção inválida! Pressione qualquer tecla para tentar novamente...");
+                        Console.ReadKey();
+                        break;
+                }
+            }
+
             while (true)
             {
+
                 Console.WriteLine(" _________________________________________ ");
                 Console.WriteLine("|_____________Visualizar voos_____________|");
                 Console.WriteLine("| Código |       Opções                   |");
