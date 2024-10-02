@@ -1,41 +1,62 @@
 using System;
+using System.Collections.Generic;
 
-public class Aeroporto
+namespace Agencia_De_Viagens
 {
-    public string Nome { get; set; }
-    public char Sigla { get; set; }
-    public string Cidade { get; set; }
-    public string Estado { get; set; }
-    public string Pais { get; set; }
-
-    // Construtor opcional
-    public Aeroporto(string nome, char sigla, string cidade, string estado, string pais)
+    public class Aeroporto
     {
-        this.Nome = nome;
-        this.Sigla = sigla;
-        this.Cidade = cidade;
-        this.Estado = estado;
-        this.Pais = pais;
-    }
+        public string Nome { get; set; }
+        public string Sigla { get; set; }
+        public string Cidade { get; set; }
+        public string Estado { get; set; }
+        public string Pais { get; set; }
 
-    // Método para criar um aeroporto
-    public bool CriarAeroporto(string nome, char sigla, string estado, string pais)
-    {
-        // Validação básica
-        if (string.IsNullOrEmpty(nome) || char.IsWhiteSpace(sigla) || string.IsNullOrEmpty(estado) || string.IsNullOrEmpty(pais))
+        // Construtor opcional
+        public Aeroporto(string nome, string sigla, string cidade, string estado, string pais)
         {
-            Console.WriteLine("Dados inválidos. Aeroporto não criado.");
-            return false;
+            Nome = nome;
+            Sigla = sigla;
+            Cidade = cidade;
+            Estado = estado;
+            Pais = pais;
         }
 
-        // Atribuindo valores passados aos atributos da instância
-        this.Nome = nome;
-        this.Sigla = sigla;
-        this.Estado = estado;
-        this.Pais = pais;
+        // Método para criar um aeroporto
+        public bool CriarAeroporto(string nome, string sigla, string cidade,string estado,string pais)
+        {
+            // Validação básica
+            if (string.IsNullOrEmpty(nome) || string.IsNullOrEmpty(sigla) || string.IsNullOrEmpty(cidade) || string.IsNullOrEmpty(estado) || string.IsNullOrEmpty(pais))
+            {
+                Console.WriteLine("Dados inválidos. Aeroporto não criado.");
+                return false;
+            }
 
-        // Aqui poderia haver lógica adicional, como salvar no banco de dados
-        Console.WriteLine("Aeroporto criado com sucesso!");
-        return true;
+            // Validação para garantir que a sigla contenha sempre 3 letra maiúsculas
+            if (sigla.Length != 3 || !sigla.All(char.IsLetter))
+            {
+                Console.WriteLine("Sigla inválida. Ela deve conter exatamente 3 letras.");
+                return false;
+            }
+
+            // Atribuindo valores passados aos atributos da instância
+            Nome = nome;
+            Sigla = sigla;
+            Cidade = cidade;
+            Estado = estado;
+            Pais = pais;
+
+            // Aqui poderia haver lógica adicional, como salvar no banco de dados
+            Console.WriteLine("Aeroporto criado com sucesso!");
+            return true;
+        }
+
+        public void ExibirDadosAeroporto()
+        {
+            Console.WriteLine($"Nome: {Nome}");
+            Console.WriteLine($"Sigla: {Sigla}");
+            Console.WriteLine($"Estado: {Estado}");
+            Console.WriteLine($"Cidade: {Cidade}");
+            Console.WriteLine($"País: {Pais}");
+        }
     }
 }

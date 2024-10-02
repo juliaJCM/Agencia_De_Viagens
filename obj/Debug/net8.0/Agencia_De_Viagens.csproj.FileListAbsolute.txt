@@ -13,3 +13,18 @@
 /home/alpha/Documentos/PucMinas/4 - Semestre/POO/Agencia_De_Viagens/obj/Debug/net8.0/Agencia_De_Viagens.pdb
 /home/alpha/Documentos/PucMinas/4 - Semestre/POO/Agencia_De_Viagens/obj/Debug/net8.0/Agencia_De_Viagens.genruntimeconfig.cache
 /home/alpha/Documentos/PucMinas/4 - Semestre/POO/Agencia_De_Viagens/obj/Debug/net8.0/ref/Agencia_De_Viagens.dll
+C:\Users\julia\Documents\Personal\Estudos\1. POO\TrabalhoPoo\Agencia_De_Viagens\bin\Debug\net8.0\Agencia_De_Viagens.exe
+C:\Users\julia\Documents\Personal\Estudos\1. POO\TrabalhoPoo\Agencia_De_Viagens\bin\Debug\net8.0\Agencia_De_Viagens.deps.json
+C:\Users\julia\Documents\Personal\Estudos\1. POO\TrabalhoPoo\Agencia_De_Viagens\bin\Debug\net8.0\Agencia_De_Viagens.runtimeconfig.json
+C:\Users\julia\Documents\Personal\Estudos\1. POO\TrabalhoPoo\Agencia_De_Viagens\bin\Debug\net8.0\Agencia_De_Viagens.dll
+C:\Users\julia\Documents\Personal\Estudos\1. POO\TrabalhoPoo\Agencia_De_Viagens\bin\Debug\net8.0\Agencia_De_Viagens.pdb
+C:\Users\julia\Documents\Personal\Estudos\1. POO\TrabalhoPoo\Agencia_De_Viagens\obj\Debug\net8.0\Agencia_De_Viagens.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\julia\Documents\Personal\Estudos\1. POO\TrabalhoPoo\Agencia_De_Viagens\obj\Debug\net8.0\Agencia_De_Viagens.AssemblyInfoInputs.cache
+C:\Users\julia\Documents\Personal\Estudos\1. POO\TrabalhoPoo\Agencia_De_Viagens\obj\Debug\net8.0\Agencia_De_Viagens.AssemblyInfo.cs
+C:\Users\julia\Documents\Personal\Estudos\1. POO\TrabalhoPoo\Agencia_De_Viagens\obj\Debug\net8.0\Agencia_De_Viagens.csproj.CoreCompileInputs.cache
+C:\Users\julia\Documents\Personal\Estudos\1. POO\TrabalhoPoo\Agencia_De_Viagens\obj\Debug\net8.0\Agencia_De_Viagens.sourcelink.json
+C:\Users\julia\Documents\Personal\Estudos\1. POO\TrabalhoPoo\Agencia_De_Viagens\obj\Debug\net8.0\Agencia_De_Viagens.dll
+C:\Users\julia\Documents\Personal\Estudos\1. POO\TrabalhoPoo\Agencia_De_Viagens\obj\Debug\net8.0\refint\Agencia_De_Viagens.dll
+C:\Users\julia\Documents\Personal\Estudos\1. POO\TrabalhoPoo\Agencia_De_Viagens\obj\Debug\net8.0\Agencia_De_Viagens.pdb
+C:\Users\julia\Documents\Personal\Estudos\1. POO\TrabalhoPoo\Agencia_De_Viagens\obj\Debug\net8.0\Agencia_De_Viagens.genruntimeconfig.cache
+C:\Users\julia\Documents\Personal\Estudos\1. POO\TrabalhoPoo\Agencia_De_Viagens\obj\Debug\net8.0\ref\Agencia_De_Viagens.dll
