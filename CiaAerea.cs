@@ -13,7 +13,7 @@ namespace Agencia_De_Viagens
         public double ValorDemaisBagagens { get; set; }
 
         // Construtor opcional
-        public CiaAerea(string nome, int codigo, string razaoSocial, string cnpj, float valorPrimeiraBagagem, float valorDemaisBagagens)
+        public CiaAerea(string nome, int codigo, string razaoSocial, string cnpj, double valorPrimeiraBagagem, double valorDemaisBagagens)
         {
             Nome = nome;
             Codigo = codigo;
@@ -27,7 +27,7 @@ namespace Agencia_De_Viagens
         public bool CriarCiaAerea(string nome, int codigo, string razaoSocial, string cnpj, double valorPrimeiraBagagem, double valorDemaisBagagens)
         {
             // Validação básica
-            if (string.IsNullOrEmpty(nome) || string.IsNullOrEmpty(razaoSocial) || string.IsNullOrEmpty(cnpj) || codigo <= 0 || double.IsNaN(valorPrimeiraBagagem) || double.IsNaN(valorDemaisBagagens))
+            if (string.IsNullOrEmpty(nome) || string.IsNullOrEmpty(razaoSocial) || string.IsNullOrEmpty(cnpj) || int.IsNegative(codigo)  || double.IsNaN(valorPrimeiraBagagem) || double.IsNaN(valorDemaisBagagens))
             {
                 Console.WriteLine("Dados inválidos. Companhia aérea não criada.");
                 return false;
@@ -44,6 +44,16 @@ namespace Agencia_De_Viagens
             // Aqui poderia haver lógica adicional, como salvar no banco de dados
             Console.WriteLine("Companhia aérea criada com sucesso!");
             return true;
+        }
+
+        public void ExibirDadosCiaAerea()
+        {
+            Console.WriteLine($"Nome: {Nome}");
+            Console.WriteLine($"Codigo: {Codigo}");
+            Console.WriteLine($"Razão Social: {RazaoSocial}");
+            Console.WriteLine($"CNPJ: {CNPJ}");
+            Console.WriteLine($"Valor da primeira bagagem: 'US$'{ValorPrimeiraBagagem}");
+            Console.WriteLine($"Valor da demais bagagens: 'US$'{ValorPrimeiraBagagem}");
         }
 
 

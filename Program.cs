@@ -72,6 +72,7 @@ namespace Agencia_De_Viagens
 
                     case "2":
                         Console.WriteLine("Você selecionou Companhia Aérea!");
+                        CriarCiaAerea();
                         break;
 
                     case "3":
@@ -193,6 +194,40 @@ namespace Agencia_De_Viagens
                 // Exibe os dados do aeroporto criado
                 Console.WriteLine("\nAeroporto criado com sucesso:");
                 aeroporto.ExibirDadosAeroporto();
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        private static void CriarCiaAerea()
+        {
+            try
+            {
+                Console.WriteLine("Insira o nome da companhia aerea:");
+                string? nome = Console.ReadLine();
+
+                Console.WriteLine("Insira o código da companhia aerea:");
+                int codigo = int.Parse(Console.ReadLine());
+
+                Console.WriteLine("Insira a razão social da companhia aerea:");
+                string? razaoSocial = Console.ReadLine();
+
+                Console.WriteLine("Insira o CNPJ da companhia aerea:");
+                string? cnpj = Console.ReadLine();
+
+                Console.WriteLine("Forneça o valor fixo da primeira bagagem dos passageiros:");
+                double valorPrimeiraBagagem = double.Parse(Console.ReadLine());
+
+                Console.WriteLine("Forneça o valor fixo das demais bagagens dos passageiros?");
+                double valorDemaisBagagens= double.Parse(Console.ReadLine());
+
+                CiaAerea ciaAerea = new CiaAerea(nome, codigo, razaoSocial, cnpj, valorPrimeiraBagagem, valorDemaisBagagens);
+
+                // Exibe os dados do aeroporto criado
+                Console.WriteLine("\nAeroporto criado com sucesso:");
+                ciaAerea.ExibirDadosCiaAerea();
             }
             catch (ArgumentException ex)
             {
