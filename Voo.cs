@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Agencia_De_Viagens
 {
@@ -10,7 +11,7 @@ namespace Agencia_De_Viagens
         public List<CiaAerea> CiasAereas { get; set; }
         public List<Aeroporto> AeroportosOrigem { get; set; }
         public List<Aeroporto> AeroportosDestino { get; set; }
-        public DiasSemana DiasSemana { get; set; }
+        public List<string> DiasSemana { get; set; }
         public TimeSpan HoraSaida { get; set; }
         public TimeSpan HoraChegada { get; set; }
         public string Pais { get; set; }
@@ -19,11 +20,10 @@ namespace Agencia_De_Viagens
         public float ValorTarifaPremium { get; set; }
         public string Moeda { get; set; }
 
-        // Construtor
-        public Voo(string nome, string codRota, List<CiaAerea> ciasAereas, List<Aeroporto> aeroportosOrigem, 
-                    List<Aeroporto> aeroportosDestino, DiasSemana diasSemana, TimeSpan horaSaida, 
-                    TimeSpan horaChegada, string pais, float valorTarifaBasica, 
-                    float valorTarifaBusiness, float valorTarifaPremium, string moeda)
+        public Voo(string nome, string codRota, List<CiaAerea> ciasAereas, List<Aeroporto> aeroportosOrigem,
+                    List<Aeroporto> aeroportosDestino, List<string> diasSemana, TimeSpan horaSaida,
+                    TimeSpan horaChegada, string pais, float valorTarifaBasica,
+                    float valorTarifaBusiness, float valorTarifaPremium, string moeda = "BRL")
         {
             this.Nome = nome;
             this.CodRota = GerarCodigoRota();
@@ -37,34 +37,74 @@ namespace Agencia_De_Viagens
             this.ValorTarifaBasica = valorTarifaBasica;
             this.ValorTarifaBusiness = valorTarifaBusiness;
             this.ValorTarifaPremium = valorTarifaPremium;
-            this.Moeda = moeda;
+            this.Moeda = pais != "Brasil" ? "USD" : moeda;
+        }
+
+        public static List<Voo> PesquisarVoos(List<Voo> voos, Aeroporto origem, Aeroporto destino, DateTime data)
+        {
+            List<Voo> voosEncontrados = new List<Voo>();
+
+            var diasDaSemanaPortugues = new Dictionary<DayOfWeek, string>
+    {
+        { DayOfWeek.Monday, "Segunda" },
+        { DayOfWeek.Tuesday, "Terca" },
+        { DayOfWeek.Wednesday, "Quarta" },
+        { DayOfWeek.Thursday, "Quinta" },
+        { DayOfWeek.Friday, "Sexta" },
+        { DayOfWeek.Saturday, "Sabado" },
+        { DayOfWeek.Sunday, "Domingo" }
+    };
+
+            string diaDaSemana = diasDaSemanaPortugues[data.DayOfWeek];
+
+            Console.WriteLine($"Pesquisando voos para a data: {data.ToShortDateString()} ({diaDaSemana})");
+
+            foreach (var voo in voos)
+
+            {   //teste Contains:
+                // Console.WriteLine($"Origem: {string.Join(", ", voo.AeroportosOrigem.Select(a => a.Sigla))} | Destino: {string.Join(", ", voo.AeroportosDestino.Select(a => a.Sigla))}");
+                // Console.WriteLine($"Dias disponíveis: {string.Join(", ", voo.DiasSemana)}");
+                // Console.WriteLine($"Origem: {origem.Sigla} - Return: {voo.AeroportosOrigem.Contains(origem)}");
+                // Console.WriteLine($"Destino: {destino.Sigla} - Return: {voo.AeroportosDestino.Contains(destino)}");
+                // Console.WriteLine($"Dia da semana: {diaDaSemana} - Return: {voo.DiasSemana.Contains(diaDaSemana)}");
+
+                if (voo.AeroportosOrigem.Contains(origem) &&
+                    voo.AeroportosDestino.Contains(destino) &&
+                    voo.DiasSemana.Contains(diaDaSemana))
+                {
+                    voosEncontrados.Add(voo);
+                    Console.WriteLine($"Voo {voo.Nome} encontrado e adicionado aos resultados.");
+                }
+                else
+                {
+                    Console.WriteLine($"Voo {voo.Nome} não atende aos critérios.");
+                }
+
+                Console.WriteLine(new string('-', 50));
+            }
+
+            return voosEncontrados;
         }
 
         public static string GerarCodigoRota()
         {
             Random random = new Random();
-            string letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"; // Letras maiúsculas
-            string numeros = "0123456789"; // Números
+            string letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            string numeros = "0123456789";
 
-            // Gerar duas letras aleatórias
             char letra1 = letras[random.Next(letras.Length)];
             char letra2 = letras[random.Next(letras.Length)];
 
-            // Gerar quatro números aleatórios
             string numero = "";
             for (int i = 0; i < 4; i++)
             {
                 numero += numeros[random.Next(numeros.Length)];
             }
 
-            // Concatenar letras e números
             return $"{letra1}{letra2}{numero}";
         }
-
-        // Método para criar o voo
-        public bool CriarVoo()
+        public bool ValidaCriacaoVoo()
         {
-            // Validação simples
             if (CiasAereas == null || CiasAereas.Count == 0 || AeroportosOrigem == null || AeroportosOrigem.Count == 0 ||
                 AeroportosDestino == null || AeroportosDestino.Count == 0 || string.IsNullOrEmpty(CodRota))
             {
@@ -72,23 +112,8 @@ namespace Agencia_De_Viagens
                 return false;
             }
 
-            // Aqui você pode adicionar lógica adicional, como salvar no banco de dados ou realizar outras validações
             Console.WriteLine();
             return true;
         }
-    }
-
-    // Enumeração para os dias da semana
-    [Flags]
-    public enum DiasSemana
-    {
-        Nenhum = 0,
-        Segunda = 1,
-        Terça = 2,
-        Quarta = 4,
-        Quinta = 8,
-        Sexta = 16,
-        Sábado = 32,
-        Domingo = 64
     }
 }
