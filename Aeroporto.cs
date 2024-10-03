@@ -57,6 +57,7 @@ namespace Agencia_De_Viagens
             Console.WriteLine($"Estado: {Estado}");
             Console.WriteLine($"Cidade: {Cidade}");
             Console.WriteLine($"País: {Pais}");
+            Console.WriteLine(new string('-', 30));
         }
     }
 }

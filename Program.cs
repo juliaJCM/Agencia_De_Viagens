@@ -7,14 +7,15 @@ namespace Agencia_De_Viagens
     {
         private static void Main(string[] args)
         {
-            
+
             ExibirMenuPrincipal();
 
         }
 
 
-// Funções responsáveis por exibir os menus ao usuário
-        private static void ExibirMenuPrincipal(){
+        // Funções responsáveis por exibir os menus ao usuário
+        private static void ExibirMenuPrincipal()
+        {
             while (true)
             {
                 Console.WriteLine(" _________________________________________ ");
@@ -26,13 +27,12 @@ namespace Agencia_De_Viagens
                 Console.WriteLine("|_________________________________________|");
                 Console.WriteLine("Insira a opção desejada e digite 'Enter'");
 
-            string? opcaoPrincipal = Console.ReadLine();
+                string? opcaoPrincipal = Console.ReadLine();
 
                 switch (opcaoPrincipal)
                 {
                     case "1":
-                        MenuFuncionario menu = new MenuFuncionario();
-                        menu.ExibirMenuFuncionario();
+                        ExibirMenuFuncionario();
                         break;
 
                     case "2":
@@ -50,51 +50,52 @@ namespace Agencia_De_Viagens
             }
         }
 
-        private static void ExibirMenuVoo(){
-                Console.WriteLine(" _________________________________________ ");
-                Console.WriteLine("|_____________Visualizar voos_____________|");
-                Console.WriteLine("| Código |       Opções                   |");
-                Console.WriteLine("|   1    |  Passagens                     |");
-                Console.WriteLine("|   2    |  Companhia aérea               |");
-                Console.WriteLine("|   3    |  Aeroportos                    |");
-                Console.WriteLine("|   4    |  Rotas                         |");
-                Console.WriteLine("|   0    |  Sair                          |");
-                Console.WriteLine("|_________________________________________|");
-                Console.WriteLine("Insira o código do menu voos e digite 'Enter'");
+        private static void ExibirMenuVoo()
+        {
+            Console.WriteLine(" _________________________________________ ");
+            Console.WriteLine("|_____________Visualizar voos_____________|");
+            Console.WriteLine("| Código |       Opções                   |");
+            Console.WriteLine("|   1    |  Passagens                     |");
+            Console.WriteLine("|   2    |  Companhia aérea               |");
+            Console.WriteLine("|   3    |  Aeroportos                    |");
+            Console.WriteLine("|   4    |  Rotas                         |");
+            Console.WriteLine("|   0    |  Sair                          |");
+            Console.WriteLine("|_________________________________________|");
+            Console.WriteLine("Insira o código do menu voos e digite 'Enter'");
 
-                string? opcaoVoo = Console.ReadLine();
+            string? opcaoVoo = Console.ReadLine();
 
-                switch (opcaoVoo)
-                {
-                    case "1":
-                        Console.WriteLine("Você selecionou Passagens!");
-                        break;
+            switch (opcaoVoo)
+            {
+                case "1":
+                    Console.WriteLine("Você selecionou Passagens!");
+                    break;
 
-                    case "2":
-                        Console.WriteLine("Você selecionou Companhia Aérea!");
-                        CriarCiaAerea();
-                        break;
+                case "2":
+                    Console.WriteLine("Você selecionou Companhia Aérea!");
+                    CriarCiaAerea();
+                    break;
 
-                    case "3":
-                        Console.WriteLine("Você selecionou Aeroporto!");
-                        CriarAeroporto();
-                        break;
+                case "3":
+                    Console.WriteLine("Você selecionou Aeroporto!");
+                    CriarAeroporto();
+                    break;
 
-                    case "4":
-                        Console.WriteLine("Você selecionou Rotas!");
-                        break;
+                case "4":
+                    Console.WriteLine("Você selecionou Rotas!");
+                    break;
 
-                    case "0":
-                        return;
+                case "0":
+                    return;
 
-                    default:
-                        Console.WriteLine("Opção inválida! Pressione qualquer tecla para tentar novamente...");
-                        Console.ReadKey();
-                        break;
-                }
+                default:
+                    Console.WriteLine("Opção inválida! Pressione qualquer tecla para tentar novamente...");
+                    Console.ReadKey();
+                    break;
+            }
         }
 
-        // MENU Cliente
+        // Menu Cliente
         private static void ExibirMenuCliente()
         {
             Cliente cliente = new Cliente();
@@ -108,6 +109,8 @@ namespace Agencia_De_Viagens
                 Console.WriteLine("|   1    |  Criar Cliente                 |");
                 Console.WriteLine("|   2    |  Listar Cliente                |");
                 Console.WriteLine("|   3    |  Excluir Cliente               |");
+                Console.WriteLine("|   4    |  Rotas                         |");
+                Console.WriteLine("|   5    |  Passagens                     |");
                 Console.WriteLine("|   0    |  Voltar                        |");
                 Console.WriteLine("|_________________________________________|");
                 Console.WriteLine("Insira o código do menu voos e digite 'Enter'");
@@ -157,6 +160,14 @@ namespace Agencia_De_Viagens
                         Console.ReadKey();
                         break;
 
+                    case "4":
+                        Console.WriteLine("Você selecionou Rotas!");
+                        break;
+
+                    case "5":
+                        Console.WriteLine("Você selecionou Passagens!");
+                        break;
+
                     case "0":
                         return;
 
@@ -167,7 +178,101 @@ namespace Agencia_De_Viagens
             }
         }
 
-        private static void CriarAeroporto() 
+        // Menu Funcionário
+        public static void ExibirMenuFuncionario()
+        {
+            Funcionario funcionario = new Funcionario();
+
+            while (true)
+            {
+                {
+                    Console.Clear();
+                    Console.WriteLine(" _________________________________________ ");
+                    Console.WriteLine("|_____________Menu Funcionarios___________|");
+                    Console.WriteLine("| Código |       Opções                   |");
+                    Console.WriteLine("|   1    |  Realizar Login                |");
+                    Console.WriteLine("|   2    |  Cadastrar funcionarios        |");
+                    Console.WriteLine("|   3    |  Listar funcionarios           |");
+                    Console.WriteLine("|   4    |  Excluir funcionarios          |");
+                    Console.WriteLine("|   0    |  Sair                          |");
+                    Console.WriteLine("|_________________________________________|");
+                    Console.WriteLine("Insira o código do menu e digite 'Enter'");
+
+                    string? opcaoFuncionario = Console.ReadLine();
+
+                    switch (opcaoFuncionario)
+                    {
+                        case "1":
+                            Console.WriteLine("Digite seu login:");
+                            string login = Console.ReadLine()!;
+
+                            Console.WriteLine("Digite seu senha:");
+                            string senha = Console.ReadLine()!;
+
+                            bool loginRealizado = funcionario.LoginFuncionario(login, senha);
+
+                            if (loginRealizado)
+                            {
+                                Console.WriteLine("Bem Vindo(a)!");
+                                ExibirMenuVoo();
+                            }
+                            else
+                            {
+                                Console.WriteLine("Login ou senha incorretos. Selecione qualquer tecla para voltar ao menu de funcionarios.");
+                            }
+                            Console.ReadKey();
+                            break;
+                        case "2":
+                            Console.WriteLine("Digite o Nome:");
+                            string nome = Console.ReadLine()!;
+
+                            Console.WriteLine("Digite o CPF:");
+                            string cpf = Console.ReadLine()!;
+
+                            Console.WriteLine("Digite o Email");
+                            string email = Console.ReadLine()!;
+
+                            Console.WriteLine("Digite o Login:");
+                            string loginFunc = Console.ReadLine()!;
+
+                            Console.WriteLine("Digite a Senha:");
+                            string senhaFunc = Console.ReadLine()!;
+
+                            funcionario.CriarFuncionario(nome, cpf, email, loginFunc, senhaFunc);
+                            break;
+                        case "3":
+                            funcionario.ListarFuncionario();
+                            Console.WriteLine("Pressione qualquer tecla para continuar...");
+                            Console.ReadKey();
+                            break;
+                        case "4":
+                            Console.WriteLine("Digite o CPF do cliente a ser excluído:");
+                            string cpfExcluir = Console.ReadLine()!;
+                            bool removido = funcionario.ExcluirFuncionario(cpfExcluir);
+
+                            if (removido)
+                            {
+                                Console.WriteLine("Cliente removido com sucesso.");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Cliente não encontrado.");
+                            }
+                            Console.ReadKey();
+                            break;
+                        case "0":
+                            Console.WriteLine("Saindo do menu de funcionários...");
+                            break;
+                        default:
+                            Console.WriteLine("Opção inválida. Pressione qualquer tecla para tentar novamente...");
+                            Console.ReadKey();
+                            break;
+                    }
+                }
+            }
+        }
+
+        private static void CriarAeroporto()
         {
             // Chama o método CriarAeroporto e passa os argumentos
             try
@@ -192,7 +297,7 @@ namespace Agencia_De_Viagens
                 Aeroporto aeroporto = new Aeroporto(nome, sigla, cidade, estado, pais);
 
                 // Exibe os dados do aeroporto criado
-                Console.WriteLine("\nAeroporto criado com sucesso:");
+                Console.WriteLine("\nAeroporto criado com sucesso!\n");
                 aeroporto.ExibirDadosAeroporto();
             }
             catch (ArgumentException ex)
@@ -221,12 +326,12 @@ namespace Agencia_De_Viagens
                 double valorPrimeiraBagagem = double.Parse(Console.ReadLine());
 
                 Console.WriteLine("Forneça o valor fixo das demais bagagens dos passageiros?");
-                double valorDemaisBagagens= double.Parse(Console.ReadLine());
+                double valorDemaisBagagens = double.Parse(Console.ReadLine());
 
                 CiaAerea ciaAerea = new CiaAerea(nome, codigo, razaoSocial, cnpj, valorPrimeiraBagagem, valorDemaisBagagens);
 
                 // Exibe os dados do aeroporto criado
-                Console.WriteLine("\nAeroporto criado com sucesso:");
+                Console.WriteLine("Companhia Aérea criada com sucesso!");
                 ciaAerea.ExibirDadosCiaAerea();
             }
             catch (ArgumentException ex)

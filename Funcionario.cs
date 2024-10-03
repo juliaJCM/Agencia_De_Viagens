@@ -2,99 +2,106 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-public class Funcionario
+namespace Agencia_De_Viagens
 {
-    // Lista estática para armazenar os funcionários
-    static List<Funcionario> Funcionarios = new List<Funcionario>();
-
-    // Propriedades públicas para acesso externo, se necessário
-    public string? Nome { get; set; }
-    public string? CPF { get; set; }
-    public string? Email { get; set; }
-    public bool AcessoSistema { get; private set; } = false;
-    public string? Login { get; private set; }
-    public string? Senha { get; private set; }
-
-    // Método para criar um novo funcionário
-    public void CriarFuncionario(string nome, string cpf, string email, string login, string senha)
+    public class Funcionario
     {
-        Funcionario novoFuncionario = new Funcionario
+        // Lista estática para armazenar os funcionários
+        static List<Funcionario> Funcionarios = new List<Funcionario>();
+
+        // Propriedades públicas para acesso externo, se necessário
+        public string? Nome { get; set; }
+        public string? CPF { get; set; }
+        public string? Email { get; set; }
+        public bool AcessoSistema { get; private set; } = false;
+        public string? Login { get; private set; }
+        public string? Senha { get; private set; }
+
+        // Método para criar um novo funcionário
+        public bool CriarFuncionario(string nome, string cpf, string email, string login, string senha)
         {
-            Nome = nome,
-            CPF = cpf,
-            Email = email,
-            Login = login,
-            Senha = senha
-        };
+            if (Funcionarios.Exists(c => c.CPF == cpf))
+            {
+                Console.WriteLine("Funcionario com o mesmo CPF já existe!");
+                return false;
+            }
 
-        Funcionarios.Add(novoFuncionario);
-        Console.WriteLine("Funcionário criado com sucesso!");
-        Console.WriteLine("Pressione qualquer tecla para continuar...");
-        Console.ReadKey();
-    }
+            Funcionario novoFuncionario = new Funcionario
+            {
+                Nome = nome,
+                CPF = cpf,
+                Email = email,
+                Login = login,
+                Senha = senha
+            };
 
-    // Método para criar acesso ao sistema para o funcionário
-    public void CriarAcessoSistema(string login, string senha)
-    {
-        Login = login;
-        Senha = senha;
-        AcessoSistema = true;
-    }
-
-    // Método para listar todos os funcionários
-    public void ListarFuncionarios()
-    {
-        if (Funcionarios.Count == 0)
-        {
-            Console.WriteLine("Nenhum funcionário cadastrado!");
-            return;
-        }
-
-        foreach (var funcionario in Funcionarios)
-        {
-            Console.WriteLine($"Nome: {funcionario.Nome}");
-            Console.WriteLine($"CPF: {funcionario.CPF}");
-            Console.WriteLine($"Email: {funcionario.Email}");
-            Console.WriteLine($"Acesso ao sistema: {funcionario.AcessoSistema}");
-            Console.WriteLine($"Login: {funcionario.Login}");
-            Console.WriteLine($"Senha: {funcionario.Senha}");
-            Console.WriteLine(new string('-', 30));
-        }
-    }
-
-    public bool ExcluirFuncionario(string cpf)
-    {
-        // Procura o funcionário com o CPF fornecido
-        Funcionario? funcionarioEncontrado = Funcionarios.Find(f => f.CPF == cpf);
-
-        // Verifica se encontrou o funcionário
-        if (funcionarioEncontrado != null)
-        {
-            Funcionarios.Remove(funcionarioEncontrado);
+            Funcionarios.Add(novoFuncionario);
+            Console.WriteLine("Funcionário criado com sucesso!");
+            Console.WriteLine("Pressione qualquer tecla para continuar...");
+            Console.ReadKey();
             return true;
         }
-        else
-        {
-            return false;
-        }
-        
-    }
 
-    public bool LoginFuncionario(string senha, string login)
-    {
-        // Busca o funcionário na lista de funcionários pelo login e senha
-        Funcionario? funcionarioLogin = Funcionarios
-            .FirstOrDefault(f => f.Login == login && f.Senha == senha);
-
-        if (funcionarioLogin != null)
+        // Método para criar acesso ao sistema para o funcionário
+        public void CriarAcessoSistema(string login, string senha)
         {
-            Console.WriteLine("Login realizado com sucesso!");
-            return true;
+            Login = login;
+            Senha = senha;
+            AcessoSistema = true;
         }
-        else
+
+        // Método para listar todos os funcionários
+         public void ListarFuncionario()
         {
-            Console.WriteLine("Login ou senha incorretos. Tente novamente.");
-            return false;
+            if (Funcionarios.Count == 0)
+            {
+                Console.WriteLine("Nenhum funcionário cadastrado!");
+                return;
+            }
+
+            Console.WriteLine("Clientes cadastrados:");
+            foreach (var funcionario in Funcionarios)
+            {
+                Console.WriteLine($"Nome: {funcionario.Nome}");
+                Console.WriteLine($"CPF: {funcionario.CPF}");
+                Console.WriteLine($"Email: {funcionario.Email}");
+                Console.WriteLine($"Login: {funcionario.Login}");
+                Console.WriteLine($"Senha: {funcionario.Senha}");
+                Console.WriteLine(new string('-', 30));
+            }
+        }
+
+        public bool ExcluirFuncionario(string cpf)
+        {
+            Funcionario? funcionarioEncontrado = Funcionarios.Find(c => c.CPF == cpf);
+
+            if (funcionarioEncontrado != null)
+            {
+                Funcionarios.Remove(funcionarioEncontrado);
+                Console.WriteLine("Funcionário excluído com sucesso!");
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("Funcionário não encontrado!");
+                return false;
+            }
+        }
+
+        public bool LoginFuncionario(string login, string senha)
+        {
+            // Busca o funcionário na lista de funcionários pelo login e senha
+            Funcionario? funcionarioLogin = Funcionarios
+                .FirstOrDefault(f => f.Login == login && f.Senha == senha);
+
+            if (funcionarioLogin != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
