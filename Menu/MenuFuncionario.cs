@@ -12,7 +12,7 @@ namespace Agencia_De_Viagens
             funcionario = new Funcionario();
         }
 
-        public void ExibirMenu()
+        public void ExibirMenuFuncionario()
         {
             int opcao;
             do
@@ -21,9 +21,10 @@ namespace Agencia_De_Viagens
             Console.WriteLine(" _________________________________________ ");
             Console.WriteLine("|_____________Menu Funcionarios___________|");
             Console.WriteLine("| Código |       Opções                   |");
-            Console.WriteLine("|   1    |  Cadastrar funcionarios        |");
-            Console.WriteLine("|   2    |  Listar funcionarios           |");
-            Console.WriteLine("|   3    |  Excluir funcionarios          |");
+            Console.WriteLine("|   1    |  Realizar Login                |");
+            Console.WriteLine("|   2    |  Cadastrar funcionarios        |");
+            Console.WriteLine("|   3    |  Listar funcionarios           |");
+            Console.WriteLine("|   4    |  Excluir funcionarios          |");
             Console.WriteLine("|   0    |  Sair                          |");
             Console.WriteLine("|_________________________________________|");
             Console.WriteLine("Insira o código do menu voos e digite 'Enter'");
@@ -39,14 +40,17 @@ namespace Agencia_De_Viagens
                 switch (opcao)
                 {
                     case 1:
-                        CadastrarFuncionario();
+                        RealizarLogin();
                         break;
                     case 2:
+                        CadastrarFuncionario();
+                        break;
+                    case 3:
                         funcionario.ListarFuncionarios();
                         Console.WriteLine("Pressione qualquer tecla para continuar...");
                         Console.ReadKey();
                         break;
-                    case 3:
+                    case 4:
                         ExcluirFuncionario();
                         break;
                     case 0:
@@ -73,14 +77,20 @@ namespace Agencia_De_Viagens
             Console.Write("Digite o Email: ");
             string? email = Console.ReadLine();
 
-            if (string.IsNullOrWhiteSpace(nome) || string.IsNullOrWhiteSpace(cpf) || string.IsNullOrWhiteSpace(email))
+            Console.Write("Crie um Login: ");
+            string? login = Console.ReadLine();
+
+            Console.Write("Digite uma Senha: ");
+            string? senha = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(nome) || string.IsNullOrWhiteSpace(cpf) || string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(senha))
             {
                 Console.WriteLine("Todos os campos são obrigatórios. Pressione qualquer tecla para tentar novamente...");
                 Console.ReadKey();
                 return;
             }
 
-            funcionario.CriarFuncionario(nome, cpf, email);
+            funcionario.CriarFuncionario(nome, cpf, email, login, senha);
         }
 
         private void ExcluirFuncionario()
@@ -105,6 +115,37 @@ namespace Agencia_De_Viagens
             else
             {
                 Console.WriteLine("Funcionário não encontrado.");
+            }
+            Console.WriteLine("Pressione qualquer tecla para continuar...");
+            Console.ReadKey();
+        }
+
+        private void RealizarLogin()
+        {
+            Console.Clear();
+            Console.WriteLine("===== Realizar Login =====");
+            Console.WriteLine("Digite seu login:");
+            string? login = Console.ReadLine();
+
+            Console.WriteLine("Digite sua senha:");
+            string? senha = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(senha))
+            {
+                Console.WriteLine("Todos os campos são obrigatórios. Pressione qualquer tecla para tentar novamente...");
+                Console.ReadKey();
+                return;
+            }
+
+            bool loginRealizado = funcionario.LoginFuncionario(login, senha);
+            if (loginRealizado)
+            {
+                Console.WriteLine("Login efetuado com sucesso!");
+            }
+            else
+            {
+                Console.WriteLine("Usuário não encontrado.");
+                Console.WriteLine("Tente novamente ou faça seu cadastro no sistema.");
             }
             Console.WriteLine("Pressione qualquer tecla para continuar...");
             Console.ReadKey();

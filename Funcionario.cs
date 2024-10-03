@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 public class Funcionario
 {
@@ -15,13 +16,15 @@ public class Funcionario
     public string? Senha { get; private set; }
 
     // Método para criar um novo funcionário
-    public void CriarFuncionario(string nome, string cpf, string email)
+    public void CriarFuncionario(string nome, string cpf, string email, string login, string senha)
     {
         Funcionario novoFuncionario = new Funcionario
         {
             Nome = nome,
             CPF = cpf,
-            Email = email
+            Email = email,
+            Login = login,
+            Senha = senha
         };
 
         Funcionarios.Add(novoFuncionario);
@@ -60,20 +63,38 @@ public class Funcionario
     }
 
     public bool ExcluirFuncionario(string cpf)
-{
-    // Procura o funcionário com o CPF fornecido
-    Funcionario? funcionarioEncontrado = Funcionarios.Find(f => f.CPF == cpf);
+    {
+        // Procura o funcionário com o CPF fornecido
+        Funcionario? funcionarioEncontrado = Funcionarios.Find(f => f.CPF == cpf);
 
-    // Verifica se encontrou o funcionário
-    if (funcionarioEncontrado != null)
-    {
-        Funcionarios.Remove(funcionarioEncontrado);
-        return true;
+        // Verifica se encontrou o funcionário
+        if (funcionarioEncontrado != null)
+        {
+            Funcionarios.Remove(funcionarioEncontrado);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+        
     }
-    else
+
+    public bool LoginFuncionario(string senha, string login)
     {
-        return false;
+        // Busca o funcionário na lista de funcionários pelo login e senha
+        Funcionario? funcionarioLogin = Funcionarios
+            .FirstOrDefault(f => f.Login == login && f.Senha == senha);
+
+        if (funcionarioLogin != null)
+        {
+            Console.WriteLine("Login realizado com sucesso!");
+            return true;
+        }
+        else
+        {
+            Console.WriteLine("Login ou senha incorretos. Tente novamente.");
+            return false;
+        }
     }
-    
-}
 }
