@@ -19,13 +19,13 @@ namespace Agencia_De_Viagens
         {
             while (true)
             {
-                Console.WriteLine(" _________________________________________ ");
-                Console.WriteLine("|_______________Tela Inicial______________|");
+                Console.WriteLine(" _______________ ");
+                Console.WriteLine("|Tela Inicial_|");
                 Console.WriteLine("| Código |       Opções                   |");
                 Console.WriteLine("|   1    |  Funcionario                   |");
                 Console.WriteLine("|   2    |  Cliente                       |");
                 Console.WriteLine("|   0    |  Sair                          |");
-                Console.WriteLine("|_________________________________________|");
+                Console.WriteLine("|_|");
                 Console.WriteLine("Insira a opção desejada e digite 'Enter'");
 
                 string? opcaoPrincipal = Console.ReadLine();
@@ -53,15 +53,18 @@ namespace Agencia_De_Viagens
 
         private static void ExibirMenuVoo()
         {
-            Console.WriteLine(" _________________________________________ ");
-            Console.WriteLine("|_____________Visualizar voos_____________|");
+
+
+            Console.WriteLine(" _______________ ");
+            Console.WriteLine("|Visualizar voos|");
             Console.WriteLine("| Código |       Opções                   |");
             Console.WriteLine("|   1    |  Passagens                     |");
             Console.WriteLine("|   2    |  Companhia aérea               |");
             Console.WriteLine("|   3    |  Aeroportos                    |");
             Console.WriteLine("|   4    |  Rotas                         |");
+            Console.WriteLine("|   5    |  Voo                           |");
             Console.WriteLine("|   0    |  Sair                          |");
-            Console.WriteLine("|_________________________________________|");
+            Console.WriteLine("|_|");
             Console.WriteLine("Insira o código do menu voos e digite 'Enter'");
 
             string? opcaoVoo = Console.ReadLine();
@@ -86,6 +89,10 @@ namespace Agencia_De_Viagens
                     Console.WriteLine("Você selecionou Rotas!");
                     break;
 
+                case "5":
+
+                    break;
+
                 case "0":
                     return;
 
@@ -93,6 +100,39 @@ namespace Agencia_De_Viagens
                     Console.WriteLine("Opção inválida! Pressione qualquer tecla para tentar novamente...");
                     Console.ReadKey();
                     break;
+            }
+        }
+        // Adicione essas funções na classe Program, após o método ExibirMenuVoo
+
+        private static List<Voo> InicializarVoos()
+        {
+            return new List<Voo>
+    {
+        new Voo(Voo.GerarCodigoRota(),
+            new Aeroporto("Aeroporto de Guarulhos", "GRU", "São Paulo", "SP", "Brasil"),
+            new Aeroporto("Aeroporto de JFK", "JFK", "Nova York", "NY", "EUA"),
+            new CiaAerea("LATAM", 123, "Brasil", "São Paulo", 1000.0, 1500.0),
+            new DateTime(2024, 10, 10, 02, 0, 0), // data de partida
+            new DateTime(2024, 10, 10, 18, 0, 0), // data de chegada
+            1000.0 // tarifa
+        ),
+        new Voo(Voo.GerarCodigoRota(),
+            new Aeroporto("Aeroporto de JFK", "JFK", "Nova York", "NY", "EUA"),
+            new Aeroporto("Aeroporto de Guarulhos", "GRU", "São Paulo", "SP", "Brasil"),
+            new CiaAerea("LATAM", 123, "Brasil", "São Paulo", 1000.0, 1500.0),
+            new DateTime(2024, 10, 11, 20, 0, 0), // data de partida
+            new DateTime(2024, 10, 12, 8, 0, 0), // data de chegada
+            1000.0 // tarifa
+        )
+    };
+        }
+
+        private static void ExibirVoos(List<Voo> voos)
+        {
+            Console.WriteLine("Voos disponíveis:");
+            foreach (var voo in voos)
+            {
+                Console.WriteLine($"Voo: {voo.Codigo}, Origem: {voo.AeroportoOrigem.Nome}, Destino: {voo.AeroportoDestino.Nome}, Data de Partida: {voo.DataPartida}, Tarifa: {voo.Tarifa}");
             }
         }
 
@@ -104,8 +144,8 @@ namespace Agencia_De_Viagens
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine(" _________________________________________ ");
-                Console.WriteLine("|_______________Menu Clientes_____________|");
+                Console.WriteLine(" _______________ ");
+                Console.WriteLine("|Menu Clientes|");
                 Console.WriteLine("| Código |       Opções                   |");
                 Console.WriteLine("|   1    |  Criar Cliente                 |");
                 Console.WriteLine("|   2    |  Listar Cliente                |");
@@ -113,7 +153,7 @@ namespace Agencia_De_Viagens
                 Console.WriteLine("|   4    |  Rotas                         |");
                 Console.WriteLine("|   5    |  Passagens                     |");
                 Console.WriteLine("|   0    |  Voltar                        |");
-                Console.WriteLine("|_________________________________________|");
+                Console.WriteLine("|_|");
                 Console.WriteLine("Insira o código do menu voos e digite 'Enter'");
 
                 string? opcaoCliente = Console.ReadLine();
@@ -166,7 +206,75 @@ namespace Agencia_De_Viagens
                         break;
 
                     case "5":
-                        Console.WriteLine("Você selecionou Passagens!");
+                        List<Voo> listaVoos = InicializarVoos();
+
+                        Console.WriteLine("\nDigite o código do aeroporto de origem (GRU, JFK, LHR):");
+                        string codigoOrigem = Console.ReadLine().ToUpper();
+
+                        Console.WriteLine("Digite o código do aeroporto de destino (GRU, JFK, LHR):");
+                        string codigoDestino = Console.ReadLine().ToUpper();
+
+                        Console.WriteLine("Digite a data da viagem de ida (dd/mm/yyyy):");
+                        DateTime dataIda;
+                        while (!DateTime.TryParse(Console.ReadLine(), out dataIda))
+                        {
+                            Console.WriteLine("Data inválida. Por favor, insira novamente (dd/mm/yyyy):");
+                        }
+
+                        Console.WriteLine("Deseja pesquisar por um voo de volta? (s/n):");
+                        string resposta = Console.ReadLine().ToLower();
+
+                        DateTime? dataVolta = null;
+                        if (resposta == "s")
+                        {
+                            Console.WriteLine("Digite a data da viagem de volta (dd/mm/yyyy):");
+                            DateTime dataTemp;
+                            while (!DateTime.TryParse(Console.ReadLine(), out dataTemp))
+                            {
+                                Console.WriteLine("Data inválida. Por favor, insira novamente (dd/mm/yyyy):");
+                            }
+                            dataVolta = dataTemp;
+                        }
+
+                        // Localizando aeroportos de origem e destino na lista de voos
+                        Aeroporto? origem = listaVoos.Select(v => v.AeroportoOrigem)
+                                .FirstOrDefault(a => a.Sigla.Equals(codigoOrigem, StringComparison.OrdinalIgnoreCase));
+
+                        Aeroporto? destino = listaVoos.Select(v => v.AeroportoDestino)
+                                                      .FirstOrDefault(a => a.Sigla.Equals(codigoDestino, StringComparison.OrdinalIgnoreCase));
+                        if (origem == null || destino == null)
+                        {
+                            Console.WriteLine("Aeroporto de origem ou destino inválido.");
+                            return;
+                        }
+
+                        Console.WriteLine($"Pesquisando voos de {origem.Nome} PARA {destino.Nome} (Ida: {dataIda.ToShortDateString()})...");
+                        var voosIda = Passagem.PesquisarVoos(listaVoos, codigoOrigem, codigoDestino, dataIda);
+                        ExibirVoos(voosIda);
+
+                        Passagem passagem = new Passagem();
+
+                        foreach (var voo in voosIda)
+                        {
+                            passagem.AdicionarVoo(voo);
+                        }
+
+                        if (dataVolta.HasValue)
+                        {
+                            Console.WriteLine($"Pesquisando voos de {destino.Nome} PARA {origem.Nome} (Volta: {dataVolta.Value.ToShortDateString()})...");
+                            var voosVolta = Passagem.PesquisarVoos(listaVoos, codigoDestino, codigoOrigem, dataVolta.Value);
+                            ExibirVoos(voosVolta);
+
+                            // Adicionando voos de volta à passagem
+                            foreach (var voo in voosVolta)
+                            {
+                                passagem.AdicionarVoo(voo);
+                            }
+                        }
+
+                        // Calculando a tarifa total
+                        // float tarifaTotal = passagem.CalcularTarifaTotal();
+                        // Console.WriteLine($"\nTarifa total da passagem: {tarifaTotal} {voosIda.First().Moeda}");
                         break;
 
                     case "0":
@@ -188,15 +296,15 @@ namespace Agencia_De_Viagens
             {
                 {
                     Console.Clear();
-                    Console.WriteLine(" _________________________________________ ");
-                    Console.WriteLine("|_____________Menu Funcionarios___________|");
+                    Console.WriteLine(" _______________ ");
+                    Console.WriteLine("|Menu Funcionarios|");
                     Console.WriteLine("| Código |       Opções                   |");
                     Console.WriteLine("|   1    |  Realizar Login                |");
                     Console.WriteLine("|   2    |  Cadastrar funcionarios        |");
                     Console.WriteLine("|   3    |  Listar funcionarios           |");
                     Console.WriteLine("|   4    |  Excluir funcionarios          |");
                     Console.WriteLine("|   0    |  Sair                          |");
-                    Console.WriteLine("|_________________________________________|");
+                    Console.WriteLine("|_|");
                     Console.WriteLine("Insira o código do menu e digite 'Enter'");
 
                     string? opcaoFuncionario = Console.ReadLine();
