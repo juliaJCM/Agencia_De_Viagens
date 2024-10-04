@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Agencia_De_Viagens
 {
-    public class Program
+    class Program
     {
-        private static void Main(string[] args)
+        static void Main(string[] args)
         {
 
             ExibirMenuPrincipal();
@@ -336,8 +337,10 @@ namespace Agencia_De_Viagens
             }
             catch (ArgumentException ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine("Nenhum voo encontrado.");
             }
         }
     }
+
+
 }
