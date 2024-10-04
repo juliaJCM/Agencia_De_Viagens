@@ -8,7 +8,6 @@ namespace Agencia_De_Viagens
         // Lista de clientes cadastrados
         static List<Cliente> Clientes = new List<Cliente>();
 
-    
         public string? Nome { get; set; }
         public string? CPF { get; set; }
         public string? RG { get; set; }
