@@ -25,6 +25,7 @@ namespace Agencia_De_Viagens
 
         public void ExibirDadosVoo()
         {
+            Console.WriteLine(new string('-', 30));
             Console.WriteLine($"Código do Voo: {Codigo}");
             Console.WriteLine($"Aeroporto de Origem: {AeroportoOrigem.Nome} ({AeroportoOrigem.Sigla}) - {AeroportoOrigem.Cidade}, {AeroportoOrigem.Estado}, {AeroportoOrigem.Pais}");
             Console.WriteLine($"Aeroporto de Destino: {AeroportoDestino.Nome} ({AeroportoDestino.Sigla}) - {AeroportoDestino.Cidade}, {AeroportoDestino.Estado}, {AeroportoDestino.Pais}");
@@ -32,6 +33,7 @@ namespace Agencia_De_Viagens
             Console.WriteLine($"Data de Partida: {DataPartida}");
             Console.WriteLine($"Data de Chegada: {DataChegada}");
             Console.WriteLine($"Tarifa: 'US$'{Tarifa}");
+            Console.WriteLine(new string('-', 30));
         }
         public static string GerarCodigoRota()
         {

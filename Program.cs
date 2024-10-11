@@ -19,17 +19,16 @@ namespace Agencia_De_Viagens
         {
             while (true)
             {
-                Console.WriteLine(" _______________ ");
-                Console.WriteLine("|Tela Inicial_|");
+                Console.WriteLine(" _________________________________________");
+                Console.WriteLine("|________________Tela Inicial_____________|");
                 Console.WriteLine("| Código |       Opções                   |");
                 Console.WriteLine("|   1    |  Funcionario                   |");
                 Console.WriteLine("|   2    |  Cliente                       |");
                 Console.WriteLine("|   0    |  Sair                          |");
-                Console.WriteLine("|_|");
+                Console.WriteLine("|_________________________________________|");
                 Console.WriteLine("Insira a opção desejada e digite 'Enter'");
 
                 string? opcaoPrincipal = Console.ReadLine();
-
                 switch (opcaoPrincipal)
                 {
                     case "1":
@@ -55,8 +54,8 @@ namespace Agencia_De_Viagens
         {
 
 
-            Console.WriteLine(" _______________ ");
-            Console.WriteLine("|Visualizar voos|");
+            Console.WriteLine(" _________________________________________");
+            Console.WriteLine("|_____________Visualizar voos_____________|");
             Console.WriteLine("| Código |       Opções                   |");
             Console.WriteLine("|   1    |  Passagens                     |");
             Console.WriteLine("|   2    |  Companhia aérea               |");
@@ -64,7 +63,7 @@ namespace Agencia_De_Viagens
             Console.WriteLine("|   4    |  Rotas                         |");
             Console.WriteLine("|   5    |  Voo                           |");
             Console.WriteLine("|   0    |  Sair                          |");
-            Console.WriteLine("|_|");
+            Console.WriteLine("|_________________________________________|");
             Console.WriteLine("Insira o código do menu voos e digite 'Enter'");
 
             string? opcaoVoo = Console.ReadLine();
@@ -72,21 +71,21 @@ namespace Agencia_De_Viagens
             switch (opcaoVoo)
             {
                 case "1":
-                    Console.WriteLine("Você selecionou Passagens!");
+                    Console.WriteLine("Você selecionou Passagens!\n");
                     break;
 
                 case "2":
-                    Console.WriteLine("Você selecionou Companhia Aérea!");
+                    Console.WriteLine("Você selecionou Companhia Aérea!\n");
                     CriarCiaAerea();
                     break;
 
                 case "3":
-                    Console.WriteLine("Você selecionou Aeroporto!");
+                    Console.WriteLine("Você selecionou Aeroporto!\n");
                     CriarAeroporto();
                     break;
 
                 case "4":
-                    Console.WriteLine("Você selecionou Rotas!");
+                    Console.WriteLine("Você selecionou Rotas!\n");
                     break;
 
                 case "5":
@@ -144,16 +143,16 @@ namespace Agencia_De_Viagens
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine(" _______________ ");
-                Console.WriteLine("|Menu Clientes|");
+                Console.WriteLine(" _________________________________________ ");
+                Console.WriteLine("|_______________Menu Clientes_____________|");
                 Console.WriteLine("| Código |       Opções                   |");
-                Console.WriteLine("|   1    |  Criar Cliente                 |");
+                Console.WriteLine("|   1    |  Cadastrar Cliente             |");
                 Console.WriteLine("|   2    |  Listar Cliente                |");
                 Console.WriteLine("|   3    |  Excluir Cliente               |");
                 Console.WriteLine("|   4    |  Rotas                         |");
                 Console.WriteLine("|   5    |  Passagens                     |");
                 Console.WriteLine("|   0    |  Voltar                        |");
-                Console.WriteLine("|_|");
+                Console.WriteLine("|_________________________________________|");
                 Console.WriteLine("Insira o código do menu voos e digite 'Enter'");
 
                 string? opcaoCliente = Console.ReadLine();
@@ -296,15 +295,15 @@ namespace Agencia_De_Viagens
             {
                 {
                     Console.Clear();
-                    Console.WriteLine(" _______________ ");
-                    Console.WriteLine("|Menu Funcionarios|");
+                    Console.WriteLine(" _________________________________________ ");
+                    Console.WriteLine("|_____________Menu Funcionarios___________|");
                     Console.WriteLine("| Código |       Opções                   |");
                     Console.WriteLine("|   1    |  Realizar Login                |");
                     Console.WriteLine("|   2    |  Cadastrar funcionarios        |");
                     Console.WriteLine("|   3    |  Listar funcionarios           |");
                     Console.WriteLine("|   4    |  Excluir funcionarios          |");
                     Console.WriteLine("|   0    |  Sair                          |");
-                    Console.WriteLine("|_|");
+                    Console.WriteLine("|_________________________________________|");
                     Console.WriteLine("Insira o código do menu e digite 'Enter'");
 
                     string? opcaoFuncionario = Console.ReadLine();
@@ -322,7 +321,7 @@ namespace Agencia_De_Viagens
 
                             if (loginRealizado)
                             {
-                                Console.WriteLine("Bem Vindo(a)!");
+                                Console.WriteLine("Bem Vindo(a)!\n");
                                 ExibirMenuVoo();
                             }
                             else
@@ -440,7 +439,7 @@ namespace Agencia_De_Viagens
                 CiaAerea ciaAerea = new CiaAerea(nome, codigo, razaoSocial, cnpj, valorPrimeiraBagagem, valorDemaisBagagens);
 
                 // Exibe os dados do aeroporto criado
-                Console.WriteLine("Companhia Aérea criada com sucesso!");
+                Console.WriteLine("Companhia Aérea criada com sucesso!\n");
                 ciaAerea.ExibirDadosCiaAerea();
             }
             catch (ArgumentException ex)

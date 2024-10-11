@@ -45,12 +45,13 @@ namespace Agencia_De_Viagens
 
         public void ExibirDadosCiaAerea()
         {
-            Console.WriteLine($"Nome: {Nome}");
+            Console.WriteLine(new string('-', 30));
+            Console.WriteLine($"Nome da Companhia: {Nome}");
             Console.WriteLine($"Codigo: {Codigo}");
             Console.WriteLine($"Razão Social: {RazaoSocial}");
             Console.WriteLine($"CNPJ: {CNPJ}");
             Console.WriteLine($"Valor da primeira bagagem: R${ValorPrimeiraBagagem}");
-            Console.WriteLine($"Valor da demais bagagens: R${ValorDemaisBagagens}");
+            Console.WriteLine($"Valor para bagagem extras: R${ValorDemaisBagagens}");
             Console.WriteLine(new string('-', 30));
         }
     }
