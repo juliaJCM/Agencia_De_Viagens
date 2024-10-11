@@ -249,6 +249,7 @@ namespace Agencia_De_Viagens
 
                         Console.WriteLine($"Pesquisando voos de {origem.Nome} PARA {destino.Nome} (Ida: {dataIda.ToShortDateString()})...");
                         var voosIda = Passagem.PesquisarVoos(listaVoos, codigoOrigem, codigoDestino, dataIda);
+                        Console.ReadLine();
                         ExibirVoos(voosIda);
 
                         Passagem passagem = new Passagem();
@@ -274,6 +275,8 @@ namespace Agencia_De_Viagens
                         // Calculando a tarifa total
                         // float tarifaTotal = passagem.CalcularTarifaTotal();
                         // Console.WriteLine($"\nTarifa total da passagem: {tarifaTotal} {voosIda.First().Moeda}");
+                        Console.WriteLine("Pressione qualquer tecla para voltar ao menu...");
+                        Console.ReadKey();
                         break;
 
                     case "0":
