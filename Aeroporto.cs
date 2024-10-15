@@ -14,15 +14,23 @@ namespace Agencia_De_Viagens
         // Construtor opcional
         public Aeroporto(string nome, string sigla, string cidade, string estado, string pais)
         {
-            Nome = nome;
-            Sigla = sigla;
-            Cidade = cidade;
-            Estado = estado;
-            Pais = pais;
+            if (ValidarAeroporto(nome, sigla, cidade, estado, pais))
+            {
+                Nome = nome;
+                Sigla = sigla;
+                Cidade = cidade;
+                Estado = estado;
+                Pais = pais;
+            }
+            else
+            {
+                System.Console.WriteLine("");
+            }
+
         }
 
         // Método para criar um aeroporto
-        public bool CriarAeroporto(string nome, string sigla, string cidade,string estado,string pais)
+        public bool ValidarAeroporto(string nome, string sigla, string cidade, string estado, string pais)
         {
             // Validação básica
             if (string.IsNullOrEmpty(nome) || string.IsNullOrEmpty(sigla) || string.IsNullOrEmpty(cidade) || string.IsNullOrEmpty(estado) || string.IsNullOrEmpty(pais))
@@ -38,21 +46,14 @@ namespace Agencia_De_Viagens
                 return false;
             }
 
-            // Atribuindo valores passados aos atributos da instância
-            Nome = nome;
-            Sigla = sigla;
-            Cidade = cidade;
-            Estado = estado;
-            Pais = pais;
-
-            // Aqui poderia haver lógica adicional, como salvar no banco de dados
             Console.WriteLine("Aeroporto criado com sucesso!");
             return true;
         }
 
         public void ExibirDadosAeroporto()
         {
-            Console.WriteLine($"Nome: {Nome}");
+            Console.WriteLine(new string('-', 30));
+            Console.WriteLine($"Nome do Aerporto: {Nome}");
             Console.WriteLine($"Sigla: {Sigla}");
             Console.WriteLine($"Estado: {Estado}");
             Console.WriteLine($"Cidade: {Cidade}");

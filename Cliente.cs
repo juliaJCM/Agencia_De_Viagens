@@ -5,79 +5,40 @@ namespace Agencia_De_Viagens
 {
     public class Cliente
     {
-        // Lista de clientes cadastrados
-        static List<Cliente> Clientes = new List<Cliente>();
+        public string Nome { get; set; }
+        public string CPF { get; set; }
+        public string RG { get; set; }
+        public string Email { get; set; }
+        public string Passaporte { get; set; }
+        public List<Passagem> PassagensCompradas { get; set; }
 
-    
-        public string? Nome { get; set; }
-        public string? CPF { get; set; }
-        public string? RG { get; set; }
-        public string? Email { get; set; }
-        public string? Passaporte { get; set; }
+        public Cliente(string nome, string cpf, string rg, string email, string passaporte)
+        {
+            Nome = nome;
+            CPF = cpf;
+            RG = rg;
+            Email = email;
+            Passaporte = passaporte;
+            PassagensCompradas = new List<Passagem>();
+        }
 
         // Método para criar um novo registro de cliente
-        public bool CriarCliente(string nome, string cpf, string rg, string email, string passaporte)
+
+        public void AdicionarPassagemComprada(Passagem passagemComprada)
         {
-            // Verifica se já esta cadastrado o mesmo CPF
-            if (Clientes.Exists(c => c.CPF == cpf))
-            {
-                Console.WriteLine("Cliente com o mesmo CPF já existe!");
-                return false;
-            }
-
-            Cliente novoCliente = new Cliente
-            {
-                Nome = nome,
-                CPF = cpf,
-                RG = rg,
-                Email = email,
-                Passaporte = passaporte
-            };
-
-            Clientes.Add(novoCliente);
-            Console.WriteLine("Cliente criado com sucesso!");
-            Console.WriteLine("Pressione qualquer tecla para continuar...");
-            Console.ReadKey();
-            return true;
+            PassagensCompradas.Add(passagemComprada);
+            Console.WriteLine("Passagem comprada com susesso!");
         }
 
         // Método para listar todos os clientes cadastrados anteriormente
-        public void ListarClientes()
+        public void Exibir()
         {
-            if (Clientes.Count == 0)
-            {
-                Console.WriteLine("Nenhum cliente cadastrado!");
-                return;
-            }
-
-            Console.WriteLine("Clientes cadastrados:");
-            foreach (var cliente in Clientes)
-            {
-                Console.WriteLine($"Nome: {cliente.Nome}");
-                Console.WriteLine($"CPF: {cliente.CPF}");
-                Console.WriteLine($"RG: {cliente.RG}");
-                Console.WriteLine($"Email: {cliente.Email}");
-                Console.WriteLine($"Passaporte: {cliente.Passaporte}");
-                Console.WriteLine(new string('-', 30));
-            }
-        }
-
-        // Método para excluir um cliente através do CPF
-        public bool ExcluirCliente(string cpf)
-        {
-            Cliente? clienteEncontrado = Clientes.Find(c => c.CPF == cpf);
-
-            if (clienteEncontrado != null)
-            {
-                Clientes.Remove(clienteEncontrado);
-                Console.WriteLine("Cliente excluído com sucesso!");
-                return true;
-            }
-            else
-            {
-                Console.WriteLine("Cliente não encontrado!");
-                return false;
-            }
+            Console.WriteLine($"Nome: {Nome}");
+            Console.WriteLine($"CPF: {CPF}");
+            Console.WriteLine($"RG: {RG}");
+            Console.WriteLine($"Email: {Email}");
+            Console.WriteLine($"Passaporte: {Passaporte}");
+            Console.WriteLine(new string('-', 30));
         }
     }
 }
