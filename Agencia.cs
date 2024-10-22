@@ -7,6 +7,7 @@ namespace Agencia_De_Viagens
         public List<Cliente> Clientes { get; set; }
         public List<Funcionario> Funcionarios { get; private set; }
         public List<Aeroporto> Aeroportos { get; private set; }
+        public Dictionary<String, Voo> Voos { get; private set; }
 
         public Agencia()
         {
@@ -15,6 +16,7 @@ namespace Agencia_De_Viagens
             Funcionarios = new List<Funcionario>();
             Clientes = new List<Cliente>();
             Aeroportos = new List<Aeroporto>();
+            Voos = new Dictionary<String, Voo>();
         }
         public void CriarCliente(Funcionario funcionarioResponsavelPelaCriacao)
         {
@@ -208,6 +210,53 @@ namespace Agencia_De_Viagens
                 v.DataChegada == dataChegada
             ).ToList();
         }
+
+        public void CancelarVoo(string Codigo)
+        {
+            if (Voos.ContainsKey(Codigo))
+            {
+                Voo voo = Voos[Codigo];
+                if (voo.Status == "ativo")
+                {
+                    // Cancelar o voo
+                    voo.Status = "cancelado";
+                    Console.WriteLine($"O voo {Codigo} foi cancelado com sucesso.");
+
+                    // Cancelar as passagens associadas ao voo
+                    foreach (var passagemEntry in Passagens)
+                    {
+                        Passagem passagem = passagemEntry.Value;
+
+                        if (passagem.Voos.Contains(Codigo))
+                        {
+                            // Cancelar a passagem
+                            passagem.Status = "cancelada";
+                            Console.WriteLine($"A passagem foi cancelada para o voo {Codigo}.");
+
+                            // Liberar o assento do passageiro
+                            if (passagem.Assento.HasValue)
+                            {
+                                int assento = passagem.Assento.Value;
+                                if (voo.Reservados.Contains(assento))
+                                {
+                                    voo.Reservados.Remove(assento);
+                                    Console.WriteLine($"O assento {assento} foi liberado no voo {Codigo}.");
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"O voo {Codigo} já estava cancelado.");
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Voo {Codigo} não encontrado.");
+            }
+        }
+
         public void ListarClientes()
         {
             if (Clientes.Count == 0)

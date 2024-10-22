@@ -12,9 +12,11 @@ namespace Agencia_De_Viagens
         public DateTime DataChegada { get; set; }
         public Tarifa Tarifa { get; private set; }
         public Aeroporto? AeroportoConexao { get; set; } // Apenas um aeroporto de destino
+        public string Status { get; set; }
 
         public Voo(
         string codigo,
+        string status,
         Aeroporto aeroportoOrigem,
         Aeroporto aeroportoDestino,
         DateTime dataPartida,
@@ -25,6 +27,7 @@ namespace Agencia_De_Viagens
         Aeroporto? aeroportoConexao = null)
         {
             Codigo = codigo;
+            Status = status;
             AeroportoOrigem = aeroportoOrigem;
             AeroportoDestino = aeroportoDestino;
             DataPartida = dataPartida;
@@ -32,7 +35,6 @@ namespace Agencia_De_Viagens
             Tarifa = new Tarifa(tarifaBasica, tarifaPremium, tarifaBusiness);
             AeroportoConexao = aeroportoConexao;
         }
-
 
     }
 }
