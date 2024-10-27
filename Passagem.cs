@@ -17,9 +17,10 @@ namespace Agencia_De_Viagens
         public string Moeda { get; private set; }
         public double ValorDaPrimeiraBagagem { get; private set; }
         public double ValorDaBagagemAdicional { get; private set; }
+        public bool Ativo { get; private set; } = false;
         public TipoPassagemEnum TipoPassagem { get; private set; }
-        // private int MAXIMO_DE_VOOS_PERMITIDOS = 3;
         private double TARIFA_VIAGEM_INTERNACIONAL = 5.60;
+        List<Voo> Voos;
 
         // Construtor com parâmetros
         public Passagem(
@@ -34,6 +35,7 @@ namespace Agencia_De_Viagens
             double tarifaPremium,
             double tarifaBusiness,
             TipoPassagemEnum tipo,
+            List<Voo> voos,
             Aeroporto? aeroportoConexao = null // Parâmetro opcional para a conexão
         )
         {
@@ -48,6 +50,7 @@ namespace Agencia_De_Viagens
             AeroportoConexao = aeroportoConexao;
             ValorDaPrimeiraBagagem = ciaAerea.ValorPrimeiraBagagem;
             ValorDaBagagemAdicional = ciaAerea.ValorDemaisBagagens;
+            Voos = voos;
             if (TipoPassagemEnum.Internacional.Equals(tipo))
             {
                 tarifaBasica *= TARIFA_VIAGEM_INTERNACIONAL;
@@ -96,9 +99,15 @@ namespace Agencia_De_Viagens
             Console.WriteLine($"Tarifa Business: {Tarifa.TarifaBusiness:F2} {Moeda}");
             Console.WriteLine($"Valor da Primeira Bagagem: {ValorDaPrimeiraBagagem:F2} {Moeda}");
             Console.WriteLine($"Valor da Bagagem Adicional: {ValorDaBagagemAdicional:F2} {Moeda}");
+            Console.WriteLine($"Voos: {Voos}");
             Console.WriteLine("-----------------------------------------------------");
+        }
+        public void AtivarPassagem()
+        {
+            Ativo = true;
         }
 
     }
+
 
 }

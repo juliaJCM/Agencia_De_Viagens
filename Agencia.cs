@@ -7,6 +7,7 @@ namespace Agencia_De_Viagens
         public List<Cliente> Clientes { get; set; }
         public List<Funcionario> Funcionarios { get; private set; }
         public List<Aeroporto> Aeroportos { get; private set; }
+        public List<Voo> Voos { get; private set; }
 
         public Agencia()
         {
@@ -15,6 +16,7 @@ namespace Agencia_De_Viagens
             Funcionarios = new List<Funcionario>();
             Clientes = new List<Cliente>();
             Aeroportos = new List<Aeroporto>();
+            Voos = new List<Voo>();
         }
         public void CriarCliente(Funcionario funcionarioResponsavelPelaCriacao)
         {
@@ -88,21 +90,40 @@ namespace Agencia_De_Viagens
                 return;
             }
 
+            var dataPartida = new DateTime(2024, 10, 11, 20, 0, 0);
+
+            var voo = Voos.FirstOrDefault(v =>
+                v.AeroportoOrigem == aeroportoOrigem &&
+                v.AeroportoDestino == aeroportoDestino &&
+                v.DataPartida.Date == dataPartida.Date &&
+                v.DataPartida.TimeOfDay == dataPartida.TimeOfDay
+            );
+
+            if (voo == null)
+            {
+                Console.WriteLine("Voo correspondente não encontrado.");
+                return;
+            }
+
+            List<Voo> listaVoosPassagem = new List<Voo> { voo };
+
             var passagem = new Passagem(
                 Passagem.GerarCodigoRota(),
                 aeroportoOrigem,
                 aeroportoDestino,
-                new CiaAerea("LATAM", 123, "Brasil", "São Paulo", 1000.0, 1500.0),
-                new DateTime(2024, 10, 11, 20, 0, 0), // data de partida
-                new DateTime(2024, 10, 12, 8, 0, 0),  // data de chegada
+                voo.CiaAerea,
+                voo.DataPartida,
+                voo.DataChegada,
                 "BRL",
                 15.0,
                 16.0,
                 18.0,
                 TipoPassagemEnum.Nacional,
-                aeroportoDestino);
+                listaVoosPassagem
+            );
 
             Passagens.Add(passagem);
+            Console.WriteLine($"Passagem criada com sucesso: {passagem.Codigo}");
         }
 
         public void ComprarPassagens(string cpfCliente, string codigoPassagem)
@@ -122,7 +143,6 @@ namespace Agencia_De_Viagens
                 Console.WriteLine("Passagem não encontrada.");
                 return;
             }
-
             cliente.AdicionarPassagemComprada(passagemComprada);
         }
 
@@ -184,9 +204,6 @@ namespace Agencia_De_Viagens
                 Console.WriteLine("Tipo de passagem desconhecido.");
             }
         }
-
-
-
         public List<Passagem> BuscarVoos(string origem, string destino, DateTime data)
         {
             return Passagens.Where(v =>
@@ -248,5 +265,52 @@ namespace Agencia_De_Viagens
                 funcionario.Exibir();
             }
         }
+
+        public void CriarVoosPadrao()
+        {
+            var diasVoo = new List<DayOfWeek>
+    {
+        DayOfWeek.Sunday,
+        DayOfWeek.Monday,
+        DayOfWeek.Tuesday,
+        DayOfWeek.Wednesday,
+        DayOfWeek.Thursday,
+        DayOfWeek.Friday,
+        DayOfWeek.Saturday
+    };
+
+            TimeSpan duracaoVoo = TimeSpan.FromHours(1).Add(TimeSpan.FromMinutes(10));
+
+            CriarVoo(Aeroportos.First(), Aeroportos.Last(), CompanhiasAereas.First(), diasVoo, "08:00", duracaoVoo);
+            CriarVoo(Aeroportos.First(), Aeroportos.Last(), CompanhiasAereas.First(), diasVoo, "15:00", duracaoVoo);
+        }
+
+        public void CriarVoo(Aeroporto origem, Aeroporto destino, CiaAerea ciaAerea, List<DayOfWeek> diasFrequencia, string horaPartida, TimeSpan duracao)
+        {
+            DateTime dataAtual = DateTime.Now;
+            DateTime dataFinal = dataAtual.AddDays(30);
+
+            for (DateTime data = dataAtual; data <= dataFinal; data = data.AddDays(1))
+            {
+                if (diasFrequencia.Contains(data.DayOfWeek))
+                {
+                    DateTime dataPartida = data.Date + TimeSpan.Parse(horaPartida);
+                    DateTime dataChegada = dataPartida.Add(duracao);
+
+                    Voo novoVoo = new Voo(
+                        origem,
+                        destino,
+                        ciaAerea,
+                        dataPartida,
+                        dataChegada,
+                        diasFrequencia,
+                        horaPartida
+                    );
+
+                    Voos.Add(novoVoo);
+                }
+            }
+        }
+
     }
 }

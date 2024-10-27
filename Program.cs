@@ -35,6 +35,7 @@ namespace Agencia_De_Viagens
             // Listando passagens
             agencia.ListarPassagens();
 
+            agencia.CriarVoosPadrao();
             // Comprando passagens
             string cpfCliente = agencia.Clientes[0].CPF; // teste com Primeiro
             string codigoPassagem = agencia.Passagens[0].Codigo; // teste com Primeiro
