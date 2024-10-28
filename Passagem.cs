@@ -20,7 +20,8 @@ namespace Agencia_De_Viagens
         public bool Ativo { get; private set; } = false;
         public TipoPassagemEnum TipoPassagem { get; private set; }
         private double TARIFA_VIAGEM_INTERNACIONAL = 5.60;
-        List<Voo> Voos;
+        public List<Voo> Voos { get; set; }
+        public StatusEnum Status { get; set; }
 
         // Construtor com parâmetros
         public Passagem(
@@ -36,6 +37,7 @@ namespace Agencia_De_Viagens
             double tarifaBusiness,
             TipoPassagemEnum tipo,
             List<Voo> voos,
+            StatusEnum statusEnum,
             Aeroporto? aeroportoConexao = null // Parâmetro opcional para a conexão
         )
         {
@@ -58,6 +60,7 @@ namespace Agencia_De_Viagens
                 tarifaBusiness *= TARIFA_VIAGEM_INTERNACIONAL;
             }
             Tarifa = new Tarifa(tarifaBasica, tarifaPremium, tarifaBusiness);
+            Status = statusEnum;
         }
 
         public static string GerarCodigoRota()

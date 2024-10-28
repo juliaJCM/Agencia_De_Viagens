@@ -225,6 +225,51 @@ namespace Agencia_De_Viagens
                 v.DataChegada == dataChegada
             ).ToList();
         }
+
+        public void CancelarVoo(string Codigo)
+        {
+            var voo = Voos.FirstOrDefault(x => x.Codigo == Codigo);
+            if (voo != null)
+            {
+                if (voo.Status == "ativo")
+                {
+                    // Cancelar o voo
+                    voo.Status = "cancelado";
+                    Console.WriteLine($"O voo {Codigo} foi cancelado com sucesso.");
+
+                    // Cancelar as passagens associadas ao voo
+                    foreach (var passagem in Passagens)
+                    {
+                        if (passagem.Voos.Contains(voo))
+                        {
+                            // Cancelar a passagem
+                            passagem.Status = StatusEnum.Cancelado;
+                            Console.WriteLine($"A passagem foi cancelada para o voo {Codigo}.");
+
+                            // Liberar o assento do passageiro
+                            if (passagem.Assento.HasValue)
+                            {
+                                int assento = passagem.Assento.Value;
+                                if (voo.Reservados.Contains(assento))
+                                {
+                                    voo.Reservados.Remove(assento);
+                                    Console.WriteLine($"O assento {assento} foi liberado no voo {Codigo}.");
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"O voo {Codigo} já estava cancelado.");
+                }
+            }
+            else
+            {
+                Console.WriteLine($"Voo {Codigo} não encontrado.");
+            }
+        }
+
         public void ListarClientes()
         {
             if (Clientes.Count == 0)
@@ -296,7 +341,7 @@ namespace Agencia_De_Viagens
                 {
                     DateTime dataPartida = data.Date + TimeSpan.Parse(horaPartida);
                     DateTime dataChegada = dataPartida.Add(duracao);
-
+                    var status = "ativo";
                     Voo novoVoo = new Voo(
                         origem,
                         destino,
@@ -304,7 +349,8 @@ namespace Agencia_De_Viagens
                         dataPartida,
                         dataChegada,
                         diasFrequencia,
-                        horaPartida
+                        horaPartida,
+                        status
                     );
 
                     Voos.Add(novoVoo);
