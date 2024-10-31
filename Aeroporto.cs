@@ -10,6 +10,7 @@ namespace Agencia_De_Viagens
         public string Cidade { get; set; }
         public string Estado { get; set; }
         public string Pais { get; set; }
+        public List<Aeronave> Aeronaves { get; set; }
 
         // Construtor opcional
         public Aeroporto(string nome, string sigla, string cidade, string estado, string pais)
@@ -21,6 +22,7 @@ namespace Agencia_De_Viagens
                 Cidade = cidade;
                 Estado = estado;
                 Pais = pais;
+                Aeronaves = new List<Aeronave>();
             }
             else
             {
@@ -58,6 +60,15 @@ namespace Agencia_De_Viagens
             Console.WriteLine($"Estado: {Estado}");
             Console.WriteLine($"Cidade: {Cidade}");
             Console.WriteLine($"País: {Pais}");
+        }
+        public void AdicionarAeronave(Aeronave aeronave)
+        {
+            Aeronaves.Add(aeronave);
+            Console.WriteLine($"Aeronave {aeronave.Nome} adicionada ao {Nome}.");
+        }
+        public List<Aeronave> ObterAeronaves()
+        {
+            return Aeronaves;
         }
     }
 }

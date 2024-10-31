@@ -13,7 +13,7 @@ namespace Agencia_De_Viagens
         public DateTime DataPartida { get; set; }
         public DateTime DataChegada { get; set; }
         public Frequencia Frequencia { get; private set; }
-        public string Status { get; set; }
+        public StatusEnum Status { get; set; }
 
         public Voo(
             Aeroporto aeroportoOrigem,
@@ -23,7 +23,7 @@ namespace Agencia_De_Viagens
             DateTime dataChegada,
             List<DayOfWeek> diasFrequencia,
             string horaFrequencia,
-            string status
+            StatusEnum statusEnum
 
         )
         {
@@ -34,7 +34,7 @@ namespace Agencia_De_Viagens
             DataPartida = dataPartida;
             DataChegada = dataChegada;
             Frequencia = new Frequencia(diasFrequencia, horaFrequencia);
-            Status = status;
+            Status = statusEnum;
         }
 
         public static string GerarCodigoVoo()
@@ -44,5 +44,21 @@ namespace Agencia_De_Viagens
             int numeros = random.Next(1000, 10000);
             return $"{letra1}{letra2}{numeros}";
         }
+        public void ExibirVoo()
+        {
+            Console.WriteLine("-----------------------------------------------------");
+            Console.WriteLine("Informações do Voo:");
+            Console.WriteLine($"Código do Voo: {Codigo}");
+            Console.WriteLine($"Aeroporto de Origem: {AeroportoOrigem.Nome} ({AeroportoOrigem.Sigla})");
+            Console.WriteLine($"Aeroporto de Destino: {AeroportoDestino.Nome} ({AeroportoDestino.Sigla})");
+            Console.WriteLine($"Companhia Aérea: {CiaAerea.Nome}");
+            Console.WriteLine($"Data de Partida: {DataPartida:dd/MM/yyyy HH:mm}");
+            Console.WriteLine($"Data de Chegada: {DataChegada:dd/MM/yyyy HH:mm}");
+            Console.WriteLine($"Frequência: {Frequencia.Hora} nos dias {string.Join(", ", Frequencia.Dias)}");
+            Console.WriteLine($"Status: {Status}");
+            Console.WriteLine("-----------------------------------------------------");
+
+        }
+
     }
 }

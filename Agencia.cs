@@ -3,10 +3,10 @@ namespace Agencia_De_Viagens
     public class Agencia
     {
         public List<CiaAerea> CompanhiasAereas { get; private set; }
+        public List<Aeroporto> Aeroportos { get; private set; }
         public List<Passagem> Passagens { get; private set; }
         public List<Cliente> Clientes { get; set; }
         public List<Funcionario> Funcionarios { get; private set; }
-        public List<Aeroporto> Aeroportos { get; private set; }
         public List<Voo> Voos { get; private set; }
 
         public Agencia()
@@ -75,9 +75,12 @@ namespace Agencia_De_Viagens
         }
         public void CriarAeroporto()
         {
-            // Adiciona um aeroporto à lista
+            var aeronave1 = new Aeronave("Boeing 737", 180, 200, 6);
+            var aeronave2 = new Aeronave("Airbus A320", 150, 180, 6);
             Aeroportos.Add(new Aeroporto("Aeroporto Internacional de Confins", "CNF", "Belo Horizonte", "BH", "Brasil"));
             Aeroportos.Add(new Aeroporto("Aeroporto de Guarulhos", "GRU", "São Paulo", "SP", "Brasil"));
+            Aeroportos[0].AdicionarAeronave(aeronave1);
+            Aeroportos[1].AdicionarAeronave(aeronave2);
         }
         public void CriarPassagem()
         {
@@ -90,18 +93,24 @@ namespace Agencia_De_Viagens
                 return;
             }
 
-            var dataPartida = new DateTime(2024, 10, 11, 20, 0, 0);
+            var dataPartida = new DateTime(2024, 11, 01, 8, 0, 0);
 
+            // Procura o voo correspondente
             var voo = Voos.FirstOrDefault(v =>
                 v.AeroportoOrigem == aeroportoOrigem &&
                 v.AeroportoDestino == aeroportoDestino &&
-                v.DataPartida.Date == dataPartida.Date &&
-                v.DataPartida.TimeOfDay == dataPartida.TimeOfDay
+                v.Frequencia.Dias.Contains(dataPartida.DayOfWeek) &&
+                v.Frequencia.Hora == dataPartida.ToString("HH:mm") &&
+                v.DataPartida >= dataPartida
             );
 
             if (voo == null)
             {
                 Console.WriteLine("Voo correspondente não encontrado.");
+                foreach (var v in Voos)
+                {
+                    Console.WriteLine($"Verificando Voo: {v.Codigo} - Partida: {v.DataPartida} - Origem: {v.AeroportoOrigem.Sigla} - Destino: {v.AeroportoDestino.Sigla}");
+                }
                 return;
             }
 
@@ -119,7 +128,8 @@ namespace Agencia_De_Viagens
                 16.0,
                 18.0,
                 TipoPassagemEnum.Nacional,
-                listaVoosPassagem
+                listaVoosPassagem,
+                StatusEnum.Ativo
             );
 
             Passagens.Add(passagem);
@@ -143,7 +153,18 @@ namespace Agencia_De_Viagens
                 Console.WriteLine("Passagem não encontrada.");
                 return;
             }
+            else
+            {
+                passagemComprada.ExibirPassagem();
+            }
             cliente.AdicionarPassagemComprada(passagemComprada);
+
+            passagemComprada.ExibirPassagem();
+
+            List<Aeronave> aeronaves = passagemComprada.AeroportoOrigem.ObterAeronaves();
+
+            ReservarAssentoParaPassageiro(cliente, passagemComprada.AeroportoOrigem.Sigla, aeronaves);
+
         }
 
         public void EmitirBilhete(string cpfCliente, string codigoPassagem)
@@ -226,47 +247,35 @@ namespace Agencia_De_Viagens
             ).ToList();
         }
 
-        public void CancelarVoo(string Codigo)
+        public void CancelarVoo(string CodigoVoo, string codigoPassagem)
         {
-            var voo = Voos.FirstOrDefault(x => x.Codigo == Codigo);
+            var voo = Voos.FirstOrDefault(x => x.Codigo == CodigoVoo);
             if (voo != null)
             {
-                if (voo.Status == "ativo")
+                if (voo.Status == StatusEnum.Ativo)
                 {
-                    // Cancelar o voo
-                    voo.Status = "cancelado";
-                    Console.WriteLine($"O voo {Codigo} foi cancelado com sucesso.");
+                    voo.Status = StatusEnum.Cancelado;
+                    Console.WriteLine($"O voo {CodigoVoo} foi cancelado com sucesso.");
 
-                    // Cancelar as passagens associadas ao voo
-                    foreach (var passagem in Passagens)
+                    foreach (var cliente in Clientes)
                     {
-                        if (passagem.Voos.Contains(voo))
+                        foreach (var passagem in cliente.PassagensCompradas)
                         {
-                            // Cancelar a passagem
-                            passagem.Status = StatusEnum.Cancelado;
-                            Console.WriteLine($"A passagem foi cancelada para o voo {Codigo}.");
-
-                            // Liberar o assento do passageiro
-                            if (passagem.Assento.HasValue)
+                            if (passagem.Voos.Contains(voo) && passagem.Codigo == codigoPassagem)
                             {
-                                int assento = passagem.Assento.Value;
-                                if (voo.Reservados.Contains(assento))
-                                {
-                                    voo.Reservados.Remove(assento);
-                                    Console.WriteLine($"O assento {assento} foi liberado no voo {Codigo}.");
-                                }
+                                cliente.CancelarPassagem(passagem.Codigo);
                             }
                         }
                     }
                 }
                 else
                 {
-                    Console.WriteLine($"O voo {Codigo} já estava cancelado.");
+                    Console.WriteLine($"O voo {CodigoVoo} já estava cancelado.");
                 }
             }
             else
             {
-                Console.WriteLine($"Voo {Codigo} não encontrado.");
+                Console.WriteLine($"Voo {CodigoVoo} não encontrado.");
             }
         }
 
@@ -341,7 +350,6 @@ namespace Agencia_De_Viagens
                 {
                     DateTime dataPartida = data.Date + TimeSpan.Parse(horaPartida);
                     DateTime dataChegada = dataPartida.Add(duracao);
-                    var status = "ativo";
                     Voo novoVoo = new Voo(
                         origem,
                         destino,
@@ -350,13 +358,38 @@ namespace Agencia_De_Viagens
                         dataChegada,
                         diasFrequencia,
                         horaPartida,
-                        status
+                        StatusEnum.Ativo
                     );
 
                     Voos.Add(novoVoo);
+                    novoVoo.ExibirVoo();
                 }
             }
         }
+
+        public void ReservarAssentoParaPassageiro(Cliente passageiro, string aeroportoId, List<Aeronave> aeronaveId)
+        {
+            var aeroporto = Aeroportos.FirstOrDefault(a => a.Sigla == aeroportoId);
+            if (aeroporto == null)
+            {
+                Console.WriteLine("Aeroporto não encontrado.");
+                return;
+            }
+
+            var aeronave = aeroporto.Aeronaves.FirstOrDefault(a => aeronaveId.Any(ai => ai.Nome == a.Nome));
+            if (aeronave == null)
+            {
+                Console.WriteLine("Aeronave não encontrada.");
+                return;
+            }
+
+            aeronave.ExibirAssentosDisponiveis();
+            Console.WriteLine("Digite o número do assento que deseja reservar:");
+            string assentoEscolhido = Console.ReadLine();
+
+            aeronave.ReservarAssento(assentoEscolhido, passageiro);
+        }
+
 
     }
 }
