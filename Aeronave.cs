@@ -8,7 +8,7 @@ public class Aeronave
 {
     public string Nome { get; set; }
     public int CapacidadePassageiros { get; set; }
-    public int CapacidadeBagagens {get; set;}
+    public int CapacidadeBagagens { get; set; }
     public List<Cliente> PassageirosEmbarcados { get; set; }
     public List<string> Assentos { get; private set; }
     public int TotalBagagens { get; set; }
@@ -89,7 +89,7 @@ public class Aeronave
             Console.WriteLine("Capacidade de bagagens atingida. Não é possível adicionar mais bagagens.");
         }
     }
-    public void RemoverBagagens(int quantidade)
+    public void RemoverBagagens(int quantidade, List<Aeronave> aeronaveId)
     {
         if (TotalBagagens - quantidade >= 0)
         {

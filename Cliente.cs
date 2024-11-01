@@ -33,23 +33,10 @@ namespace Agencia_De_Viagens
             PassagensCompradas.Add(passagemComprada);
             Console.WriteLine("Passagem comprada com susesso!");
         }
-        public void CancelarPassagem(string codigoPassagem)
+        public void ExcluirPassagem(Passagem passagemComprada)
         {
-            var passagem = PassagensCompradas.FirstOrDefault(p => p.Codigo == codigoPassagem);
-            if (passagem != null)
-            {
-                passagem.Status = StatusEnum.Cancelado;
-                PassagensCompradas.Remove(passagem);
-                PassagensCanceladas.Add(passagem);
-
-                // Aeronave.LiberarAssento(); //deveria ter assento do cliente em passagem
-
-                Console.WriteLine($"A passagem {codigoPassagem} foi cancelada com sucesso.");
-            }
-            else
-            {
-                Console.WriteLine($"Passagem {codigoPassagem} não encontrada.");
-            }
+            PassagensCompradas.Remove(passagemComprada);
+            Console.WriteLine("Passagem comprada com susesso!");
         }
 
         public void Exibir()

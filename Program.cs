@@ -45,8 +45,10 @@ namespace Agencia_De_Viagens
             }
             agencia.ComprarPassagens(cpfCliente, codigoPassagem);
 
+            agencia.CancelarPassagem(cpfCliente, codigoPassagem);
 
-            // agencia.CancelarVoo(); passar no parametro codigoVooCliente e codigoPassagemCliente
+            agencia.CancelarVoo("PG1551", codigoPassagem);
+            // passar no parametro codigoVooCliente e codigoPassagemCliente
             // agencia.ExcluirFuncionario("12345678900");
             // agencia.ListarFuncionario();
         }

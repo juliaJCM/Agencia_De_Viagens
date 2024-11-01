@@ -8,7 +8,7 @@ namespace Agencia_De_Viagens
         public List<Cliente> Clientes { get; set; }
         public List<Funcionario> Funcionarios { get; private set; }
         public List<Voo> Voos { get; private set; }
-        public Aeronave Aeronave { get; private set; }
+        public List<Aeronave> Aeronaves { get; private set; }
 
         public Agencia()
         {
@@ -157,18 +157,34 @@ namespace Agencia_De_Viagens
             {
                 passagemComprada.ExibirPassagem();
             }
-            Console.WriteLine("Qual será a quantidade de bagagens?");
-            int quantidade = int.Parse(Console.ReadLine());
-
-            Aeronave.CadastrarBagagens(quantidade);
-
-            cliente.AdicionarPassagemComprada(passagemComprada);
-
-            passagemComprada.ExibirPassagem();
 
             List<Aeronave> aeronaves = passagemComprada.AeroportoOrigem.ObterAeronaves();
 
+            cliente.AdicionarPassagemComprada(passagemComprada);
+            System.Console.WriteLine("Passagem comprada com sucesso! ");
+            passagemComprada.ExibirPassagem();
+
             ReservarAssentoParaPassageiro(cliente, passagemComprada.AeroportoOrigem.Sigla, aeronaves);
+        }
+
+        public void CancelarPassagem(string cpfCliente, string codigoPassagem)
+        {
+            var cliente = Clientes.FirstOrDefault(c => c.CPF == cpfCliente);
+
+            if (cliente == null)
+            {
+                Console.WriteLine("Cliente não encontrado.");
+                return;
+            }
+            var passagemComprada = Passagens.FirstOrDefault(p => p.Codigo == codigoPassagem);
+
+            if (passagemComprada == null)
+            {
+                Console.WriteLine("Passagem não encontrada.");
+                return;
+            }
+
+            cliente.ExcluirPassagem(passagemComprada);
         }
 
         public void EmitirBilhete(string cpfCliente, string codigoPassagem)
@@ -267,13 +283,20 @@ namespace Agencia_De_Viagens
                         {
                             if (passagem.Voos.Contains(voo) && passagem.Codigo == codigoPassagem)
                             {
-                                cliente.CancelarPassagem(passagem.Codigo);
+                                List<Aeronave> aeronaves = passagem.AeroportoOrigem.ObterAeronaves();
 
+                                var aeronave = passagem.AeroportoOrigem.Aeronaves.FirstOrDefault(a => aeronaves.Any(ai => ai.Nome == a.Nome));
+
+                                if (aeronave == null)
+                                {
+                                    Console.WriteLine("Aeronave não encontrada.");
+                                    return;
+                                }
                                 Console.WriteLine("Quantas bagagens foram inseridas?");
                                 int quantidade = int.Parse(Console.ReadLine());
 
                                 // Remove as bagagens usando o método RemoverBagagens
-                                Aeronave.RemoverBagagens(quantidade);
+                                aeronave.RemoverBagagens(quantidade, aeronaves);
                             }
                         }
                     }
@@ -391,6 +414,10 @@ namespace Agencia_De_Viagens
                 Console.WriteLine("Aeronave não encontrada.");
                 return;
             }
+
+            Console.WriteLine("Qual será a quantidade de bagagens?");
+            int quantidade = int.Parse(Console.ReadLine());
+            aeronave.CadastrarBagagens(quantidade);
 
             aeronave.ExibirAssentosDisponiveis();
             Console.WriteLine("Digite o número do assento que deseja reservar:");
