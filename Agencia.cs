@@ -8,6 +8,7 @@ namespace Agencia_De_Viagens
         public List<Cliente> Clientes { get; set; }
         public List<Funcionario> Funcionarios { get; private set; }
         public List<Voo> Voos { get; private set; }
+        public Aeronave Aeronave { get; private set; }
 
         public Agencia()
         {
@@ -145,7 +146,6 @@ namespace Agencia_De_Viagens
                 Console.WriteLine("Cliente não encontrado.");
                 return;
             }
-
             var passagemComprada = Passagens.FirstOrDefault(p => p.Codigo == codigoPassagem);
 
             if (passagemComprada == null)
@@ -157,6 +157,11 @@ namespace Agencia_De_Viagens
             {
                 passagemComprada.ExibirPassagem();
             }
+            Console.WriteLine("Qual será a quantidade de bagagens?");
+            int quantidade = int.Parse(Console.ReadLine());
+
+            Aeronave.CadastrarBagagens(quantidade);
+
             cliente.AdicionarPassagemComprada(passagemComprada);
 
             passagemComprada.ExibirPassagem();
@@ -164,7 +169,6 @@ namespace Agencia_De_Viagens
             List<Aeronave> aeronaves = passagemComprada.AeroportoOrigem.ObterAeronaves();
 
             ReservarAssentoParaPassageiro(cliente, passagemComprada.AeroportoOrigem.Sigla, aeronaves);
-
         }
 
         public void EmitirBilhete(string cpfCliente, string codigoPassagem)
@@ -264,6 +268,12 @@ namespace Agencia_De_Viagens
                             if (passagem.Voos.Contains(voo) && passagem.Codigo == codigoPassagem)
                             {
                                 cliente.CancelarPassagem(passagem.Codigo);
+
+                                Console.WriteLine("Quantas bagagens foram inseridas?");
+                                int quantidade = int.Parse(Console.ReadLine());
+
+                                // Remove as bagagens usando o método RemoverBagagens
+                                Aeronave.RemoverBagagens(quantidade);
                             }
                         }
                     }
@@ -278,7 +288,6 @@ namespace Agencia_De_Viagens
                 Console.WriteLine($"Voo {CodigoVoo} não encontrado.");
             }
         }
-
         public void ListarClientes()
         {
             if (Clientes.Count == 0)

@@ -12,6 +12,7 @@ namespace Agencia_De_Viagens
         public string Passaporte { get; set; }
         public List<Passagem> PassagensCompradas { get; set; }
         public List<Passagem> PassagensCanceladas { get; set; }
+        public Aeronave Aeronave { get; set; }
 
         public Cliente(string nome, string cpf, string rg, string email, string passaporte)
         {
@@ -41,7 +42,7 @@ namespace Agencia_De_Viagens
                 PassagensCompradas.Remove(passagem);
                 PassagensCanceladas.Add(passagem);
 
-                Aeronave.LiberarAssento(); //deveria ter assento do cliente em passagem
+                // Aeronave.LiberarAssento(); //deveria ter assento do cliente em passagem
 
                 Console.WriteLine($"A passagem {codigoPassagem} foi cancelada com sucesso.");
             }

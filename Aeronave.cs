@@ -8,7 +8,7 @@ public class Aeronave
 {
     public string Nome { get; set; }
     public int CapacidadePassageiros { get; set; }
-    public int CapacidadeBagagens { get; set; }
+    public int CapacidadeBagagens {get; set;}
     public List<Cliente> PassageirosEmbarcados { get; set; }
     public List<string> Assentos { get; private set; }
     public int TotalBagagens { get; set; }
@@ -18,7 +18,6 @@ public class Aeronave
         Nome = nome;
         CapacidadePassageiros = capacidadePassageiros;
         PassageirosEmbarcados = new List<Cliente>();
-        CapacidadeBagagens = capacidadeBagagens;
         Assentos = GerarAssentos(numeroFileiras);
         AssentosReservados = new List<string>();
     }
@@ -78,6 +77,30 @@ public class Aeronave
             Console.WriteLine($"Assento {assento} não está reservado, não é possível liberá-lo.");
         }
     }
+    public void CadastrarBagagens(int quantidade)
+    {
+        if (TotalBagagens + quantidade <= CapacidadeBagagens)
+        {
+            TotalBagagens += quantidade;
+            Console.WriteLine($"{quantidade} bagagens adicionadas. Total de bagagens: {TotalBagagens}");
+        }
+        else
+        {
+            Console.WriteLine("Capacidade de bagagens atingida. Não é possível adicionar mais bagagens.");
+        }
+    }
+    public void RemoverBagagens(int quantidade)
+    {
+        if (TotalBagagens - quantidade >= 0)
+        {
+            TotalBagagens -= quantidade;
+            Console.WriteLine($"{quantidade} bagagens removidas. Total de bagagens: {TotalBagagens}");
+        }
+        else
+        {
+            Console.WriteLine("Não é possível remover mais bagagens do que as atualmente registradas.");
+        }
+    }
     public void InserirPassageiro(Cliente passageiro)
     {
         if (PassageirosEmbarcados.Count < CapacidadePassageiros)
@@ -88,19 +111,6 @@ public class Aeronave
         else
         {
             Console.WriteLine("Capacidade de passageiros atingida.");
-        }
-    }
-
-    public void CadastrarBagagens(int quantidade)
-    {
-        if (TotalBagagens + quantidade <= CapacidadeBagagens)
-        {
-            TotalBagagens += quantidade;
-            Console.WriteLine($"{quantidade} bagagens adicionadas.");
-        }
-        else
-        {
-            Console.WriteLine("Capacidade de bagagens atingida.");
         }
     }
 }

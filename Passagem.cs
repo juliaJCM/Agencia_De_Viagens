@@ -22,6 +22,7 @@ namespace Agencia_De_Viagens
         private double TARIFA_VIAGEM_INTERNACIONAL = 5.60;
         public List<Voo> Voos { get; set; }
         public StatusEnum Status { get; set; }
+        public string AssentoReservado { get; private set; }
 
         // Construtor com parâmetros
         public Passagem(
