@@ -15,7 +15,6 @@ public class Notificacao
 
     public void EnviarEmail(string destinatario, string mensagem)
     {
-        // Exemplo de pseudocódigo:
         Console.WriteLine($"Enviando e-mail para: {destinatario}\nAssunto: {mensagem}");
     }
 }

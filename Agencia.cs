@@ -1,3 +1,6 @@
+using System.Globalization;
+using System;
+
 namespace Agencia_De_Viagens
 {
     public class Agencia
@@ -137,7 +140,8 @@ namespace Agencia_De_Viagens
             Console.WriteLine($"Passagem criada com sucesso: {passagem.Codigo}");
         }
 
-        public void ComprarPassagens(string cpfCliente, string codigoPassagem, string email, string mensagem)
+        // public void ComprarPassagens(string cpfCliente, string codigoPassagem, string email, string mensagem)
+        public void ComprarPassagens(string cpfCliente, string codigoPassagem)
         {
             var cliente = Clientes.FirstOrDefault(c => c.CPF == cpfCliente);
 
@@ -171,7 +175,7 @@ namespace Agencia_De_Viagens
             ReservarAssentoParaPassageiro(cliente, passagemComprada.AeroportoOrigem.Sigla, aeronaves);
 
             Notificacao notifica = new Notificacao();
-            notifica.EnviarEmail(email, mensagem);
+            // notifica.EnviarEmail(email, mensagem);
         }
 
         public void EmitirBilhete(string cpfCliente, string codigoPassagem)
@@ -342,13 +346,13 @@ namespace Agencia_De_Viagens
             DayOfWeek.Wednesday,
             DayOfWeek.Thursday,
             DayOfWeek.Friday,
-            DayOfWeek.Saturday
+            DayOfWeek.Saturday,
         };
 
-            TimeSpan duracaoVoo = TimeSpan.FromHours(1).Add(TimeSpan.FromMinutes(10));
+        TimeSpan duracaoVoo = TimeSpan.FromHours(1).Add(TimeSpan.FromMinutes(10));
 
-            CriarVoo(Aeroportos.First(), Aeroportos.Last(), CompanhiasAereas.First(), diasVoo, "08:00", duracaoVoo);
-            CriarVoo(Aeroportos.First(), Aeroportos.Last(), CompanhiasAereas.First(), diasVoo, "15:00", duracaoVoo);
+        CriarVoo(Aeroportos.First(), Aeroportos.Last(), CompanhiasAereas.First(), diasVoo, "08:00", duracaoVoo);
+        CriarVoo(Aeroportos.First(), Aeroportos.Last(), CompanhiasAereas.First(), diasVoo, "15:00", duracaoVoo);
         }
 
         public void CriarVoo(Aeroporto origem, Aeroporto destino, CiaAerea ciaAerea, List<DayOfWeek> diasFrequencia, string horaPartida, TimeSpan duracao)

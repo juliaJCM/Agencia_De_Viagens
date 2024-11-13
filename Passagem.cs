@@ -7,12 +7,13 @@ namespace Agencia_De_Viagens
     public class Passagem
     {
         public string Codigo { get; private set; }
-        public Aeroporto AeroportoOrigem { get; private set; } // Apenas um aeroporto de origem
-        public Aeroporto AeroportoDestino { get; private set; } // Apenas um aeroporto de destino
-        public Aeroporto? AeroportoConexao { get; private set; } // Apenas um aeroporto de conexão (opcional)
-        public CiaAerea CiaAerea { get; private set; } // Apenas uma companhia aérea por voo
+        public Aeroporto AeroportoOrigem { get; private set; } 
+        public Aeroporto AeroportoDestino { get; private set; } 
+        public Aeroporto? AeroportoConexao { get; private set; } 
+        public CiaAerea CiaAerea { get; private set; } 
         public DateTime DataPartida { get; private set; }
         public DateTime DataChegada { get; private set; }
+        public Cliente cliente { get; set; }
         public Tarifa Tarifa { get; private set; }
         public string Moeda { get; private set; }
         public double ValorDaPrimeiraBagagem { get; private set; }
@@ -23,9 +24,9 @@ namespace Agencia_De_Viagens
         public List<Voo> Voos { get; set; }
         public StatusEnum Status { get; set; }
         public string AssentoReservado { get; private set; }
-        public Cliente cliente { get; set; }
+        public bool VerificaCheckIn { get; set; }
 
-        // Construtor com parâmetros
+        // CONSTRUTOR DA CLASSE PASSAGEM
         public Passagem(
             string codigo,
             Aeroporto aeroportoOrigem,
@@ -40,7 +41,7 @@ namespace Agencia_De_Viagens
             TipoPassagemEnum tipo,
             List<Voo> voos,
             StatusEnum statusEnum,
-            Aeroporto? aeroportoConexao = null // Parâmetro opcional para a conexão
+            Aeroporto? aeroportoConexao = null 
         )
         {
             Codigo = codigo;
@@ -65,6 +66,7 @@ namespace Agencia_De_Viagens
             Status = statusEnum;
         }
 
+        //-------------------------MÉTODO PARA GERAR CÓDIGO DA ROTA---------------------------------//
         public static string GerarCodigoRota()
         {
             Random rnd = new Random();
@@ -82,6 +84,8 @@ namespace Agencia_De_Viagens
 
             return codigoDeVoo;
         }
+
+        //-------------------------MÉTODO PARA MOSTRAR PASSAGEM---------------------------------//
         public void ExibirPassagem()
         {
             Console.WriteLine("Informações da Passagem:");
@@ -107,11 +111,39 @@ namespace Agencia_De_Viagens
             Console.WriteLine($"Voos: {Voos}");
             Console.WriteLine("-----------------------------------------------------");
         }
+
+        //-------------------------MÉTODO PARA ATIVAR A PASSAGEM APÓS SUA COMPRA---------------------------------//
         public void AtivarPassagem()
         {
             Ativo = true;
         }
 
+        //-------------------------MÉTODO PARA REALIZAR A VERIFICAÇÃO DO CHECK IN--------------------------------//
+        public void RealizaCheckIn()
+        {
+            DateTime agora = DateTime.Now;
+            DateTime inicioCheckIn = DataPartida.AddHours(-48); 
+            DateTime limiteCheckIn = DataPartida.AddMinutes(-30);
+
+            if(agora >= inicioCheckIn && agora <= limiteCheckIn)
+            {
+                VerificaCheckIn = true;
+                Console.WriteLine("Check in realizado com sucesso!");
+            }
+            else
+            {
+                Console.WriteLine("Check in fora do período permitido!");
+            }
+        }
+
+        public void VerificaNoShow()
+        {
+            if(!VerificaCheckIn && DateTime.Now > DataPartida)
+            {
+                NoShow = true;
+                Console.WriteLine("Cliente não compareceu para o check in durante o período previsto. ")
+            }
+        }
     }
 
 
