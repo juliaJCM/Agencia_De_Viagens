@@ -14,6 +14,7 @@ namespace Agencia_De_Viagens
         public DateTime DataPartida { get; private set; }
         public DateTime DataChegada { get; private set; }
         public Cliente cliente { get; set; }
+        public Cliente Nome { get; set; }
         public Tarifa Tarifa { get; private set; }
         public string Moeda { get; private set; }
         public double ValorDaPrimeiraBagagem { get; private set; }
@@ -23,7 +24,7 @@ namespace Agencia_De_Viagens
         private double TARIFA_VIAGEM_INTERNACIONAL = 5.60;
         public List<Voo> Voos { get; set; }
         public StatusEnum Status { get; set; }
-        public string AssentoReservado { get; private set; }
+        public string AssentoReservado { get; set; }
         public bool VerificaCheckIn { get; set; }
         public List<CartaoEmbarque> CartoesEmbarque { get; private set; }  = new List<CartaoEmbarque>();
 
@@ -120,7 +121,7 @@ namespace Agencia_De_Viagens
         }
 
         //-------------------------MÉTODO PARA REALIZAR A VERIFICAÇÃO DO CHECK IN--------------------------------//
-        public void RealizaCheckIn()
+        public void RealizaCheckIn(StatusEnum status)
         {
             DateTime agora = DateTime.Now;
             DateTime inicioCheckIn = DataPartida.AddHours(-48); 
@@ -129,7 +130,7 @@ namespace Agencia_De_Viagens
             if(agora >= inicioCheckIn && agora <= limiteCheckIn)
             {
                 VerificaCheckIn = true;
-                CheckIn_Realizado = true;
+                status = StatusEnum.CheckIn_Realizado;
                 Console.WriteLine("Check in realizado com sucesso!");
             }
             else
@@ -139,17 +140,17 @@ namespace Agencia_De_Viagens
         }
 
         //-------------------------MÉTODO PARA VERIFICAR SE O CLINTE REALIZOU O CHECK-IN--------------------------------//
-        public void VerificaNoShow()
+        public void VerificaNoShow(StatusEnum status)
         {
             if(!VerificaCheckIn && DateTime.Now > DataPartida)
             {
-                NoShow = true;
-                Console.WriteLine("Cliente não compareceu para o check in durante o período previsto. ")
+                status = StatusEnum.NoShow;
+                Console.WriteLine("Cliente não compareceu para o check in durante o período previsto.");
             }
         }
 
         //-------------------------MÉTODO PARA GERAR O CARTÃO DE EMBARQUE--------------------------------//
-        private void GerarCartaoEmbarque ()
+        public void GerarCartaoEmbarque()
         {
             if(!VerificaCheckIn)
             {
@@ -158,17 +159,13 @@ namespace Agencia_De_Viagens
             }
             foreach (var voo in Voos)
             {
-                // Calcula o horário de embarque (40 minutos antes da partida)
-                DateTime horarioEmbarque = voo.DataPartida.AddMinutes(-40);
-
                 // Cria o cartão de embarque e armazena na lista
                 CartaoEmbarque cartao = new CartaoEmbarque(
-                    NomePassageiro,
                     voo.AeroportoOrigem,
                     voo.AeroportoDestino,
-                    horarioEmbarque,
                     voo.DataPartida,
-                    voo.Assento 
+                    Nome,
+                    AssentoReservado
                 );
                 CartoesEmbarque.Add(cartao);
             }
@@ -183,7 +180,7 @@ namespace Agencia_De_Viagens
             }
         }
 
-        public void RegistrarEmbarque(bool embarcou)
+        public void RegistrarEmbarque(bool embarcou, StatusEnum status)
         {
             if (!VerificaCheckIn)
             {
@@ -193,12 +190,12 @@ namespace Agencia_De_Viagens
 
             if (embarcou)
             {
-                Embarque_Realizado = true;
+                status = StatusEnum.Embarque_Realizado;
                 Console.WriteLine("Passageiro embarcou!");
             }
             else
             {
-                NoShow = true;
+                status = StatusEnum.NoShow;
                 Console.WriteLine("Passageiro não embarcou. Status NO SHOW registrado!");
             }
         }

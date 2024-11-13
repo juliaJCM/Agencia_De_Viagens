@@ -405,7 +405,27 @@ namespace Agencia_De_Viagens
 
             aeronave.ReservarAssento(assentoEscolhido, passageiro);
         }
+        public void PromoverClienteParaVip(string cpfCliente)
+        {
+            var cliente = Clientes.FirstOrDefault(c => c.CPF == cpfCliente);
 
+            if (cliente != null)
+            {
+                // Lógica de promoção, por exemplo, baseado em histórico de voos
+                if (cliente.HistoricoDeVoos.Count >= 5)
+                {
+                    cliente.TornarVip();
+                }
+                else
+                {
+                    Console.WriteLine("Cliente não atende aos requisitos para ser promovido a VIP.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Cliente não encontrado.");
+            }
+        }
 
     }
 }

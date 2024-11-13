@@ -13,7 +13,6 @@ namespace Agencia_De_Viagens
         public List<Passagem> PassagensCompradas { get; set; }
         public List<Passagem> PassagensCanceladas { get; set; }
         public Aeronave Aeronave { get; set; }
-
         public List<Voo> HistoricoDeVoos { get; private set; } = new List<Voo>();
         public bool IsVip { get; set; }
 
@@ -87,6 +86,60 @@ namespace Agencia_De_Viagens
             {
                 // Exibe as informações de cada voo (método da classe Voo)
                 voo.ExibirVoo(); 
+            }
+        }
+        
+            public void TornarVip()
+        {
+            if (!IsVip)
+            {
+                IsVip = true;
+                Console.WriteLine($"Parabén! Você agora é um Passageiro VIP!");
+                // Benefícios VIP podem ser ativados aqui, por exemplo, isenção de taxas.
+            }
+            else
+            {
+                Console.WriteLine($"Você já é um Passageiro VIP.");
+            }
+        }
+
+        // Benefícios de Passageiro VIP: alteração e cancelamento de voo sem custo
+        public void AlterarOuCancelarVoo(Passagem passagem, bool isAlteracao)
+        {
+            if (IsVip)
+            {
+                Console.WriteLine($"Voo {passagem.Codigo} alterado ou cancelado sem custos.");
+                passagem.Status = isAlteracao ? StatusEnum.Ativo : StatusEnum.Cancelado;
+            }
+            else
+            {
+                Console.WriteLine("Somente clientes VIP podem alterar ou cancelar voos sem custos.");
+            }
+        }
+
+        // Franquia de bagagem gratuita
+        public void VerificarFranquiaBagagem()
+        {
+            if (IsVip)
+            {
+                Console.WriteLine("1 franquia de bagagem gratuita.");
+            }
+            else
+            {
+                Console.WriteLine("Verifique as franquias de bagagem padrão.");
+            }
+        }
+
+        // Desconto nas franquias adicionais
+        public void VerificarDescontoBagagemAdicional()
+        {
+            if (IsVip)
+            {
+                Console.WriteLine("Você possui desconto de 50% nas franquias de bagagem adicionais.");
+            }
+            else
+            {
+                Console.WriteLine("Verifique as tarifas de bagagem adicionais.");
             }
         }
     }

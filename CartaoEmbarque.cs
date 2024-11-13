@@ -4,23 +4,22 @@ namespace Agencia_De_Viagens
 {
     public class CartaoEmbarque
     {
-        public Aeroporto AeroportoOrigem { get; private set; }
-        public Aeroporto AeroportoDestino { get; private set; }
-        public DateTime DataPartida { get; private set; }
-        public string NomePassageiro { get; private set; }
-        public string SobrenomePassageiro { get; private set; }
-        public string AssentoReservado { get; private set; }
-
+        public Aeroporto AeroportoOrigem { get; set; }
+        public Aeroporto AeroportoDestino { get; set; }
+        public DateTime DataPartida { get; set; }
+        public string AssentoReservado { get; set; }
+        public Passagem passagem{ get; set; }
+        public Cliente Nome { get; set; }
+        
         // Horário de embarque calculado como 40 minutos antes da partida
-        public DateTime HorarioEmbarque => DataPartida.AddMinutes(-40);
+        public DateTime HorarioEmbarque => passagem.DataPartida.AddMinutes(-40);
 
-        public CartaoEmbarque(Aeroporto aeroportoOrigem, Aeroporto aeroportoDestino, DateTime dataPartida, string nomePassageiro, string sobrenomePassageiro, string assentoReservado)
+        public CartaoEmbarque(Aeroporto aeroportoOrigem, Aeroporto aeroportoDestino, DateTime dataPartida, Cliente nome, string assentoReservado)
         {
+            Nome = nome;
             AeroportoOrigem = aeroportoOrigem;
             AeroportoDestino = aeroportoDestino;
             DataPartida = dataPartida;
-            NomePassageiro = nomePassageiro;
-            SobrenomePassageiro = sobrenomePassageiro;
             AssentoReservado = assentoReservado;
         }
 
@@ -29,7 +28,7 @@ namespace Agencia_De_Viagens
         {
             Console.WriteLine("-----------------------------------------------------");
             Console.WriteLine("Cartão de Embarque");
-            Console.WriteLine($"Passageiro: {NomePassageiro} {SobrenomePassageiro}");
+            Console.WriteLine($"Passageiro: {Nome}");
             Console.WriteLine($"Origem: {AeroportoOrigem.Nome} ({AeroportoOrigem.Sigla})");
             Console.WriteLine($"Destino: {AeroportoDestino.Nome} ({AeroportoDestino.Sigla})");
             Console.WriteLine($"Horário de Embarque: {HorarioEmbarque:dd/MM/yyyy HH:mm}");
