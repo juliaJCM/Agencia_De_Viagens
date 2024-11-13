@@ -137,7 +137,7 @@ namespace Agencia_De_Viagens
             Console.WriteLine($"Passagem criada com sucesso: {passagem.Codigo}");
         }
 
-        public void ComprarPassagens(string cpfCliente, string codigoPassagem)
+        public void ComprarPassagens(string cpfCliente, string codigoPassagem, string email, string mensagem)
         {
             var cliente = Clientes.FirstOrDefault(c => c.CPF == cpfCliente);
 
@@ -169,6 +169,9 @@ namespace Agencia_De_Viagens
             List<Aeronave> aeronaves = passagemComprada.AeroportoOrigem.ObterAeronaves();
 
             ReservarAssentoParaPassageiro(cliente, passagemComprada.AeroportoOrigem.Sigla, aeronaves);
+
+            Notificacao notifica = new Notificacao();
+            notifica.EnviarEmail(email, mensagem);
         }
 
         public void EmitirBilhete(string cpfCliente, string codigoPassagem)
@@ -332,15 +335,15 @@ namespace Agencia_De_Viagens
         public void CriarVoosPadrao()
         {
             var diasVoo = new List<DayOfWeek>
-    {
-        DayOfWeek.Sunday,
-        DayOfWeek.Monday,
-        DayOfWeek.Tuesday,
-        DayOfWeek.Wednesday,
-        DayOfWeek.Thursday,
-        DayOfWeek.Friday,
-        DayOfWeek.Saturday
-    };
+        {
+            DayOfWeek.Sunday,
+            DayOfWeek.Monday,
+            DayOfWeek.Tuesday,
+            DayOfWeek.Wednesday,
+            DayOfWeek.Thursday,
+            DayOfWeek.Friday,
+            DayOfWeek.Saturday
+        };
 
             TimeSpan duracaoVoo = TimeSpan.FromHours(1).Add(TimeSpan.FromMinutes(10));
 

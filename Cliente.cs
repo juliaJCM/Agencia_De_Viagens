@@ -14,6 +14,9 @@ namespace Agencia_De_Viagens
         public List<Passagem> PassagensCanceladas { get; set; }
         public Aeronave Aeronave { get; set; }
 
+        public List<Voo> HistoricoDeVoos { get; private set; } = new List<Voo>();
+        public bool IsVip { get; set; }
+
         public Cliente(string nome, string cpf, string rg, string email, string passaporte)
         {
             Nome = nome;
@@ -60,6 +63,31 @@ namespace Agencia_De_Viagens
             Console.WriteLine($"Email: {Email}");
             Console.WriteLine($"Passaporte: {Passaporte}");
             Console.WriteLine(new string('-', 30));
+        }
+
+        public void AdicionarVooAoHistorico(Voo voo)
+        {
+            // Adiciona o voo ao histórico
+            HistoricoDeVoos.Add(voo);
+
+            // Ordena os voos por data de partida (ordem cronológica)
+            HistoricoDeVoos = HistoricoDeVoos.OrderBy(v => v.DataPartida).ToList();
+        }
+
+        public void ExibirHistoricoDeVoos()
+        {
+            if (HistoricoDeVoos.Count == 0)
+            {
+                Console.WriteLine("O cliente não possui nenhum voo registrado.");
+                return;
+            }
+
+            Console.WriteLine("Histórico de Voos:");
+            foreach (var voo in HistoricoDeVoos)
+            {
+                // Exibe as informações de cada voo (método da classe Voo)
+                voo.ExibirVoo(); 
+            }
         }
     }
 }

@@ -23,6 +23,7 @@ namespace Agencia_De_Viagens
         public List<Voo> Voos { get; set; }
         public StatusEnum Status { get; set; }
         public string AssentoReservado { get; private set; }
+        public Cliente cliente { get; set; }
 
         // Construtor com parâmetros
         public Passagem(
