@@ -4,6 +4,10 @@ namespace Agencia_De_Viagens
     {
         Ativo,
         Cancelado,
-        NoShow
+        NoShow,
+        CheckIn_Realizado,
+        Passagem_Adquirida,
+        Passagem_Cancelada,
+        Embarque_Realizado,
     }
 }

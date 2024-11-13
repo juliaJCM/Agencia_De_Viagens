@@ -25,8 +25,9 @@ namespace Agencia_De_Viagens
         public StatusEnum Status { get; set; }
         public string AssentoReservado { get; private set; }
         public bool VerificaCheckIn { get; set; }
+        public List<CartaoEmbarque> CartoesEmbarque { get; private set; }  = new List<CartaoEmbarque>();
 
-        // CONSTRUTOR DA CLASSE PASSAGEM
+        //-------------------------CONSTRUTOR DA CLASSES PASSAGEM---------------------------------//
         public Passagem(
             string codigo,
             Aeroporto aeroportoOrigem,
@@ -128,6 +129,7 @@ namespace Agencia_De_Viagens
             if(agora >= inicioCheckIn && agora <= limiteCheckIn)
             {
                 VerificaCheckIn = true;
+                CheckIn_Realizado = true;
                 Console.WriteLine("Check in realizado com sucesso!");
             }
             else
@@ -136,6 +138,7 @@ namespace Agencia_De_Viagens
             }
         }
 
+        //-------------------------MÉTODO PARA VERIFICAR SE O CLINTE REALIZOU O CHECK-IN--------------------------------//
         public void VerificaNoShow()
         {
             if(!VerificaCheckIn && DateTime.Now > DataPartida)
@@ -144,7 +147,61 @@ namespace Agencia_De_Viagens
                 Console.WriteLine("Cliente não compareceu para o check in durante o período previsto. ")
             }
         }
+
+        //-------------------------MÉTODO PARA GERAR O CARTÃO DE EMBARQUE--------------------------------//
+        private void GerarCartaoEmbarque ()
+        {
+            if(!VerificaCheckIn)
+            {
+                Console.WriteLine("Não foi possível gerar o cartaõ de embarque uma vez que o check-in não foi realizado!");
+                return;
+            }
+            foreach (var voo in Voos)
+            {
+                // Calcula o horário de embarque (40 minutos antes da partida)
+                DateTime horarioEmbarque = voo.DataPartida.AddMinutes(-40);
+
+                // Cria o cartão de embarque e armazena na lista
+                CartaoEmbarque cartao = new CartaoEmbarque(
+                    NomePassageiro,
+                    voo.AeroportoOrigem,
+                    voo.AeroportoDestino,
+                    horarioEmbarque,
+                    voo.DataPartida,
+                    voo.Assento 
+                );
+                CartoesEmbarque.Add(cartao);
+            }
+        }
+        
+        //-----------------------MÉTODO PARA MOSTRAR O CARTÃO DE EMBARQUE------------------------------//
+        public void ExibirCartaoEmbarque()
+        {
+            foreach (var cartao in CartoesEmbarque)
+            {
+                cartao.ExibirCartao();
+            }
+        }
+
+        public void RegistrarEmbarque(bool embarcou)
+        {
+            if (!VerificaCheckIn)
+            {
+                Console.WriteLine("Não foi possível registrar o embarque uma vez que o cliente não realizou o check-in!");
+                return;
+            }
+
+            if (embarcou)
+            {
+                Embarque_Realizado = true;
+                Console.WriteLine("Passageiro embarcou!");
+            }
+            else
+            {
+                NoShow = true;
+                Console.WriteLine("Passageiro não embarcou. Status NO SHOW registrado!");
+            }
+        }
+
     }
-
-
 }
