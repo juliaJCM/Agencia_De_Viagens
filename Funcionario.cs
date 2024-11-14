@@ -20,7 +20,6 @@ namespace Agencia_De_Viagens
             Email = email;
         }
 
-
         public void CriarAcessoSistema(string login, string senha)
         {
             Login = login;
@@ -30,6 +29,7 @@ namespace Agencia_De_Viagens
 
         public void Exibir()
         {
+            Console.WriteLine("\n"+ new string('-', 30));
             Console.WriteLine($"Nome: {Nome}");
             Console.WriteLine($"CPF: {CPF}");
             Console.WriteLine($"Email: {Email}");

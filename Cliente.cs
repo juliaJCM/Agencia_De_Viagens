@@ -46,7 +46,7 @@ namespace Agencia_De_Viagens
 
                 // Aeronave.LiberarAssento(); //deveria ter assento do cliente em passagem
 
-                Console.WriteLine($"A passagem {codigoPassagem} foi cancelada com sucesso.");
+                Console.WriteLine($"A passagem {codigoPassagem} foi cancelada com sucesso!");
             }
             else
             {
@@ -56,6 +56,7 @@ namespace Agencia_De_Viagens
 
         public void Exibir()
         {
+            Console.WriteLine("\n" + new string('-', 30));
             Console.WriteLine($"Nome: {Nome}");
             Console.WriteLine($"CPF: {CPF}");
             Console.WriteLine($"RG: {RG}");
@@ -94,7 +95,7 @@ namespace Agencia_De_Viagens
             if (!IsVip)
             {
                 IsVip = true;
-                Console.WriteLine($"Parabén! Você agora é um Passageiro VIP!");
+                Console.WriteLine($"Parabéns! Você agora é um Passageiro VIP!");
                 // Benefícios VIP podem ser ativados aqui, por exemplo, isenção de taxas.
             }
             else

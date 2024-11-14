@@ -52,19 +52,20 @@ namespace Agencia_De_Viagens
             return true;
         }
 
-        public void ExibirDadosAeroporto()
+        public void Exibir()
         {
-            Console.WriteLine(new string('-', 30));
+            Console.WriteLine("\n" + new string('-', 30));
             Console.WriteLine($"Nome do Aerporto: {Nome}");
             Console.WriteLine($"Sigla: {Sigla}");
             Console.WriteLine($"Estado: {Estado}");
             Console.WriteLine($"Cidade: {Cidade}");
             Console.WriteLine($"País: {Pais}");
+            Console.WriteLine(new string('-', 30));
         }
         public void AdicionarAeronave(Aeronave aeronave)
         {
             Aeronaves.Add(aeronave);
-            Console.WriteLine($"Aeronave {aeronave.Nome} adicionada ao {Nome}.");
+            Console.WriteLine($"\nAeronave {aeronave.Nome} adicionada ao {Nome}.");
         }
         public List<Aeronave> ObterAeronaves()
         {

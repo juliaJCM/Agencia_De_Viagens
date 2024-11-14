@@ -43,9 +43,9 @@ namespace Agencia_De_Viagens
             return true;
         }
 
-        public void ExibirDadosCiaAerea()
+        public void Exibir()
         {
-            Console.WriteLine(new string('-', 30));
+            Console.WriteLine("\n" + new string('-', 30));
             Console.WriteLine($"Nome da Companhia: {Nome}");
             Console.WriteLine($"Codigo: {Codigo}");
             Console.WriteLine($"Razão Social: {RazaoSocial}");

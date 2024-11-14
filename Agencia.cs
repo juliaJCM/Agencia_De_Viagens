@@ -26,7 +26,7 @@ namespace Agencia_De_Viagens
         {
             if (funcionarioResponsavelPelaCriacao.AcessoSistema)
             {
-                var cliente = new Cliente("Joao", "12361213229", "12123123", "john.doe@email.com", "passaporte");
+                var cliente = new Cliente("Joao", "12361213229", "12123123", "john.doe@email.com", "994360123");
                 Clientes.Add(cliente);
             }
             else
@@ -34,12 +34,14 @@ namespace Agencia_De_Viagens
                 Console.WriteLine("");
             }
         }
+        
         public void CriarFuncionario(string nome, string cpf, string email)
         {
             var funcionario = new Funcionario(nome, cpf, email);
             funcionario.CriarAcessoSistema($"{cpf}_user", $"{email}_password");
             Funcionarios.Add(funcionario);
         }
+
         public bool ExcluirFuncionario(string cpf)
         {
             Funcionario? funcionarioEncontrado = Funcionarios.Find(c => c.CPF == cpf);
@@ -47,12 +49,12 @@ namespace Agencia_De_Viagens
             if (funcionarioEncontrado != null)
             {
                 Funcionarios.Remove(funcionarioEncontrado);
-                Console.WriteLine("Funcionário excluído com sucesso!");
+                Console.WriteLine("Funcionário(a) excluído com sucesso!");
                 return true;
             }
             else
             {
-                Console.WriteLine("Funcionário não encontrado!");
+                Console.WriteLine("Funcionário(a) não encontrado!");
                 return false;
             }
         }
@@ -76,16 +78,62 @@ namespace Agencia_De_Viagens
         public void CriarCompaniaAerea()
         {
             CompanhiasAereas.Add(new CiaAerea("LATAM", 123, "Brasil", "São Paulo", 1000.0, 1500.0));
+
+            if (CompanhiasAereas.Count == 0)
+            {
+                Console.WriteLine("Nenhuma companhia aérea criada.");
+                return;
+            }
+            else
+            {
+                Console.WriteLine("\nCompanhia Aerea criada com sucesso!");
+            }
+             foreach (var companhia in CompanhiasAereas)
+            {
+                companhia.Exibir();
+            }
         }
+        
+        
+        // public void CriarAeroporto()
+        // {
+        //     var aeronave1 = new Aeronave("Boeing 737", 180, 200, 6);
+        //     var aeronave2 = new Aeronave("Airbus A320", 150, 180, 6);
+        //     Aeroportos.Add(new Aeroporto("Aeroporto Internacional de Confins", "CNF", "Belo Horizonte", "BH", "Brasil"));
+        //     Aeroportos.Add(new Aeroporto("Aeroporto de Guarulhos", "GRU", "São Paulo", "SP", "Brasil"));
+        //     Aeroportos[0].AdicionarAeronave(aeronave1);
+        //     Aeroportos[1].AdicionarAeronave(aeronave2);
+        // }
         public void CriarAeroporto()
         {
-            var aeronave1 = new Aeronave("Boeing 737", 180, 200, 6);
-            var aeronave2 = new Aeronave("Airbus A320", 150, 180, 6);
+            // Criação dos aeroportos
             Aeroportos.Add(new Aeroporto("Aeroporto Internacional de Confins", "CNF", "Belo Horizonte", "BH", "Brasil"));
             Aeroportos.Add(new Aeroporto("Aeroporto de Guarulhos", "GRU", "São Paulo", "SP", "Brasil"));
+
+            // Exibição do status
+            if (Aeroportos.Count == 0)
+            {
+                Console.WriteLine("\nNenhum aeroporto criado.");
+            }
+            else
+            {
+                Console.WriteLine("\nAeroportos criados com sucesso!");
+                foreach (var aeroporto in Aeroportos)
+                {
+                    aeroporto.Exibir();
+                }
+            }
+
+            // Criação das aeronaves
+            var aeronave1 = new Aeronave("Boeing 737", 180, 200, 6);
+            var aeronave2 = new Aeronave("Airbus A320", 150, 180, 6);
+
+            // Adiciona as aeronaves aos aeroportos
             Aeroportos[0].AdicionarAeronave(aeronave1);
             Aeroportos[1].AdicionarAeronave(aeronave2);
         }
+
+    
         public void CriarPassagem()
         {
             var aeroportoOrigem = Aeroportos.FirstOrDefault(a => a.Sigla == "CNF");
@@ -303,12 +351,13 @@ namespace Agencia_De_Viagens
                 return;
             }
 
-            Console.WriteLine("Clientes cadastrados:");
+            Console.WriteLine("\nCliente cadastrado com sucesso!");
             foreach (var cliente in Clientes)
             {
                 cliente.Exibir();
             }
         }
+
         public void ListarPassagens()
         {
             if (Passagens.Count == 0)
@@ -321,15 +370,16 @@ namespace Agencia_De_Viagens
                 passagem.ExibirPassagem();
             }
         }
+
         public void ListarFuncionario()
         {
             if (Funcionarios.Count == 0)
             {
-                Console.WriteLine("Nenhum funcionário cadastrado!");
+                Console.WriteLine("Nenhum funcionário(a) cadastrado!");
                 return;
             }
 
-            Console.WriteLine("Clientes Funcionarios:");
+            Console.WriteLine("Funcionário(a) cadastrado com sucesso!");
             foreach (var funcionario in Funcionarios)
             {
                 funcionario.Exibir();
