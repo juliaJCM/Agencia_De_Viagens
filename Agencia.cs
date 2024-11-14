@@ -5,13 +5,13 @@ namespace Agencia_De_Viagens
 {
     public class Agencia
     {
-        public List<CiaAerea> CompanhiasAereas { get; private set; }
-        public List<Aeroporto> Aeroportos { get; private set; }
-        public List<Passagem> Passagens { get; private set; }
+        public List<CiaAerea> CompanhiasAereas { get; set; }
+        public List<Aeroporto> Aeroportos { get; set; }
+        public List<Passagem> Passagens { get; set; }
         public List<Cliente> Clientes { get; set; }
-        public List<Funcionario> Funcionarios { get; private set; }
-        public List<Voo> Voos { get; private set; }
-        public Aeronave Aeronave { get; private set; }
+        public List<Funcionario> Funcionarios { get; set; }
+        public List<Voo> Voos { get; set; }
+        public Aeronave Aeronave { get; set; }
 
         public Agencia()
         {
@@ -185,7 +185,7 @@ namespace Agencia_De_Viagens
             );
 
             Passagens.Add(passagem);
-            Console.WriteLine($"Passagem criada com sucesso: {passagem.Codigo}");
+            Console.WriteLine($"\nPassagem criada com sucesso: {passagem.Codigo}");
         }
 
         // public void ComprarPassagens(string cpfCliente, string codigoPassagem, string email, string mensagem)
@@ -199,6 +199,7 @@ namespace Agencia_De_Viagens
                 return;
             }
             var passagemComprada = Passagens.FirstOrDefault(p => p.Codigo == codigoPassagem);
+            cliente.AdicionarPassagemComprada(passagemComprada);
 
             if (passagemComprada == null)
             {
@@ -229,7 +230,7 @@ namespace Agencia_De_Viagens
         public void EmitirBilhete(string cpfCliente, string codigoPassagem)
         {
             var cliente = Clientes.FirstOrDefault(c => c.CPF == cpfCliente);
-
+            Console.WriteLine(cpfCliente);
             if (cliente == null)
             {
                 Console.WriteLine("Cliente não encontrado.");
@@ -238,6 +239,8 @@ namespace Agencia_De_Viagens
 
             var passagemBilhete = cliente.PassagensCompradas.FirstOrDefault(p => p.Codigo == codigoPassagem);
 
+            cliente.EmissaoBilhete(passagemBilhete);
+            Console.WriteLine(passagemBilhete);
             // Verifica se a passagem foi encontrada
             if (passagemBilhete == null)
             {
@@ -428,7 +431,7 @@ namespace Agencia_De_Viagens
                     );
 
                     Voos.Add(novoVoo);
-                    novoVoo.ExibirVoo();
+                    novoVoo.Exibir();
                 }
             }
         }

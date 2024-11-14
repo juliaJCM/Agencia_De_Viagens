@@ -44,9 +44,9 @@ namespace Agencia_De_Viagens
             int numeros = random.Next(1000, 10000);
             return $"{letra1}{letra2}{numeros}";
         }
-        public void ExibirVoo()
+        public void Exibir()
         {
-            Console.WriteLine("-----------------------------------------------------");
+            Console.WriteLine("\n" + new string('-', 30));
             Console.WriteLine("Informações do Voo:");
             Console.WriteLine($"Código do Voo: {Codigo}");
             Console.WriteLine($"Aeroporto de Origem: {AeroportoOrigem.Nome} ({AeroportoOrigem.Sigla})");
@@ -56,8 +56,7 @@ namespace Agencia_De_Viagens
             Console.WriteLine($"Data de Chegada: {DataChegada:dd/MM/yyyy HH:mm}");
             Console.WriteLine($"Frequência: {Frequencia.Hora} nos dias {string.Join(", ", Frequencia.Dias)}");
             Console.WriteLine($"Status: {Status}");
-            Console.WriteLine("-----------------------------------------------------");
-
+            Console.WriteLine(new string('-', 30));
         }
 
     }

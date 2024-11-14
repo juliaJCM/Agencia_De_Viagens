@@ -90,7 +90,8 @@ namespace Agencia_De_Viagens
         //-------------------------MÉTODO PARA MOSTRAR PASSAGEM---------------------------------//
         public void ExibirPassagem()
         {
-            Console.WriteLine("Informações da Passagem:");
+            Console.WriteLine("\n" + new string('-', 30));
+            Console.WriteLine("INFORMAAÇÕES DA PASSAGEM");
             Console.WriteLine($"Código do Voo: {Codigo}");
             Console.WriteLine($"Aeroporto de Origem: {AeroportoOrigem.Nome} ({AeroportoOrigem.Sigla}) - {AeroportoOrigem.Cidade}, {AeroportoOrigem.Pais}");
             Console.WriteLine($"Aeroporto de Destino: {AeroportoDestino.Nome} ({AeroportoDestino.Sigla}) - {AeroportoDestino.Cidade}, {AeroportoDestino.Pais}");
@@ -110,8 +111,7 @@ namespace Agencia_De_Viagens
             Console.WriteLine($"Tarifa Business: {Tarifa.TarifaBusiness:F2} {Moeda}");
             Console.WriteLine($"Valor da Primeira Bagagem: {ValorDaPrimeiraBagagem:F2} {Moeda}");
             Console.WriteLine($"Valor da Bagagem Adicional: {ValorDaBagagemAdicional:F2} {Moeda}");
-            Console.WriteLine($"Voos: {Voos}");
-            Console.WriteLine("-----------------------------------------------------");
+            Console.WriteLine(new string('-', 30));
         }
 
         //-------------------------MÉTODO PARA ATIVAR A PASSAGEM APÓS SUA COMPRA---------------------------------//
@@ -154,7 +154,7 @@ namespace Agencia_De_Viagens
         {
             if(!VerificaCheckIn)
             {
-                Console.WriteLine("Não foi possível gerar o cartaõ de embarque uma vez que o check-in não foi realizado!");
+                Console.WriteLine("Não foi possível gerar o cartão de embarque uma vez que o check-in não foi realizado!");
                 return;
             }
             foreach (var voo in Voos)

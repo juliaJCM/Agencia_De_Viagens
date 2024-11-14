@@ -28,13 +28,18 @@ namespace Agencia_De_Viagens
 
         }
 
-        // Método para criar um novo registro de cliente
-
         public void AdicionarPassagemComprada(Passagem passagemComprada)
         {
             PassagensCompradas.Add(passagemComprada);
             Console.WriteLine("Passagem comprada com susesso!");
         }
+
+        public void EmissaoBilhete(Passagem passagemBilhete)
+        {
+            PassagensCompradas.Add(passagemBilhete);
+            Console.WriteLine("Passagem comprada com susesso!");
+        }
+
         public void CancelarPassagem(string codigoPassagem)
         {
             var passagem = PassagensCompradas.FirstOrDefault(p => p.Codigo == codigoPassagem);
@@ -86,7 +91,7 @@ namespace Agencia_De_Viagens
             foreach (var voo in HistoricoDeVoos)
             {
                 // Exibe as informações de cada voo (método da classe Voo)
-                voo.ExibirVoo(); 
+                voo.Exibir(); 
             }
         }
         
