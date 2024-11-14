@@ -198,7 +198,8 @@ namespace Agencia_De_Viagens
                 Console.WriteLine("Cliente não encontrado.");
                 return;
             }
-            var passagemComprada = Passagens.FirstOrDefault(p => p.Codigo == codigoPassagem);
+            
+            var passagemComprada = cliente.PassagensCompradas.FirstOrDefault(p => p.Codigo == codigoPassagem);
             cliente.AdicionarPassagemComprada(passagemComprada);
 
             if (passagemComprada == null)
@@ -248,8 +249,6 @@ namespace Agencia_De_Viagens
 
             var cliente = Clientes.FirstOrDefault(c => c.CPF == cpfCliente);
 
-            Console.WriteLine(List<Cliente>);
-
             if (cliente == null)
             {
                 Console.WriteLine("Cliente não encontrado.");
@@ -257,9 +256,10 @@ namespace Agencia_De_Viagens
             }
 
             var passagemBilhete = cliente.PassagensCompradas.FirstOrDefault(p => p.Codigo == codigoPassagem);
-            Console.WriteLine(passagemBilhete);
 
             cliente.EmissaoBilhete(passagemBilhete);
+
+            Console.WriteLine(passagemBilhete);
 
             // Verifica se a passagem foi encontrada
             if (passagemBilhete == null)
