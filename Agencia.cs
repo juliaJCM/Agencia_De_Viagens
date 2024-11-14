@@ -94,7 +94,6 @@ namespace Agencia_De_Viagens
             }
         }
         
-        
         // public void CriarAeroporto()
         // {
         //     var aeronave1 = new Aeronave("Boeing 737", 180, 200, 6);
@@ -104,6 +103,7 @@ namespace Agencia_De_Viagens
         //     Aeroportos[0].AdicionarAeronave(aeronave1);
         //     Aeroportos[1].AdicionarAeronave(aeronave2);
         // }
+
         public void CriarAeroporto()
         {
             // Criação dos aeroportos
@@ -227,10 +227,29 @@ namespace Agencia_De_Viagens
             // notifica.EnviarEmail(email, mensagem);
         }
 
+        public void ExibirClientes(List<Cliente> clientes)
+        {
+            if (clientes == null || clientes.Count == 0)
+            {
+                Console.WriteLine("Nenhum cliente encontrado.");
+                return;
+            }
+
+            Console.WriteLine("Lista de Clientes:");
+            foreach (var cliente in clientes)
+            {
+                Console.WriteLine($"Nome: {cliente.Nome}, CPF: {cliente.CPF}, Email: {cliente.Email}");
+            }
+        }
+
         public void EmitirBilhete(string cpfCliente, string codigoPassagem)
         {
+            Console.WriteLine(codigoPassagem);
+
             var cliente = Clientes.FirstOrDefault(c => c.CPF == cpfCliente);
-            Console.WriteLine(cpfCliente);
+
+            Console.WriteLine(List<Cliente>);
+
             if (cliente == null)
             {
                 Console.WriteLine("Cliente não encontrado.");
@@ -238,9 +257,10 @@ namespace Agencia_De_Viagens
             }
 
             var passagemBilhete = cliente.PassagensCompradas.FirstOrDefault(p => p.Codigo == codigoPassagem);
+            Console.WriteLine(passagemBilhete);
 
             cliente.EmissaoBilhete(passagemBilhete);
-            Console.WriteLine(passagemBilhete);
+
             // Verifica se a passagem foi encontrada
             if (passagemBilhete == null)
             {

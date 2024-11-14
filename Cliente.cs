@@ -37,7 +37,7 @@ namespace Agencia_De_Viagens
         public void EmissaoBilhete(Passagem passagemBilhete)
         {
             PassagensCompradas.Add(passagemBilhete);
-            Console.WriteLine("Passagem comprada com susesso!");
+            Console.WriteLine("Bilhete emitido com susesso!");
         }
 
         public void CancelarPassagem(string codigoPassagem)
