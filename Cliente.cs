@@ -13,8 +13,9 @@ namespace Agencia_De_Viagens
         public List<Passagem> PassagensCompradas { get; set; }
         public List<Passagem> PassagensCanceladas { get; set; }
         public Aeronave Aeronave { get; set; }
-        public List<Voo> HistoricoDeVoos { get; private set; } = new List<Voo>();
+        public List<Voo> HistoricoDeVoos { get; set; } = new List<Voo>();
         public bool IsVip { get; set; }
+        public StatusEnum status {get; set;}
 
         public Cliente(string nome, string cpf, string rg, string email, string passaporte)
         {
@@ -25,19 +26,18 @@ namespace Agencia_De_Viagens
             Passaporte = passaporte;
             PassagensCompradas = new List<Passagem>();
             PassagensCanceladas = new List<Passagem>();
-
         }
 
         public void AdicionarPassagemComprada(Passagem passagemComprada)
         {
             PassagensCompradas.Add(passagemComprada);
-            Console.WriteLine("Passagem comprada com sucesso!");
+            Console.WriteLine("\nPassagem comprada com sucesso!");
         }
 
         public void EmissaoBilhete(Passagem passagemBilhete)
         {
             PassagensCompradas.Add(passagemBilhete);
-            Console.WriteLine("Bilhete emitido com sucesso!");
+            Console.WriteLine("\nBilhete emitido com sucesso!");
         }
 
         public void CancelarPassagem(string codigoPassagem)
@@ -51,11 +51,11 @@ namespace Agencia_De_Viagens
 
                 // Aeronave.LiberarAssento(); //deveria ter assento do cliente em passagem
 
-                Console.WriteLine($"A passagem {codigoPassagem} foi cancelada com sucesso!");
+                Console.WriteLine($"\nA passagem {codigoPassagem} foi cancelada com sucesso!");
             }
             else
             {
-                Console.WriteLine($"Passagem {codigoPassagem} não encontrada.");
+                Console.WriteLine($"\nPassagem {codigoPassagem} não encontrada.");
             }
         }
 
@@ -70,20 +70,23 @@ namespace Agencia_De_Viagens
             Console.WriteLine(new string('-', 30));
         }
 
-        public void AdicionarVooAoHistorico(Voo voo, StatusEnum status)
+        public void AdicionarVooAoHistorico(List<Voo> voos)
         {
             if (status == StatusEnum.Embarque_Realizado)
             {
                 // Adiciona o voo ao histórico
-                HistoricoDeVoos.Add(voo);
+                foreach (var voo in voos)
+                {
+                    HistoricoDeVoos.Add(voo);
+                }
 
                 // Ordena os voos por data de partida (ordem cronológica)
                 HistoricoDeVoos = HistoricoDeVoos.OrderBy(v => v.DataPartida).ToList();
-                Console.WriteLine($"Voo {voo.Codigo} adicionado ao histórico.");
+                Console.WriteLine($"\nVoo {voos} adicionado ao histórico.");
             }
             else
             {
-                Console.WriteLine("O voo não pode ser adicionado ao histórico porque o status do cliente não é 'Embarque_Realizado'.");
+                Console.WriteLine("\nO voo não pode ser adicionado ao histórico porque o status do cliente não é 'Embarque_Realizado'.");
             }
         }
 
@@ -91,7 +94,7 @@ namespace Agencia_De_Viagens
         {
             if (HistoricoDeVoos.Count == 0)
             {
-                Console.WriteLine("O cliente não possui nenhum voo registrado.");
+                Console.WriteLine("\nO cliente não possui nenhum voo registrado.");
                 return;
             }
 
@@ -108,12 +111,17 @@ namespace Agencia_De_Viagens
             if (!IsVip)
             {
                 IsVip = true;
-                Console.WriteLine($"Parabéns! Você agora é um Passageiro VIP!");
-                // Benefícios VIP podem ser ativados aqui, por exemplo, isenção de taxas.
+                Console.WriteLine("\n" + new string('-', 30));
+                Console.WriteLine($"PARABÉNS! Você agora é um Passageiro VIP!");
+                Console.WriteLine("\nEstes são os seu benefícios:");
+                Console.WriteLine("Alteração e cancelamento de vôo sem custo");
+                Console.WriteLine("1 franquia de passagem gratuita por viagem");
+                Console.WriteLine("Franquias adicionais com desconto de 50%");
+                Console.WriteLine(new string('-', 30));
             }
             else
             {
-                Console.WriteLine($"Você já é um Passageiro VIP.");
+                Console.WriteLine($"\nVocê já é um Passageiro VIP");
             }
         }
 
@@ -122,12 +130,12 @@ namespace Agencia_De_Viagens
         {
             if (IsVip)
             {
-                Console.WriteLine($"Voo {passagem.Codigo} alterado ou cancelado sem custos.");
+                Console.WriteLine($"\nVoo {passagem.Codigo} alterado ou cancelado sem custos.");
                 passagem.Status = isAlteracao ? StatusEnum.Ativo : StatusEnum.Cancelado;
             }
             else
             {
-                Console.WriteLine("Somente clientes VIP podem alterar ou cancelar voos sem custos.");
+                Console.WriteLine("\nSomente clientes VIP podem alterar ou cancelar voos sem custos.");
             }
         }
 
@@ -136,11 +144,11 @@ namespace Agencia_De_Viagens
         {
             if (IsVip)
             {
-                Console.WriteLine("1 franquia de bagagem gratuita.");
+                Console.WriteLine("\n1 franquia de bagagem gratuita.");
             }
             else
             {
-                Console.WriteLine("Verifique as franquias de bagagem padrão.");
+                Console.WriteLine("\nVerifique as franquias de bagagem padrão.");
             }
         }
 
@@ -149,11 +157,11 @@ namespace Agencia_De_Viagens
         {
             if (IsVip)
             {
-                Console.WriteLine("Você possui desconto de 50% nas franquias de bagagem adicionais.");
+                Console.WriteLine("\nVocê possui desconto de 50% nas franquias de bagagem adicionais.");
             }
             else
             {
-                Console.WriteLine("Verifique as tarifas de bagagem adicionais.");
+                Console.WriteLine("\nVerifique as tarifas de bagagem adicionais.");
             }
         }
     }

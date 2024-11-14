@@ -140,12 +140,12 @@ namespace Agencia_De_Viagens
             if(!VerificaCheckIn && DateTime.Now > DataPartida)
             {
                 Status = StatusEnum.NoShow;
-                Console.WriteLine("Cliente não compareceu para o check in durante o período previsto.");
+                Console.WriteLine("\nCliente não compareceu para o check in durante o período previsto.");
             }
             else
             {
                 Status = StatusEnum.CheckIn_Realizado;
-                Console.WriteLine("Check-in realizado com sucesso!");
+                Console.WriteLine("\nCheck-in realizado com sucesso!");
             }
         }
 
@@ -154,7 +154,7 @@ namespace Agencia_De_Viagens
         {
             if(!VerificaCheckIn)
             {
-                Console.WriteLine("Não foi possível gerar o cartão de embarque uma vez que o check-in não foi realizado!");
+                Console.WriteLine("\nNão foi possível gerar o cartão de embarque uma vez que o check-in não foi realizado!");
                 return;
             }
             foreach (var voo in Voos)
@@ -176,19 +176,19 @@ namespace Agencia_De_Viagens
         {
             if (!VerificaCheckIn)
             {
-                Console.WriteLine("Não foi possível registrar o embarque uma vez que o cliente não realizou o check-in!");
+                Console.WriteLine("\nNão foi possível registrar o embarque uma vez que o cliente não realizou o check-in!");
                 return;
             }
 
             if (embarcou)
             {
                 Status = StatusEnum.Embarque_Realizado;
-                Console.WriteLine("Passageiro embarcou!");
+                Console.WriteLine("\nPassageiro embarcou!");
             }
             else
             {
                 Status = StatusEnum.NoShow;
-                Console.WriteLine("Passageiro não embarcou. Status NO SHOW registrado!");
+                Console.WriteLine("\nPassageiro não embarcou. Status NO SHOW registrado!");
             }
         }
 

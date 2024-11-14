@@ -37,7 +37,7 @@ namespace Agencia_De_Viagens
             // Validação básica
             if (string.IsNullOrEmpty(nome) || string.IsNullOrEmpty(razaoSocial) || string.IsNullOrEmpty(cnpj) || int.IsNegative(codigo) || double.IsNaN(valorPrimeiraBagagem) || double.IsNaN(valorDemaisBagagens))
             {
-                Console.WriteLine("Dados inválidos. Companhia aérea não criada.");
+                Console.WriteLine("\nDados inválidos. Companhia aérea não criada.");
                 return false;
             }
             return true;

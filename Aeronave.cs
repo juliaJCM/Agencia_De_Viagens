@@ -127,7 +127,7 @@ public class Aeronave
         }
         else
         {
-            Console.WriteLine("Não é possível remover mais bagagens do que as atualmente registradas.");
+            Console.WriteLine("\nNão é possível remover mais bagagens do que as atualmente registradas.");
         }
     }
 

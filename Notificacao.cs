@@ -8,13 +8,11 @@ public class Notificacao
     {
         Cliente cliente = passagem.cliente;  
 
-        string mensagem = "Compra efetuada com sucesso!";
-
-        EnviarEmail(cliente.Email, mensagem);
+        EnviarEmail(cliente.Email);
     }
 
-    public void EnviarEmail(string destinatario, string mensagem)
+    public void EnviarEmail(string destinatario)
     {
-        Console.WriteLine($"Enviando e-mail para: {destinatario}\nAssunto: {mensagem}");
+        Console.WriteLine($"\nUm e-mail confirmando sua compra foi enviado para: {destinatario}");
     }
 }

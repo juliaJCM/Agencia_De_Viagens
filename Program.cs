@@ -8,7 +8,7 @@ namespace Agencia_De_Viagens
         {
             Agencia agencia = new Agencia();
 
-            agencia.CriarFuncionario("Maria", "12345678900", "maria@email.com");
+            agencia.CriarFuncionario("Maria Moreira", "12345678900", "maria@email.com");
             agencia.ListarFuncionario();
 
             Funcionario funcionario = agencia.Funcionarios[0];
@@ -38,12 +38,13 @@ namespace Agencia_De_Viagens
             agencia.ComprarPassagens(cpfCliente, codigoPassagem);
             agencia.EmitirBilhete(cpfCliente, codigoPassagem);
 
+            agencia.PromoverClienteParaVip(cpfCliente);
 
             agencia.FazerCheckIn(cpfCliente, codigoPassagem);
-            agencia.CartaoEmbarque(cpfCliente, codigoPassagem);
 
+            agencia.FazerCartaoEmbarque(cpfCliente, codigoPassagem);
 
-            // agencia.CancelarVoo(); passar no parametro codigoVooCliente e codigoPassagemCliente
+            // agencia.CancelarVoo(codigoVoo, codigoPassagem);
             // agencia.ExcluirFuncionario("12345678900");
             // agencia.ListarFuncionario();
         }
