@@ -91,7 +91,7 @@ namespace Agencia_De_Viagens
         public void ExibirPassagem()
         {
             Console.WriteLine("\n" + new string('-', 30));
-            Console.WriteLine("INFORMAAÇÕES DA PASSAGEM");
+            Console.WriteLine("INFORMAÇÕES DA PASSAGEM");
             Console.WriteLine($"Código do Voo: {Codigo}");
             Console.WriteLine($"Aeroporto de Origem: {AeroportoOrigem.Nome} ({AeroportoOrigem.Sigla}) - {AeroportoOrigem.Cidade}, {AeroportoOrigem.Pais}");
             Console.WriteLine($"Aeroporto de Destino: {AeroportoDestino.Nome} ({AeroportoDestino.Sigla}) - {AeroportoDestino.Cidade}, {AeroportoDestino.Pais}");

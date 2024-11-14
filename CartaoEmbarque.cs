@@ -26,7 +26,7 @@ namespace Agencia_De_Viagens
         // Método para exibir informações do cartão de embarque
         public void ExibirCartao()
         {
-            Console.WriteLine("-----------------------------------------------------");
+            Console.WriteLine("\n" + new string('-', 30));
             Console.WriteLine("Cartão de Embarque");
             Console.WriteLine($"Passageiro: {Nome}");
             Console.WriteLine($"Origem: {AeroportoOrigem.Nome} ({AeroportoOrigem.Sigla})");
@@ -34,7 +34,7 @@ namespace Agencia_De_Viagens
             Console.WriteLine($"Horário de Embarque: {HorarioEmbarque:dd/MM/yyyy HH:mm}");
             Console.WriteLine($"Data de Partida: {DataPartida:dd/MM/yyyy HH:mm}");
             Console.WriteLine($"Assento: {AssentoReservado}");
-            Console.WriteLine("-----------------------------------------------------");
+            Console.WriteLine(new string('-', 30));
         }
     }
 }

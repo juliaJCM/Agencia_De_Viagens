@@ -31,13 +31,13 @@ namespace Agencia_De_Viagens
         public void AdicionarPassagemComprada(Passagem passagemComprada)
         {
             PassagensCompradas.Add(passagemComprada);
-            Console.WriteLine("Passagem comprada com susesso!");
+            Console.WriteLine("Passagem comprada com sucesso!");
         }
 
         public void EmissaoBilhete(Passagem passagemBilhete)
         {
             PassagensCompradas.Add(passagemBilhete);
-            Console.WriteLine("Bilhete emitido com susesso!");
+            Console.WriteLine("Bilhete emitido com sucesso!");
         }
 
         public void CancelarPassagem(string codigoPassagem)

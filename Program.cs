@@ -23,19 +23,19 @@ namespace Agencia_De_Viagens
             agencia.CriarPassagem();
             agencia.ListarPassagens();
 
+
             string cpfCliente = agencia.Clientes[0].CPF; // teste com Primeiro
             string codigoPassagem = agencia.Passagens[0].Codigo; // teste com Primeiro
-            agencia.EmitirBilhete(cpfCliente, codigoPassagem);
 
             //Buscando voos
-            // var voosEncontrados = agencia.BuscarVoos("CNF", "GRU", new DateTime(2024, 10, 11));
-            // Console.WriteLine("\nVOOS ENCONTRADOS");
-            // foreach (var voo in voosEncontrados)
-            // {
-            //     voo.ExibirPassagem();
-            // }
-
-            //agencia.ComprarPassagens(cpfCliente, codigoPassagem);
+            var voosEncontrados = agencia.BuscarVoos("CNF", "GRU", new DateTime(2024, 10, 11));
+            Console.WriteLine("\nVOOS ENCONTRADOS");
+            foreach (var voo in voosEncontrados)
+            {
+                voo.ExibirPassagem();
+            }
+            agencia.ComprarPassagens(cpfCliente, codigoPassagem);
+            agencia.EmitirBilhete(cpfCliente, codigoPassagem);
 
 
             // agencia.CancelarVoo(); passar no parametro codigoVooCliente e codigoPassagemCliente
