@@ -111,17 +111,18 @@ namespace Agencia_De_Viagens
             Console.WriteLine($"Tarifa Business: {Tarifa.TarifaBusiness:F2} {Moeda}");
             Console.WriteLine($"Valor da Primeira Bagagem: {ValorDaPrimeiraBagagem:F2} {Moeda}");
             Console.WriteLine($"Valor da Bagagem Adicional: {ValorDaBagagemAdicional:F2} {Moeda}");
+            Console.WriteLine($"Status Passagem: {Status = StatusEnum.Ativo}");
             Console.WriteLine(new string('-', 30));
         }
 
         //-------------------------MÉTODO PARA ATIVAR A PASSAGEM APÓS SUA COMPRA---------------------------------//
-        public void AtivarPassagem()
-        {
-            Ativo = true;
-        }
+        // public void AtivarPassagem()
+        // {
+        //     Ativo = true;
+        // }
 
         //-------------------------MÉTODO PARA REALIZAR A VERIFICAÇÃO DO CHECK IN--------------------------------//
-        public void RealizaCheckIn(StatusEnum status)
+        public void RealizaCheckIn()
         {
             DateTime agora = DateTime.Now;
             DateTime inicioCheckIn = DataPartida.AddHours(-48); 
@@ -130,22 +131,21 @@ namespace Agencia_De_Viagens
             if(agora >= inicioCheckIn && agora <= limiteCheckIn)
             {
                 VerificaCheckIn = true;
-                status = StatusEnum.CheckIn_Realizado;
-                Console.WriteLine("Check in realizado com sucesso!");
-            }
-            else
-            {
-                Console.WriteLine("Check in fora do período permitido!");
             }
         }
 
         //-------------------------MÉTODO PARA VERIFICAR SE O CLINTE REALIZOU O CHECK-IN--------------------------------//
-        public void VerificaNoShow(StatusEnum status)
+        public void VerificaNoShow()
         {
             if(!VerificaCheckIn && DateTime.Now > DataPartida)
             {
-                status = StatusEnum.NoShow;
+                Status = StatusEnum.NoShow;
                 Console.WriteLine("Cliente não compareceu para o check in durante o período previsto.");
+            }
+            else
+            {
+                Status = StatusEnum.CheckIn_Realizado;
+                Console.WriteLine("Check-in realizado com sucesso!");
             }
         }
 
@@ -170,18 +170,9 @@ namespace Agencia_De_Viagens
                 CartoesEmbarque.Add(cartao);
             }
         }
-        
-        //-----------------------MÉTODO PARA MOSTRAR O CARTÃO DE EMBARQUE------------------------------//
-        public void ExibirCartaoEmbarque()
-        {
-            foreach (var cartao in CartoesEmbarque)
-            {
-                cartao.ExibirCartao();
-            }
-        }
 
         //-----------------------MÉTODO PARA REGSITRAR O EMBARQUE DO CLIENTE------------------------------//
-        public void RegistrarEmbarque(bool embarcou, StatusEnum status)
+        public void RegistrarEmbarque(bool embarcou)
         {
             if (!VerificaCheckIn)
             {
@@ -191,12 +182,12 @@ namespace Agencia_De_Viagens
 
             if (embarcou)
             {
-                status = StatusEnum.Embarque_Realizado;
+                Status = StatusEnum.Embarque_Realizado;
                 Console.WriteLine("Passageiro embarcou!");
             }
             else
             {
-                status = StatusEnum.NoShow;
+                Status = StatusEnum.NoShow;
                 Console.WriteLine("Passageiro não embarcou. Status NO SHOW registrado!");
             }
         }

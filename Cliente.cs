@@ -70,13 +70,21 @@ namespace Agencia_De_Viagens
             Console.WriteLine(new string('-', 30));
         }
 
-        public void AdicionarVooAoHistorico(Voo voo)
+        public void AdicionarVooAoHistorico(Voo voo, StatusEnum status)
         {
-            // Adiciona o voo ao histórico
-            HistoricoDeVoos.Add(voo);
+            if (status == StatusEnum.Embarque_Realizado)
+            {
+                // Adiciona o voo ao histórico
+                HistoricoDeVoos.Add(voo);
 
-            // Ordena os voos por data de partida (ordem cronológica)
-            HistoricoDeVoos = HistoricoDeVoos.OrderBy(v => v.DataPartida).ToList();
+                // Ordena os voos por data de partida (ordem cronológica)
+                HistoricoDeVoos = HistoricoDeVoos.OrderBy(v => v.DataPartida).ToList();
+                Console.WriteLine($"Voo {voo.Codigo} adicionado ao histórico.");
+            }
+            else
+            {
+                Console.WriteLine("O voo não pode ser adicionado ao histórico porque o status do cliente não é 'Embarque_Realizado'.");
+            }
         }
 
         public void ExibirHistoricoDeVoos()

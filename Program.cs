@@ -34,10 +34,14 @@ namespace Agencia_De_Viagens
             {
                 voo.ExibirPassagem();
             }
+
             agencia.ComprarPassagens(cpfCliente, codigoPassagem);
             agencia.EmitirBilhete(cpfCliente, codigoPassagem);
 
-            agencia.
+
+            agencia.FazerCheckIn(cpfCliente, codigoPassagem);
+            agencia.CartaoEmbarque(cpfCliente, codigoPassagem);
+
 
             // agencia.CancelarVoo(); passar no parametro codigoVooCliente e codigoPassagemCliente
             // agencia.ExcluirFuncionario("12345678900");
