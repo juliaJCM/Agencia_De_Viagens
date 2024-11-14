@@ -188,7 +188,55 @@ namespace Agencia_De_Viagens
             Console.WriteLine($"\nPassagem criada com sucesso: {passagem.Codigo}");
         }
 
-        // public void ComprarPassagens(string cpfCliente, string codigoPassagem, string email, string mensagem)
+        // public void ComprarPassagens(string cpfCliente, string codigoPassagem)
+        // {
+        //     var cliente = Clientes.FirstOrDefault(c => c.CPF == cpfCliente);
+
+        //     if (cliente == null)
+        //     {
+        //         Console.WriteLine("Cliente não encontrado.");
+        //         return;
+        //     }
+
+        //     var passagemComprada = Passagens.FirstOrDefault(p => p.Codigo == codigoPassagem);
+        //     // cliente.AdicionarPassagemComprada(passagemComprada);
+
+        //     if (passagemComprada == null)
+        //     {
+        //         Console.WriteLine("Passagem não encontrada.");
+        //         return;
+        //     }
+        //     else
+        //     {
+        //         passagemComprada.ExibirPassagem();
+        //     }
+        //     Console.WriteLine("Qual será a quantidade de bagagens?");
+        //     int quantidade = int.Parse(Console.ReadLine());
+
+        //     List<Aeronave> aeronaves = passagemComprada.AeroportoOrigem.ObterAeronaves();
+
+        //     // Verifica se a lista de aeronaves não está vazia e se há aeronave disponível
+        //     if (aeronaves != null && aeronaves.Count > 0)
+        //     {
+        //         Aeronave aeronave = aeronaves.First(); 
+        //         aeronave.CadastrarBagagens(quantidade);
+        //     }
+        //     else
+        //     {
+        //         Console.WriteLine("Não há aeronaves disponíveis para este voo.");
+        //     }
+
+        //     Aeronave.CadastrarBagagens(quantidade);
+
+        //     cliente.AdicionarPassagemComprada(passagemComprada);
+        //     passagemComprada.ExibirPassagem();
+
+        //     ReservarAssentoParaPassageiro(cliente, passagemComprada.AeroportoOrigem.Sigla, aeronaves);
+
+        //     Notificacao notifica = new Notificacao();
+        //     // notifica.EnviarEmail(email, mensagem);
+        // }
+
         public void ComprarPassagens(string cpfCliente, string codigoPassagem)
         {
             var cliente = Clientes.FirstOrDefault(c => c.CPF == cpfCliente);
@@ -200,30 +248,44 @@ namespace Agencia_De_Viagens
             }
 
             var passagemComprada = Passagens.FirstOrDefault(p => p.Codigo == codigoPassagem);
-            cliente.AdicionarPassagemComprada(passagemComprada);
 
             if (passagemComprada == null)
             {
                 Console.WriteLine("Passagem não encontrada.");
                 return;
             }
-            else
-            {
-                passagemComprada.ExibirPassagem();
-            }
+
             Console.WriteLine("Qual será a quantidade de bagagens?");
             int quantidade = int.Parse(Console.ReadLine());
 
-            Aeronave.CadastrarBagagens(quantidade);
+            // Verificar se a passagem tem um AeroportoOrigem válido
+            if (passagemComprada.AeroportoOrigem != null)
+            {
+                List<Aeronave> aeronaves = passagemComprada.AeroportoOrigem.ObterAeronaves();
+
+                // Verificar se a lista de aeronaves não é nula ou vazia
+                if (aeronaves != null && aeronaves.Count > 0)
+                {
+                    Aeronave aeronave = aeronaves.First(); // Aqui você pode usar a lógica para escolher uma aeronave específica
+                    aeronave.CadastrarBagagens(quantidade); // Adicionar as bagagens
+                }
+                else
+                {
+                    Console.WriteLine("Não há aeronaves disponíveis para este voo.");
+                }
+
+                // Agora, com aeronaves válidas, você pode reservar o assento
+                ReservarAssentoParaPassageiro(cliente, passagemComprada.AeroportoOrigem.Sigla, aeronaves);
+            }
+            else
+            {
+                Console.WriteLine("Aeroporto de origem não encontrado na passagem.");
+            }
 
             cliente.AdicionarPassagemComprada(passagemComprada);
-
             passagemComprada.ExibirPassagem();
 
-            List<Aeronave> aeronaves = passagemComprada.AeroportoOrigem.ObterAeronaves();
-
-            ReservarAssentoParaPassageiro(cliente, passagemComprada.AeroportoOrigem.Sigla, aeronaves);
-
+            // Notificação ou outras ações...
             Notificacao notifica = new Notificacao();
             // notifica.EnviarEmail(email, mensagem);
         }
@@ -479,6 +541,7 @@ namespace Agencia_De_Viagens
 
             aeronave.ReservarAssento(assentoEscolhido, passageiro);
         }
+        
         public void PromoverClienteParaVip(string cpfCliente)
         {
             var cliente = Clientes.FirstOrDefault(c => c.CPF == cpfCliente);

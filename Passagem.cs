@@ -180,6 +180,7 @@ namespace Agencia_De_Viagens
             }
         }
 
+        //-----------------------MÉTODO PARA REGSITRAR O EMBARQUE DO CLIENTE------------------------------//
         public void RegistrarEmbarque(bool embarcou, StatusEnum status)
         {
             if (!VerificaCheckIn)

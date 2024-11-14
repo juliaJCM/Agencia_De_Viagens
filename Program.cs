@@ -37,6 +37,7 @@ namespace Agencia_De_Viagens
             agencia.ComprarPassagens(cpfCliente, codigoPassagem);
             agencia.EmitirBilhete(cpfCliente, codigoPassagem);
 
+            agencia.
 
             // agencia.CancelarVoo(); passar no parametro codigoVooCliente e codigoPassagemCliente
             // agencia.ExcluirFuncionario("12345678900");
