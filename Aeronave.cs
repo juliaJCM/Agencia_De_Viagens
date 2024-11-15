@@ -8,7 +8,7 @@ public class Aeronave
 {
     public string Nome { get; set; }
     public int CapacidadePassageiros { get; set; }
-    public int CapacidadeBagagens { get; set; }
+    public static int CAPACIDADE_BAGAGENS { get; set; } = 10;
     public List<Cliente> PassageirosEmbarcados { get; set; }
     public List<string> Assentos { get; private set; }
     public int TotalBagagens { get; set; }
@@ -35,82 +35,112 @@ public class Aeronave
         }
         return assentos;
     }
+    
     public void ExibirAssentosDisponiveis()
     {
-        Console.WriteLine("Assentos disponíveis:");
-        foreach (var assento in Assentos)
+        Console.WriteLine("\n" + new string('-', 30));
+        Console.WriteLine("ASSENTOS DISPONÍVEIS:");
+
+        // Itera sobre cada linha de assentos (considerando que as linhas têm 6 assentos)
+        for (int i = 0; i < Assentos.Count; i += 6)
         {
-            if (!AssentosReservados.Contains(assento))
+            // Primeira linha (assentos A, B, C, D)
+            var primeiraLinha = Assentos.Skip(i).Take(4).ToList();
+            // Segunda linha (assentos E, F)
+            var segundaLinha = Assentos.Skip(i + 4).Take(2).ToList();
+
+            // Exibe a primeira linha
+            Console.Write("Linha " + ((i / 6) + 1) + ": ");
+            foreach (var assento in primeiraLinha)
             {
-                Console.WriteLine(assento);
+                if (!AssentosReservados.Contains(assento))
+                    Console.Write(assento + " ");
             }
+            Console.WriteLine();  // Pula uma linha após exibir cada linha de assentos
         }
-    }
+         Console.WriteLine(new string('-', 30));
+    }   
+
+    // public void ExibirAssentosDisponiveis()
+    // {
+    //     Console.WriteLine("\nASSENTOS DISPONÍVEIS:");
+    //     foreach (var assento in Assentos)
+    //     {
+    //         if (!AssentosReservados.Contains(assento))
+    //         {
+    //             Console.WriteLine(assento);
+    //         }
+    //     }
+    // }
+
     public bool ReservarAssento(string assento, Cliente passageiro)
     {
         if (!Assentos.Contains(assento))
         {
-            Console.WriteLine("Assento inválido.");
+            Console.WriteLine("\nAssento inválido.");
             return false;
         }
 
         if (AssentosReservados.Contains(assento))
         {
-            Console.WriteLine("Assento já reservado.");
+            Console.WriteLine("\nAssento já reservado.");
             return false;
         }
 
         AssentosReservados.Add(assento);
+        Console.WriteLine($"\nAssento {assento} reservado com sucesso para {passageiro.Nome}!");
         InserirPassageiro(passageiro);
-        Console.WriteLine($"Assento {assento} reservado com sucesso para {passageiro.Nome}!");
         return true;
     }
+
     public void LiberarAssento(string assento)
     {
         if (AssentosReservados.Contains(assento))
         {
             AssentosReservados.Remove(assento);
-            Console.WriteLine($"Assento {assento} liberado para novas reservas.");
+            Console.WriteLine($"\nAssento {assento} liberado para novas reservas.");
         }
         else
         {
-            Console.WriteLine($"Assento {assento} não está reservado, não é possível liberá-lo.");
+            Console.WriteLine($"\nAssento {assento} não está reservado, não é possível liberá-lo.");
         }
     }
     public void CadastrarBagagens(int quantidade)
     {
-        if (TotalBagagens + quantidade <= CapacidadeBagagens)
+        if (TotalBagagens + quantidade <= CAPACIDADE_BAGAGENS)
         {
             TotalBagagens += quantidade;
-            Console.WriteLine($"{quantidade} bagagens adicionadas. Total de bagagens: {TotalBagagens}");
+            Console.WriteLine($"\n{quantidade} bagagens adicionadas. Total de bagagens: {TotalBagagens}");
         }
         else
         {
-            Console.WriteLine("Capacidade de bagagens atingida. Não é possível adicionar mais bagagens.");
+            Console.WriteLine("\nCapacidade de bagagens atingida. Não é possível adicionar mais bagagens.");
         }
     }
-    public void RemoverBagagens(int quantidade, List<Aeronave> aeronaveId)
+
+    public void RemoverBagagens(int quantidade)
     {
         if (TotalBagagens - quantidade >= 0)
         {
             TotalBagagens -= quantidade;
-            Console.WriteLine($"{quantidade} bagagens removidas. Total de bagagens: {TotalBagagens}");
+            Console.WriteLine($"\n{quantidade} bagagens removidas. Total de bagagens: {TotalBagagens}");
         }
         else
         {
-            Console.WriteLine("Não é possível remover mais bagagens do que as atualmente registradas.");
+            Console.WriteLine("\nNão é possível remover mais bagagens do que as atualmente registradas.");
         }
     }
+
     public void InserirPassageiro(Cliente passageiro)
     {
         if (PassageirosEmbarcados.Count < CapacidadePassageiros)
         {
             PassageirosEmbarcados.Add(passageiro);
-            Console.WriteLine($"Passageiro {passageiro.Nome} embarcado com sucesso!");
+            Console.WriteLine($"\nPassageiro {passageiro.Nome} embarcado com sucesso!");
         }
         else
         {
-            Console.WriteLine("Capacidade de passageiros atingida.");
+            Console.WriteLine("\nCapacidade de passageiros atingida.");
         }
     }
 }

@@ -7,12 +7,14 @@ namespace Agencia_De_Viagens
     public class Passagem
     {
         public string Codigo { get; private set; }
-        public Aeroporto AeroportoOrigem { get; private set; } // Apenas um aeroporto de origem
-        public Aeroporto AeroportoDestino { get; private set; } // Apenas um aeroporto de destino
-        public Aeroporto? AeroportoConexao { get; private set; } // Apenas um aeroporto de conexão (opcional)
-        public CiaAerea CiaAerea { get; private set; } // Apenas uma companhia aérea por voo
+        public Aeroporto AeroportoOrigem { get; private set; } 
+        public Aeroporto AeroportoDestino { get; private set; } 
+        public Aeroporto? AeroportoConexao { get; private set; } 
+        public CiaAerea CiaAerea { get; private set; } 
         public DateTime DataPartida { get; private set; }
         public DateTime DataChegada { get; private set; }
+        public Cliente cliente { get; set; }
+        public Cliente Nome { get; set; }
         public Tarifa Tarifa { get; private set; }
         public string Moeda { get; private set; }
         public double ValorDaPrimeiraBagagem { get; private set; }
@@ -22,9 +24,11 @@ namespace Agencia_De_Viagens
         private double TARIFA_VIAGEM_INTERNACIONAL = 5.60;
         public List<Voo> Voos { get; set; }
         public StatusEnum Status { get; set; }
-        public string AssentoReservado { get; private set; }
+        public string AssentoReservado { get; set; }
+        public bool VerificaCheckIn { get; set; }
+        public List<CartaoEmbarque> CartoesEmbarque { get; private set; }  = new List<CartaoEmbarque>();
 
-        // Construtor com parâmetros
+        //-------------------------CONSTRUTOR DA CLASSES PASSAGEM---------------------------------//
         public Passagem(
             string codigo,
             Aeroporto aeroportoOrigem,
@@ -39,7 +43,7 @@ namespace Agencia_De_Viagens
             TipoPassagemEnum tipo,
             List<Voo> voos,
             StatusEnum statusEnum,
-            Aeroporto? aeroportoConexao = null // Parâmetro opcional para a conexão
+            Aeroporto? aeroportoConexao = null 
         )
         {
             Codigo = codigo;
@@ -64,6 +68,7 @@ namespace Agencia_De_Viagens
             Status = statusEnum;
         }
 
+        //-------------------------MÉTODO PARA GERAR CÓDIGO DA ROTA---------------------------------//
         public static string GerarCodigoRota()
         {
             Random rnd = new Random();
@@ -81,9 +86,12 @@ namespace Agencia_De_Viagens
 
             return codigoDeVoo;
         }
+
+        //-------------------------MÉTODO PARA MOSTRAR PASSAGEM---------------------------------//
         public void ExibirPassagem()
         {
-            Console.WriteLine("Informações da Passagem:");
+            Console.WriteLine("\n" + new string('-', 30));
+            Console.WriteLine("INFORMAÇÕES DA PASSAGEM");
             Console.WriteLine($"Código do Voo: {Codigo}");
             Console.WriteLine($"Aeroporto de Origem: {AeroportoOrigem.Nome} ({AeroportoOrigem.Sigla}) - {AeroportoOrigem.Cidade}, {AeroportoOrigem.Pais}");
             Console.WriteLine($"Aeroporto de Destino: {AeroportoDestino.Nome} ({AeroportoDestino.Sigla}) - {AeroportoDestino.Cidade}, {AeroportoDestino.Pais}");
@@ -103,15 +111,86 @@ namespace Agencia_De_Viagens
             Console.WriteLine($"Tarifa Business: {Tarifa.TarifaBusiness:F2} {Moeda}");
             Console.WriteLine($"Valor da Primeira Bagagem: {ValorDaPrimeiraBagagem:F2} {Moeda}");
             Console.WriteLine($"Valor da Bagagem Adicional: {ValorDaBagagemAdicional:F2} {Moeda}");
-            Console.WriteLine($"Voos: {Voos}");
-            Console.WriteLine("-----------------------------------------------------");
+            Console.WriteLine($"Status Passagem: {Status = StatusEnum.Ativo}");
+            Console.WriteLine(new string('-', 30));
         }
-        public void AtivarPassagem()
+
+        //-------------------------MÉTODO PARA ATIVAR A PASSAGEM APÓS SUA COMPRA---------------------------------//
+        // public void AtivarPassagem()
+        // {
+        //     Ativo = true;
+        // }
+
+        //-------------------------MÉTODO PARA REALIZAR A VERIFICAÇÃO DO CHECK IN--------------------------------//
+        public void RealizaCheckIn()
         {
-            Ativo = true;
+            DateTime agora = DateTime.Now;
+            DateTime inicioCheckIn = DataPartida.AddHours(-48); 
+            DateTime limiteCheckIn = DataPartida.AddMinutes(-30);
+
+            if(agora >= inicioCheckIn && agora <= limiteCheckIn)
+            {
+                VerificaCheckIn = true;
+            }
+        }
+
+        //-------------------------MÉTODO PARA VERIFICAR SE O CLINTE REALIZOU O CHECK-IN--------------------------------//
+        public void VerificaNoShow()
+        {
+            if(!VerificaCheckIn && DateTime.Now > DataPartida)
+            {
+                Status = StatusEnum.NoShow;
+                Console.WriteLine("\nCliente não compareceu para o check in durante o período previsto.");
+            }
+            else
+            {
+                Status = StatusEnum.CheckIn_Realizado;
+                Console.WriteLine("\nCheck-in realizado com sucesso!");
+            }
+        }
+
+        //-------------------------MÉTODO PARA GERAR O CARTÃO DE EMBARQUE--------------------------------//
+        public void GerarCartaoEmbarque()
+        {
+            if(!VerificaCheckIn)
+            {
+                Console.WriteLine("\nNão foi possível gerar o cartão de embarque uma vez que o check-in não foi realizado!");
+                return;
+            }
+            foreach (var voo in Voos)
+            {
+                // Cria o cartão de embarque e armazena na lista
+                CartaoEmbarque cartao = new CartaoEmbarque(
+                    voo.AeroportoOrigem,
+                    voo.AeroportoDestino,
+                    voo.DataPartida,
+                    Nome,
+                    AssentoReservado
+                );
+                CartoesEmbarque.Add(cartao);
+            }
+        }
+
+        //-----------------------MÉTODO PARA REGSITRAR O EMBARQUE DO CLIENTE------------------------------//
+        public void RegistrarEmbarque(bool embarcou)
+        {
+            if (!VerificaCheckIn)
+            {
+                Console.WriteLine("\nNão foi possível registrar o embarque uma vez que o cliente não realizou o check-in!");
+                return;
+            }
+
+            if (embarcou)
+            {
+                Status = StatusEnum.Embarque_Realizado;
+                Console.WriteLine("\nPassageiro embarcou!");
+            }
+            else
+            {
+                Status = StatusEnum.NoShow;
+                Console.WriteLine("\nPassageiro não embarcou. Status NO SHOW registrado!");
+            }
         }
 
     }
-
-
 }

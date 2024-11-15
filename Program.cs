@@ -8,47 +8,43 @@ namespace Agencia_De_Viagens
         {
             Agencia agencia = new Agencia();
 
-            agencia.CriarFuncionario("Maria", "12345678900", "maria@email.com");
-            agencia.CriarFuncionario("Carlos", "09876543211", "carlos@email.com");
-
+            agencia.CriarFuncionario("Maria Moreira", "12345678900", "maria@email.com");
             agencia.ListarFuncionario();
 
-            agencia.CriarCompaniaAerea();
-
-            agencia.CriarAeroporto();
-
-            Funcionario funcionario = agencia.Funcionarios[0]; // teste com Primeiro
+            Funcionario funcionario = agencia.Funcionarios[0];
             agencia.CriarCliente(funcionario);
-
             agencia.ListarClientes();
 
+            agencia.CriarCompaniaAerea();
+            agencia.CriarAeroporto();
 
             agencia.CriarVoosPadrao();
 
-
             agencia.CriarPassagem();
-
-            // agencia.ListarPassagens();
+            agencia.ListarPassagens();
 
 
             string cpfCliente = agencia.Clientes[0].CPF; // teste com Primeiro
             string codigoPassagem = agencia.Passagens[0].Codigo; // teste com Primeiro
 
-            agencia.EmitirBilhete(cpfCliente, codigoPassagem);
-
-            // Buscando voos
+            //Buscando voos
             var voosEncontrados = agencia.BuscarVoos("CNF", "GRU", new DateTime(2024, 10, 11));
-            Console.WriteLine("Voos encontrados:");
+            Console.WriteLine("\nVOOS ENCONTRADOS");
             foreach (var voo in voosEncontrados)
             {
                 voo.ExibirPassagem();
             }
+
             agencia.ComprarPassagens(cpfCliente, codigoPassagem);
+            agencia.EmitirBilhete(cpfCliente, codigoPassagem);
 
-            agencia.CancelarPassagem(cpfCliente, codigoPassagem);
+            agencia.PromoverClienteParaVip(cpfCliente);
 
-            agencia.CancelarVoo("PG1551", codigoPassagem);
-            // passar no parametro codigoVooCliente e codigoPassagemCliente
+            agencia.FazerCheckIn(cpfCliente, codigoPassagem);
+
+            agencia.FazerCartaoEmbarque(cpfCliente, codigoPassagem);
+
+            // agencia.CancelarVoo(codigoVoo, codigoPassagem);
             // agencia.ExcluirFuncionario("12345678900");
             // agencia.ListarFuncionario();
         }

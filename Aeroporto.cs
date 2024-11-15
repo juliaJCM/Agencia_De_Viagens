@@ -37,34 +37,35 @@ namespace Agencia_De_Viagens
             // Validação básica
             if (string.IsNullOrEmpty(nome) || string.IsNullOrEmpty(sigla) || string.IsNullOrEmpty(cidade) || string.IsNullOrEmpty(estado) || string.IsNullOrEmpty(pais))
             {
-                Console.WriteLine("Dados inválidos. Aeroporto não criado.");
+                Console.WriteLine("\nDados inválidos. Aeroporto não criado.");
                 return false;
             }
 
             // Validação para garantir que a sigla contenha sempre 3 letra maiúsculas
             if (sigla.Length != 3 || !sigla.All(char.IsLetter))
             {
-                Console.WriteLine("Sigla inválida. Ela deve conter exatamente 3 letras.");
+                Console.WriteLine("\nSigla inválida. Ela deve conter exatamente 3 letras.");
                 return false;
             }
 
-            Console.WriteLine("Aeroporto criado com sucesso!");
+            Console.WriteLine("\nAeroporto criado com sucesso!");
             return true;
         }
 
-        public void ExibirDadosAeroporto()
+        public void Exibir()
         {
-            Console.WriteLine(new string('-', 30));
+            Console.WriteLine("\n" + new string('-', 30));
             Console.WriteLine($"Nome do Aerporto: {Nome}");
             Console.WriteLine($"Sigla: {Sigla}");
             Console.WriteLine($"Estado: {Estado}");
             Console.WriteLine($"Cidade: {Cidade}");
             Console.WriteLine($"País: {Pais}");
+            Console.WriteLine(new string('-', 30));
         }
         public void AdicionarAeronave(Aeronave aeronave)
         {
             Aeronaves.Add(aeronave);
-            Console.WriteLine($"Aeronave {aeronave.Nome} adicionada ao {Nome}.");
+            Console.WriteLine($"\nAeronave {aeronave.Nome} adicionada ao {Nome}.");
         }
         public List<Aeronave> ObterAeronaves()
         {

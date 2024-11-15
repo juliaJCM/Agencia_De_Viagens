@@ -1,14 +1,18 @@
+using System.Globalization;
+using System;
+
 namespace Agencia_De_Viagens
 {
     public class Agencia
     {
-        public List<CiaAerea> CompanhiasAereas { get; private set; }
-        public List<Aeroporto> Aeroportos { get; private set; }
-        public List<Passagem> Passagens { get; private set; }
+         public List<CartaoEmbarque> CartoesEmbarque { get; set; } = new List<CartaoEmbarque>();
+        public List<CiaAerea> CompanhiasAereas { get; set; }
+        public List<Aeroporto> Aeroportos { get; set; }
+        public List<Passagem> Passagens { get; set; }
         public List<Cliente> Clientes { get; set; }
-        public List<Funcionario> Funcionarios { get; private set; }
-        public List<Voo> Voos { get; private set; }
-        public List<Aeronave> Aeronaves { get; private set; }
+        public List<Funcionario> Funcionarios { get; set; }
+        public List<Voo> Voos { get; set; }
+        public Aeronave Aeronave { get; set; }
 
         public Agencia()
         {
@@ -18,12 +22,13 @@ namespace Agencia_De_Viagens
             Clientes = new List<Cliente>();
             Aeroportos = new List<Aeroporto>();
             Voos = new List<Voo>();
+            CartoesEmbarque = new List<CartaoEmbarque>();
         }
         public void CriarCliente(Funcionario funcionarioResponsavelPelaCriacao)
         {
             if (funcionarioResponsavelPelaCriacao.AcessoSistema)
             {
-                var cliente = new Cliente("Joao", "12361213229", "12123123", "john.doe@email.com", "passaporte");
+                var cliente = new Cliente("Joao", "12361213229", "12123123", "john.doe@email.com", "994360123");
                 Clientes.Add(cliente);
             }
             else
@@ -31,12 +36,14 @@ namespace Agencia_De_Viagens
                 Console.WriteLine("");
             }
         }
+        
         public void CriarFuncionario(string nome, string cpf, string email)
         {
             var funcionario = new Funcionario(nome, cpf, email);
             funcionario.CriarAcessoSistema($"{cpf}_user", $"{email}_password");
             Funcionarios.Add(funcionario);
         }
+
         public bool ExcluirFuncionario(string cpf)
         {
             Funcionario? funcionarioEncontrado = Funcionarios.Find(c => c.CPF == cpf);
@@ -44,12 +51,12 @@ namespace Agencia_De_Viagens
             if (funcionarioEncontrado != null)
             {
                 Funcionarios.Remove(funcionarioEncontrado);
-                Console.WriteLine("Funcionário excluído com sucesso!");
+                Console.WriteLine("Funcionário(a) excluído com sucesso!");
                 return true;
             }
             else
             {
-                Console.WriteLine("Funcionário não encontrado!");
+                Console.WriteLine("Funcionário(a) não encontrado!");
                 return false;
             }
         }
@@ -73,16 +80,62 @@ namespace Agencia_De_Viagens
         public void CriarCompaniaAerea()
         {
             CompanhiasAereas.Add(new CiaAerea("LATAM", 123, "Brasil", "São Paulo", 1000.0, 1500.0));
+
+            if (CompanhiasAereas.Count == 0)
+            {
+                Console.WriteLine("Nenhuma companhia aérea criada.");
+                return;
+            }
+            else
+            {
+                Console.WriteLine("\nCompanhia Aerea criada com sucesso!");
+            }
+             foreach (var companhia in CompanhiasAereas)
+            {
+                companhia.Exibir();
+            }
         }
+        
+        // public void CriarAeroporto()
+        // {
+        //     var aeronave1 = new Aeronave("Boeing 737", 180, 200, 6);
+        //     var aeronave2 = new Aeronave("Airbus A320", 150, 180, 6);
+        //     Aeroportos.Add(new Aeroporto("Aeroporto Internacional de Confins", "CNF", "Belo Horizonte", "BH", "Brasil"));
+        //     Aeroportos.Add(new Aeroporto("Aeroporto de Guarulhos", "GRU", "São Paulo", "SP", "Brasil"));
+        //     Aeroportos[0].AdicionarAeronave(aeronave1);
+        //     Aeroportos[1].AdicionarAeronave(aeronave2);
+        // }
+
         public void CriarAeroporto()
         {
-            var aeronave1 = new Aeronave("Boeing 737", 180, 200, 6);
-            var aeronave2 = new Aeronave("Airbus A320", 150, 180, 6);
+            // Criação dos aeroportos
             Aeroportos.Add(new Aeroporto("Aeroporto Internacional de Confins", "CNF", "Belo Horizonte", "BH", "Brasil"));
             Aeroportos.Add(new Aeroporto("Aeroporto de Guarulhos", "GRU", "São Paulo", "SP", "Brasil"));
+
+            // Exibição do status
+            if (Aeroportos.Count == 0)
+            {
+                Console.WriteLine("\nNenhum aeroporto criado.");
+            }
+            else
+            {
+                Console.WriteLine("\nAeroportos criados com sucesso!");
+                foreach (var aeroporto in Aeroportos)
+                {
+                    aeroporto.Exibir();
+                }
+            }
+
+            // Criação das aeronaves
+            var aeronave1 = new Aeronave("Boeing 737", 180, 200, 6);
+            var aeronave2 = new Aeronave("Airbus A320", 150, 180, 6);
+
+            // Adiciona as aeronaves aos aeroportos
             Aeroportos[0].AdicionarAeronave(aeronave1);
             Aeroportos[1].AdicionarAeronave(aeronave2);
         }
+
+    
         public void CriarPassagem()
         {
             var aeroportoOrigem = Aeroportos.FirstOrDefault(a => a.Sigla == "CNF");
@@ -134,8 +187,57 @@ namespace Agencia_De_Viagens
             );
 
             Passagens.Add(passagem);
-            Console.WriteLine($"Passagem criada com sucesso: {passagem.Codigo}");
+            Console.WriteLine($"\nPassagem criada com sucesso: {passagem.Codigo}");
         }
+
+        // public void ComprarPassagens(string cpfCliente, string codigoPassagem)
+        // {
+        //     var cliente = Clientes.FirstOrDefault(c => c.CPF == cpfCliente);
+
+        //     if (cliente == null)
+        //     {
+        //         Console.WriteLine("Cliente não encontrado.");
+        //         return;
+        //     }
+
+        //     var passagemComprada = Passagens.FirstOrDefault(p => p.Codigo == codigoPassagem);
+        //     // cliente.AdicionarPassagemComprada(passagemComprada);
+
+        //     if (passagemComprada == null)
+        //     {
+        //         Console.WriteLine("Passagem não encontrada.");
+        //         return;
+        //     }
+        //     else
+        //     {
+        //         passagemComprada.ExibirPassagem();
+        //     }
+        //     Console.WriteLine("Qual será a quantidade de bagagens?");
+        //     int quantidade = int.Parse(Console.ReadLine());
+
+        //     List<Aeronave> aeronaves = passagemComprada.AeroportoOrigem.ObterAeronaves();
+
+        //     // Verifica se a lista de aeronaves não está vazia e se há aeronave disponível
+        //     if (aeronaves != null && aeronaves.Count > 0)
+        //     {
+        //         Aeronave aeronave = aeronaves.First(); 
+        //         aeronave.CadastrarBagagens(quantidade);
+        //     }
+        //     else
+        //     {
+        //         Console.WriteLine("Não há aeronaves disponíveis para este voo.");
+        //     }
+
+        //     Aeronave.CadastrarBagagens(quantidade);
+
+        //     cliente.AdicionarPassagemComprada(passagemComprada);
+        //     passagemComprada.ExibirPassagem();
+
+        //     ReservarAssentoParaPassageiro(cliente, passagemComprada.AeroportoOrigem.Sigla, aeronaves);
+
+        //     Notificacao notifica = new Notificacao();
+        //     // notifica.EnviarEmail(email, mensagem);
+        // }
 
         public void ComprarPassagens(string cpfCliente, string codigoPassagem)
         {
@@ -143,48 +245,66 @@ namespace Agencia_De_Viagens
 
             if (cliente == null)
             {
-                Console.WriteLine("Cliente não encontrado.");
+                Console.WriteLine("\nCliente não encontrado.");
                 return;
             }
+
             var passagemComprada = Passagens.FirstOrDefault(p => p.Codigo == codigoPassagem);
 
             if (passagemComprada == null)
             {
-                Console.WriteLine("Passagem não encontrada.");
+                Console.WriteLine("\nPassagem não encontrada.");
                 return;
+            }
+
+            Console.WriteLine("\nQual será a quantidade de bagagens?");
+            int quantidade = int.Parse(Console.ReadLine());
+
+            // Verificar se a passagem tem um AeroportoOrigem válido
+            if (passagemComprada.AeroportoOrigem != null)
+            {
+                List<Aeronave> aeronaves = passagemComprada.AeroportoOrigem.ObterAeronaves();
+
+                // Verificar se a lista de aeronaves não é nula ou vazia
+                if (aeronaves != null && aeronaves.Count > 0)
+                {
+                    Aeronave aeronave = aeronaves.First(); // Aqui você pode usar a lógica para escolher uma aeronave específica
+                    aeronave.CadastrarBagagens(quantidade); // Adicionar as bagagens
+                }
+                else
+                {
+                    Console.WriteLine("\nNão há aeronaves disponíveis para este voo.");
+                }
+
+                // Agora, com aeronaves válidas, você pode reservar o assento
+                ReservarAssentoParaPassageiro(cliente, passagemComprada.AeroportoOrigem.Sigla, aeronaves);
             }
             else
             {
-                passagemComprada.ExibirPassagem();
+                Console.WriteLine("\nAeroporto de origem não encontrado na passagem.");
             }
-
-            List<Aeronave> aeronaves = passagemComprada.AeroportoOrigem.ObterAeronaves();
 
             cliente.AdicionarPassagemComprada(passagemComprada);
-            System.Console.WriteLine("Passagem comprada com sucesso! ");
+            cliente.AdicionarVooAoHistorico(passagemComprada.Voos);
             passagemComprada.ExibirPassagem();
 
-            ReservarAssentoParaPassageiro(cliente, passagemComprada.AeroportoOrigem.Sigla, aeronaves);
+            Notificacao notifica = new Notificacao();
+            notifica.EnviarEmail(cliente.Email);
         }
 
-        public void CancelarPassagem(string cpfCliente, string codigoPassagem)
+        public void ExibirClientes(List<Cliente> clientes)
         {
-            var cliente = Clientes.FirstOrDefault(c => c.CPF == cpfCliente);
-
-            if (cliente == null)
+            if (clientes == null || clientes.Count == 0)
             {
-                Console.WriteLine("Cliente não encontrado.");
-                return;
-            }
-            var passagemComprada = Passagens.FirstOrDefault(p => p.Codigo == codigoPassagem);
-
-            if (passagemComprada == null)
-            {
-                Console.WriteLine("Passagem não encontrada.");
+                Console.WriteLine("\nNenhum cliente encontrado.");
                 return;
             }
 
-            cliente.ExcluirPassagem(passagemComprada);
+            Console.WriteLine("Lista de Clientes:");
+            foreach (var cliente in clientes)
+            {
+                Console.WriteLine($"Nome: {cliente.Nome}, CPF: {cliente.CPF}, Email: {cliente.Email}");
+            }
         }
 
         public void EmitirBilhete(string cpfCliente, string codigoPassagem)
@@ -193,22 +313,25 @@ namespace Agencia_De_Viagens
 
             if (cliente == null)
             {
-                Console.WriteLine("Cliente não encontrado.");
+                Console.WriteLine("\nCliente não encontrado.");
                 return;
             }
 
             var passagemBilhete = cliente.PassagensCompradas.FirstOrDefault(p => p.Codigo == codigoPassagem);
 
+            cliente.AdicionarPassagemComprada(passagemBilhete);
+
             // Verifica se a passagem foi encontrada
             if (passagemBilhete == null)
             {
-                Console.WriteLine("Passagem não encontrada entre as passagens compradas pelo cliente.");
+                Console.WriteLine("\nPassagem não encontrada entre as passagens compradas pelo cliente.");
                 return;
             }
 
             if (passagemBilhete.TipoPassagem == TipoPassagemEnum.Nacional)
             {
-                Console.WriteLine("Emitindo bilhete para voo doméstico:");
+                Console.WriteLine("\n" + new string('-', 30));
+                Console.WriteLine("EMITINDO BILHETE PARA VOO DOMESTICO");
                 Console.WriteLine($"Código do Voo: {passagemBilhete.Codigo}");
                 Console.WriteLine($"Aeroporto de Origem: {passagemBilhete.AeroportoOrigem.Nome} ({passagemBilhete.AeroportoOrigem.Sigla})");
                 Console.WriteLine($"Aeroporto de Destino: {passagemBilhete.AeroportoDestino.Nome} ({passagemBilhete.AeroportoDestino.Sigla})");
@@ -222,10 +345,12 @@ namespace Agencia_De_Viagens
                 Console.WriteLine($"Data de Chegada: {passagemBilhete.DataChegada:dd/MM/yyyy HH:mm}");
                 Console.WriteLine($"Nome do Passageiro: {cliente.Nome}");
                 Console.WriteLine($"Documento: {cliente.RG ?? cliente.CPF}"); // RG ou CPF
+                Console.WriteLine(new string('-', 30));
             }
             else if (passagemBilhete.TipoPassagem == TipoPassagemEnum.Internacional)
             {
-                Console.WriteLine("Emitindo bilhete para voo internacional:");
+                Console.WriteLine("\n" + new string('-', 30));
+                Console.WriteLine("EMITINDO BILHETE PARA VOO INTERNACIONAL");
                 Console.WriteLine($"Código do Voo: {passagemBilhete.Codigo}");
                 Console.WriteLine($"Aeroporto de Origem: {passagemBilhete.AeroportoOrigem.Nome} ({passagemBilhete.AeroportoOrigem.Sigla})");
                 Console.WriteLine($"Aeroporto de Destino: {passagemBilhete.AeroportoDestino.Nome} ({passagemBilhete.AeroportoDestino.Sigla})");
@@ -239,12 +364,14 @@ namespace Agencia_De_Viagens
                 Console.WriteLine($"Data de Chegada: {passagemBilhete.DataChegada:dd/MM/yyyy HH:mm}");
                 Console.WriteLine($"Nome do Passageiro: {cliente.Nome}");
                 Console.WriteLine($"Passaporte: {cliente.Passaporte}"); // Passaporte
+                Console.WriteLine(new string('-', 30));
             }
             else
             {
-                Console.WriteLine("Tipo de passagem desconhecido.");
+                Console.WriteLine("\nTipo de passagem desconhecido.");
             }
         }
+
         public List<Passagem> BuscarVoos(string origem, string destino, DateTime data)
         {
             return Passagens.Where(v =>
@@ -253,6 +380,7 @@ namespace Agencia_De_Viagens
                 v.DataPartida.DayOfWeek == data.DayOfWeek
             ).ToList();
         }
+
         public List<Passagem> BuscarVoos(string codigoVoo)
         {
             return Passagens.Where(v =>
@@ -269,13 +397,15 @@ namespace Agencia_De_Viagens
 
         public void CancelarVoo(string CodigoVoo, string codigoPassagem)
         {
+            Console.WriteLine(CodigoVoo);
             var voo = Voos.FirstOrDefault(x => x.Codigo == CodigoVoo);
+
             if (voo != null)
             {
                 if (voo.Status == StatusEnum.Ativo)
                 {
                     voo.Status = StatusEnum.Cancelado;
-                    Console.WriteLine($"O voo {CodigoVoo} foi cancelado com sucesso.");
+                    Console.WriteLine($"\nO voo {CodigoVoo} foi cancelado com sucesso.");
 
                     foreach (var cliente in Clientes)
                     {
@@ -283,48 +413,43 @@ namespace Agencia_De_Viagens
                         {
                             if (passagem.Voos.Contains(voo) && passagem.Codigo == codigoPassagem)
                             {
-                                List<Aeronave> aeronaves = passagem.AeroportoOrigem.ObterAeronaves();
+                                cliente.CancelarPassagem(passagem.Codigo);
 
-                                var aeronave = passagem.AeroportoOrigem.Aeronaves.FirstOrDefault(a => aeronaves.Any(ai => ai.Nome == a.Nome));
-
-                                if (aeronave == null)
-                                {
-                                    Console.WriteLine("Aeronave não encontrada.");
-                                    return;
-                                }
-                                Console.WriteLine("Quantas bagagens foram inseridas?");
+                                Console.WriteLine("\nQuantas bagagens foram inseridas?");
                                 int quantidade = int.Parse(Console.ReadLine());
 
                                 // Remove as bagagens usando o método RemoverBagagens
-                                aeronave.RemoverBagagens(quantidade, aeronaves);
+                                Aeronave.RemoverBagagens(quantidade);
                             }
                         }
                     }
                 }
                 else
                 {
-                    Console.WriteLine($"O voo {CodigoVoo} já estava cancelado.");
+                    Console.WriteLine($"\nO voo {CodigoVoo} já estava cancelado.");
                 }
             }
             else
             {
-                Console.WriteLine($"Voo {CodigoVoo} não encontrado.");
+                Console.WriteLine($"\nVoo {CodigoVoo} não encontrado.");
             }
         }
+
         public void ListarClientes()
         {
             if (Clientes.Count == 0)
             {
-                Console.WriteLine("Nenhum cliente cadastrado!");
+                Console.WriteLine("\nNenhum cliente cadastrado!");
                 return;
             }
 
-            Console.WriteLine("Clientes cadastrados:");
+            Console.WriteLine("\nCliente cadastrado com sucesso!");
             foreach (var cliente in Clientes)
             {
                 cliente.Exibir();
             }
         }
+
         public void ListarPassagens()
         {
             if (Passagens.Count == 0)
@@ -337,15 +462,16 @@ namespace Agencia_De_Viagens
                 passagem.ExibirPassagem();
             }
         }
+
         public void ListarFuncionario()
         {
             if (Funcionarios.Count == 0)
             {
-                Console.WriteLine("Nenhum funcionário cadastrado!");
+                Console.WriteLine("\nNenhum funcionário(a) cadastrado!");
                 return;
             }
 
-            Console.WriteLine("Clientes Funcionarios:");
+            Console.WriteLine("\nFuncionário(a) cadastrado com sucesso!");
             foreach (var funcionario in Funcionarios)
             {
                 funcionario.Exibir();
@@ -355,20 +481,20 @@ namespace Agencia_De_Viagens
         public void CriarVoosPadrao()
         {
             var diasVoo = new List<DayOfWeek>
-    {
-        DayOfWeek.Sunday,
-        DayOfWeek.Monday,
-        DayOfWeek.Tuesday,
-        DayOfWeek.Wednesday,
-        DayOfWeek.Thursday,
-        DayOfWeek.Friday,
-        DayOfWeek.Saturday
-    };
+        {
+            DayOfWeek.Sunday,
+            DayOfWeek.Monday,
+            DayOfWeek.Tuesday,
+            DayOfWeek.Wednesday,
+            DayOfWeek.Thursday,
+            DayOfWeek.Friday,
+            DayOfWeek.Saturday,
+        };
 
-            TimeSpan duracaoVoo = TimeSpan.FromHours(1).Add(TimeSpan.FromMinutes(10));
+        TimeSpan duracaoVoo = TimeSpan.FromHours(1).Add(TimeSpan.FromMinutes(10));
 
-            CriarVoo(Aeroportos.First(), Aeroportos.Last(), CompanhiasAereas.First(), diasVoo, "08:00", duracaoVoo);
-            CriarVoo(Aeroportos.First(), Aeroportos.Last(), CompanhiasAereas.First(), diasVoo, "15:00", duracaoVoo);
+        CriarVoo(Aeroportos.First(), Aeroportos.Last(), CompanhiasAereas.First(), diasVoo, "08:00", duracaoVoo);
+        CriarVoo(Aeroportos.First(), Aeroportos.Last(), CompanhiasAereas.First(), diasVoo, "15:00", duracaoVoo);
         }
 
         public void CriarVoo(Aeroporto origem, Aeroporto destino, CiaAerea ciaAerea, List<DayOfWeek> diasFrequencia, string horaPartida, TimeSpan duracao)
@@ -394,7 +520,7 @@ namespace Agencia_De_Viagens
                     );
 
                     Voos.Add(novoVoo);
-                    novoVoo.ExibirVoo();
+                    novoVoo.Exibir();
                 }
             }
         }
@@ -404,28 +530,94 @@ namespace Agencia_De_Viagens
             var aeroporto = Aeroportos.FirstOrDefault(a => a.Sigla == aeroportoId);
             if (aeroporto == null)
             {
-                Console.WriteLine("Aeroporto não encontrado.");
+                Console.WriteLine("\nAeroporto não encontrado.");
                 return;
             }
 
             var aeronave = aeroporto.Aeronaves.FirstOrDefault(a => aeronaveId.Any(ai => ai.Nome == a.Nome));
             if (aeronave == null)
             {
-                Console.WriteLine("Aeronave não encontrada.");
+                Console.WriteLine("\nAeronave não encontrada.");
                 return;
             }
 
-            Console.WriteLine("Qual será a quantidade de bagagens?");
-            int quantidade = int.Parse(Console.ReadLine());
-            aeronave.CadastrarBagagens(quantidade);
-
             aeronave.ExibirAssentosDisponiveis();
-            Console.WriteLine("Digite o número do assento que deseja reservar:");
+            Console.WriteLine("\nDigite o número do assento que deseja reservar:");
             string assentoEscolhido = Console.ReadLine();
 
             aeronave.ReservarAssento(assentoEscolhido, passageiro);
         }
 
+        public void PromoverClienteParaVip(string cpfCliente)
+        {
+            Console.WriteLine("\nGostaria de se torna um cliente VIP? (Escreva apenas S ou N)");
+            string vip = Console.ReadLine().Trim();;
+
+            var cliente = Clientes.FirstOrDefault(c => c.CPF == cpfCliente);
+
+            if (vip == "S")
+            {
+                cliente.TornarVip();
+            }
+            else if (vip == "N" )
+            {
+                Console.WriteLine("\nTudo bem! Vamos deixar para a próxima.");
+            }
+            else
+            {
+                Console.WriteLine("\nValor inválido.");
+            }
+        }
+
+        public void FazerCheckIn(string cpfCliente, string codigoPassagem)
+        {
+            var cliente = Clientes.FirstOrDefault(c => c.CPF == cpfCliente);
+
+            if (cliente == null)
+            {
+                Console.WriteLine("\nCliente não encontrado.");
+                return;
+            }
+
+            var passagemComprada = Passagens.FirstOrDefault(p => p.Codigo == codigoPassagem);
+
+            if (passagemComprada == null)
+            {
+                Console.WriteLine("\nPassagem não encontrada.");
+                return;
+            }
+
+            // Verificar se a passagem está ativa
+            if (passagemComprada.Status != StatusEnum.Ativo)
+            {
+                Console.WriteLine("\nA passagem não está ativa. Verifique o status da passagem.");
+                return;
+            }
+
+            passagemComprada.RealizaCheckIn();
+            passagemComprada.VerificaNoShow();
+        }
+
+        public void FazerCartaoEmbarque(string cpfCliente, string codigoPassagem)
+        {
+            var cliente = Clientes.FirstOrDefault(c => c.CPF == cpfCliente);
+
+            if (cliente == null)
+            {
+                Console.WriteLine("\nCliente não encontrado.");
+                return;
+            }
+
+            var passagemComprada = Passagens.FirstOrDefault(p => p.Codigo == codigoPassagem);
+
+            if (passagemComprada == null)
+            {
+                Console.WriteLine("\nPassagem não encontrada.");
+                return;
+            }
+
+            passagemComprada.GerarCartaoEmbarque();
+        }
 
     }
 }
