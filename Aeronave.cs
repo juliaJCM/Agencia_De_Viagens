@@ -13,6 +13,10 @@ public class Aeronave
     public List<string> Assentos { get; private set; }
     public int TotalBagagens { get; set; }
     public List<string> AssentosReservados { get; private set; }
+
+    //-----ATRIBUTOS RELACIONADOS À SPRINT 4-----//
+    public float VelocidadeMedia { get; set; }
+
     public Aeronave(string nome, int capacidadePassageiros, int capacidadeBagagens, int numeroFileiras)
     {
         Nome = nome;

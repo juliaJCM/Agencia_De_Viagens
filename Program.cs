@@ -23,7 +23,6 @@ namespace Agencia_De_Viagens
             agencia.CriarPassagem();
             agencia.ListarPassagens();
 
-
             string cpfCliente = agencia.Clientes[0].CPF; // teste com Primeiro
             string codigoPassagem = agencia.Passagens[0].Codigo; // teste com Primeiro
 

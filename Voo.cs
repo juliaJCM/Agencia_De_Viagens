@@ -15,6 +15,9 @@ namespace Agencia_De_Viagens
         public Frequencia Frequencia { get; private set; }
         public StatusEnum Status { get; set; }
 
+        //-----ATRIBUTOS RELACIONADOS À SPRINT 4-----//
+        public Aeronave Aeronave{ get; set; }
+
         public Voo(
             Aeroporto aeroportoOrigem,
             Aeroporto aeroportoDestino,
@@ -59,5 +62,32 @@ namespace Agencia_De_Viagens
             Console.WriteLine(new string('-', 30));
         }
 
+//-----MÉTODOS RELACIONADOS À SPRINT 4-----//
+        public float CalculaTempoViagem()
+        {
+            float distancia = CalculaDistancia(
+                AeroportoOrigem.Latitude, AeroportoOrigem.Longitude,
+                AeroportoDestino.Latitude, AeroportoDestino.Longitude
+            );
+
+            if(Aeronave == null || Aeronave.VelocidadeMedia <=0)
+            {
+                throw new InvalidOperationException("A velocidade média da aeronave é inválida!");
+            }
+
+            return distancia/ Aeronave.VelocidadeMedia;
+        }
+
+        private float CalculaDistancia(float x1, float y1, float x2, float y2)
+        {
+            return 110.57f * MathF.Sqrt(MathF.Pow(x2-x1, 2) + MathF.Pow(y2-y1 , 2));
+        }
+
+        public DateTime CalculaHorarioPrevistoChegada()
+        {
+            float tempoViagemHoras = CalculaTempoViagem();
+            TimeSpan tempo = TimeSpan.FromHours(tempoViagemHoras);
+            return DataPartida.Add(tempo);
+        }
     }
 }

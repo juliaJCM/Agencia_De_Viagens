@@ -3,7 +3,7 @@ using System;
 
 namespace Agencia_De_Viagens
 {
-    public class Agencia
+    public class Agencia : ILog
     {
          public List<CartaoEmbarque> CartoesEmbarque { get; set; } = new List<CartaoEmbarque>();
         public List<CiaAerea> CompanhiasAereas { get; set; }
@@ -617,6 +617,13 @@ namespace Agencia_De_Viagens
             }
 
             passagemComprada.GerarCartaoEmbarque();
+        }
+
+//-----MÉTODOS RELACIONADOS À SPRINT 4-----//
+        public void RegistraLog(string registro)
+        {
+            Log log =  new Log();
+            log.RegistraLog($"Dados do Sistema - {registro}");
         }
 
     }

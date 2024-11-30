@@ -12,6 +12,10 @@ namespace Agencia_De_Viagens
         public string Pais { get; set; }
         public List<Aeronave> Aeronaves { get; set; }
 
+        //-----ATRIBUTOS RELACIONADOS À SPRINT 4-----//
+        public float Latitude { get; set; }
+        public float Longitude { get; set; }
+
         // Construtor opcional
         public Aeroporto(string nome, string sigla, string cidade, string estado, string pais)
         {
