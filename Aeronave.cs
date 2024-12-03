@@ -8,7 +8,7 @@ public class Aeronave
 {
     public string Nome { get; set; }
     public int CapacidadePassageiros { get; set; }
-    public static int CAPACIDADE_BAGAGENS { get; set; } = 10;
+    public int CapacidadeBagagens { get; set; }
     public List<Cliente> PassageirosEmbarcados { get; set; }
     public List<string> Assentos { get; private set; }
     public int TotalBagagens { get; set; }
@@ -21,6 +21,7 @@ public class Aeronave
     {
         Nome = nome;
         CapacidadePassageiros = capacidadePassageiros;
+        CapacidadeBagagens = capacidadeBagagens;
         PassageirosEmbarcados = new List<Cliente>();
         Assentos = GerarAssentos(numeroFileiras);
         AssentosReservados = new List<string>();
@@ -111,7 +112,7 @@ public class Aeronave
     }
     public void CadastrarBagagens(int quantidade)
     {
-        if (TotalBagagens + quantidade <= CAPACIDADE_BAGAGENS)
+        if (TotalBagagens + quantidade <= CapacidadeBagagens)
         {
             TotalBagagens += quantidade;
             Console.WriteLine($"\n{quantidade} bagagens adicionadas. Total de bagagens: {TotalBagagens}");

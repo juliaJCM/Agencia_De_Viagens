@@ -66,9 +66,7 @@ namespace Agencia_De_Viagens
 //-----MÉTODOS RELACIONADOS À SPRINT 4-----//
         public float CalculaTempoViagem()
         {
-            float distancia = CalculaDistancia(
-                AeroportoOrigem.Latitude, AeroportoOrigem.Longitude,
-                AeroportoDestino.Latitude, AeroportoDestino.Longitude
+            float distancia = CalculaDistancia(AeroportoOrigem.Latitude, AeroportoOrigem.Longitude, AeroportoDestino.Latitude, AeroportoDestino.Longitude
             );
 
             if(Aeronave == null || Aeronave.VelocidadeMedia <=0)

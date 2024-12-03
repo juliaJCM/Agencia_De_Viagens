@@ -17,7 +17,7 @@ namespace Agencia_De_Viagens
         public float Longitude { get; set; }
 
         // Construtor opcional
-        public Aeroporto(string nome, string sigla, string cidade, string estado, string pais)
+        public Aeroporto(string nome, string sigla, string cidade, string estado, string pais, float latitude, float longitude)
         {
             if (ValidarAeroporto(nome, sigla, cidade, estado, pais))
             {
@@ -27,6 +27,8 @@ namespace Agencia_De_Viagens
                 Estado = estado;
                 Pais = pais;
                 Aeronaves = new List<Aeronave>();
+                Latitude = latitude;
+                Longitude = longitude;
             }
             else
             {
