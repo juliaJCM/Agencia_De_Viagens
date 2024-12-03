@@ -26,8 +26,8 @@ namespace Agencia_De_Viagens
             DateTime dataChegada,
             List<DayOfWeek> diasFrequencia,
             string horaFrequencia,
-            StatusEnum statusEnum
-
+            StatusEnum statusEnum,
+            Aeronave aeronave
         )
         {
             Codigo = GerarCodigoVoo();
@@ -38,6 +38,7 @@ namespace Agencia_De_Viagens
             DataChegada = dataChegada;
             Frequencia = new Frequencia(diasFrequencia, horaFrequencia);
             Status = statusEnum;
+            Aeronave = aeronave;
         }
 
         public static string GerarCodigoVoo()

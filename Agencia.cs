@@ -12,6 +12,7 @@ namespace Agencia_De_Viagens
         public List<Cliente> Clientes { get; set; }
         public List<Funcionario> Funcionarios { get; set; }
         public List<Voo> Voos { get; set; }
+        public Voo voo { get; set; }
         public Aeronave Aeronave { get; set; }
 
         public Agencia()
@@ -80,6 +81,7 @@ namespace Agencia_De_Viagens
         public void CriarCompaniaAerea()
         {
             CompanhiasAereas.Add(new CiaAerea("LATAM", 123, "Brasil", "São Paulo", 1000.0, 1500.0));
+            CompanhiasAereas.Add(new CiaAerea("Azul Linhas Aereas", 456, "Brasil", "Barueri", 800.0, 1100.0));
 
             if (CompanhiasAereas.Count == 0)
             {
@@ -127,12 +129,14 @@ namespace Agencia_De_Viagens
             }
 
             // Criação das aeronaves
-            var aeronave1 = new Aeronave("Boeing 737", 180, 200, 6);
-            var aeronave2 = new Aeronave("Airbus A320", 150, 180, 6);
+            var aeronave1 = new Aeronave("Boeing 737", 250, 250, 150);
+            var aeronave2 = new Aeronave("Airbus A320", 150, 150, 45);
+            var aeronave3 = new Aeronave("Embraer E195-E2", 100, 100, 80);
 
             // Adiciona as aeronaves aos aeroportos
             Aeroportos[0].AdicionarAeronave(aeronave1);
             Aeroportos[1].AdicionarAeronave(aeronave2);
+            Aeroportos[2].AdicionarAeronave(aeronave3);
         }
 
     
@@ -372,15 +376,15 @@ namespace Agencia_De_Viagens
             }
         }
 
-        public List<Passagem> BuscarVoos(string origem, string destino, DateTime data)
+        public List<Passagem> BuscarVoos(string origem, string destino, DateTime data, string nome)
         {
             return Passagens.Where(v =>
                 v.AeroportoOrigem.Sigla == origem &&
                 v.AeroportoDestino.Sigla == destino &&
-                v.DataPartida.DayOfWeek == data.DayOfWeek
+                v.DataPartida.DayOfWeek == data.DayOfWeek &&
+                v.CiaAerea.Nome == nome
             ).ToList();
         }
-
         public List<Passagem> BuscarVoos(string codigoVoo)
         {
             return Passagens.Where(v =>
@@ -491,23 +495,27 @@ namespace Agencia_De_Viagens
             DayOfWeek.Saturday,
         };
 
-        TimeSpan duracaoVoo = TimeSpan.FromHours(1).Add(TimeSpan.FromMinutes(10));
+        // TimeSpan duracaoVoo = TimeSpan.FromHours(1).Add(TimeSpan.FromMinutes(10));
+        var aeronave = Aeroportos.First().ObterAeronaves();
 
-        CriarVoo(Aeroportos.First(), Aeroportos.Last(), CompanhiasAereas.First(), diasVoo, "08:00", duracaoVoo);
-        CriarVoo(Aeroportos.First(), Aeroportos.Last(), CompanhiasAereas.First(), diasVoo, "15:00", duracaoVoo);
+        CriarVoo(Aeroportos.First(), Aeroportos.Last(), CompanhiasAereas.First(), diasVoo, "08:00", voo.CalculaHorarioPrevistoChegada(), aeronave[0]);
+        CriarVoo(Aeroportos.First(), Aeroportos.Last(), CompanhiasAereas.First(), diasVoo, "15:00", voo.CalculaHorarioPrevistoChegada(), aeronave[1]);
+        CriarVoo(Aeroportos.First(), Aeroportos.Last(), CompanhiasAereas.First(), diasVoo, "05:00", voo.CalculaHorarioPrevistoChegada(), aeronave[1]);
         }
 
-        public void CriarVoo(Aeroporto origem, Aeroporto destino, CiaAerea ciaAerea, List<DayOfWeek> diasFrequencia, string horaPartida, TimeSpan duracao)
+        public void CriarVoo(Aeroporto origem, Aeroporto destino, CiaAerea ciaAerea, List<DayOfWeek> diasFrequencia, string horaPartida, DateTime duracao, Aeronave aeronave)
         {
             DateTime dataAtual = DateTime.Now;
-            DateTime dataFinal = dataAtual.AddDays(30);
+            DateTime dataFinal = dataAtual.AddDays(10);
+
+            TimeSpan duracaoTimeSpan = duracao.TimeOfDay;
 
             for (DateTime data = dataAtual; data <= dataFinal; data = data.AddDays(1))
             {
                 if (diasFrequencia.Contains(data.DayOfWeek))
                 {
                     DateTime dataPartida = data.Date + TimeSpan.Parse(horaPartida);
-                    DateTime dataChegada = dataPartida.Add(duracao);
+                    DateTime dataChegada = dataPartida.Add(duracaoTimeSpan);
                     Voo novoVoo = new Voo(
                         origem,
                         destino,
@@ -516,7 +524,8 @@ namespace Agencia_De_Viagens
                         dataChegada,
                         diasFrequencia,
                         horaPartida,
-                        StatusEnum.Ativo
+                        StatusEnum.Ativo,
+                        aeronave
                     );
 
                     Voos.Add(novoVoo);

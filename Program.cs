@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography;
 
 namespace Agencia_De_Viagens
 {
@@ -23,11 +24,11 @@ namespace Agencia_De_Viagens
             agencia.CriarPassagem();
             agencia.ListarPassagens();
 
-            string cpfCliente = agencia.Clientes[0].CPF; // teste com Primeiro
-            string codigoPassagem = agencia.Passagens[0].Codigo; // teste com Primeiro
+            string cpfCliente = agencia.Clientes[0].CPF; 
+            string codigoPassagem = agencia.Passagens[0].Codigo; 
 
             //Buscando voos
-            var voosEncontrados = agencia.BuscarVoos("CNF", "GRU", new DateTime(2024, 10, 11));
+            var voosEncontrados = agencia.BuscarVoos("CNF", "GRU", new DateTime(2024, 10, 11), "LATAM");
             Console.WriteLine("\nVOOS ENCONTRADOS");
             foreach (var voo in voosEncontrados)
             {

@@ -66,11 +66,13 @@ namespace Agencia_De_Viagens
             Console.WriteLine($"País: {Pais}");
             Console.WriteLine(new string('-', 30));
         }
+        
         public void AdicionarAeronave(Aeronave aeronave)
         {
             Aeronaves.Add(aeronave);
             Console.WriteLine($"\nAeronave {aeronave.Nome} adicionada ao {Nome}.");
         }
+
         public List<Aeronave> ObterAeronaves()
         {
             return Aeronaves;

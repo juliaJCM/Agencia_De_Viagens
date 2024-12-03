@@ -115,6 +115,26 @@ namespace Agencia_De_Viagens
             Console.WriteLine(new string('-', 30));
         }
 
+        public void ExibirBuscaPassagem()
+        {
+            Console.WriteLine("\n" + new string('-', 30));
+            Console.WriteLine("INFORMAÇÕES DA PASSAGEM");
+            Console.WriteLine($"Data de Partida: {DataPartida:dd/MM/yyyy HH:mm}");
+            Console.WriteLine($"Duração do Voo: {DataPartida:dd/MM/yyyy HH:mm}");
+        }
+
+        public List<Voo> BuscaVooPassagem()
+        {
+            var voo = Voos.Where(v =>
+                v.AeroportoOrigem == AeroportoOrigem &&
+                v.AeroportoDestino == AeroportoDestino &&
+                v.Frequencia.Dias.Contains(DataPartida.DayOfWeek) &&
+                v.Frequencia.Hora == DataPartida.ToString("HH:mm") &&
+                v.DataPartida >= DataPartida
+            ).ToList();
+            return voo;
+        }
+
         //-------------------------MÉTODO PARA ATIVAR A PASSAGEM APÓS SUA COMPRA---------------------------------//
         // public void AtivarPassagem()
         // {
