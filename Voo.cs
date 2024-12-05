@@ -23,7 +23,7 @@ namespace Agencia_De_Viagens
             Aeroporto aeroportoDestino,
             CiaAerea ciaAerea,
             DateTime dataPartida,
-            DateTime dataChegada,
+            // DateTime dataChegada,
             List<DayOfWeek> diasFrequencia,
             string horaFrequencia,
             StatusEnum statusEnum,
@@ -35,7 +35,7 @@ namespace Agencia_De_Viagens
             AeroportoDestino = aeroportoDestino;
             CiaAerea = ciaAerea;
             DataPartida = dataPartida;
-            DataChegada = dataChegada;
+            // DataChegada = dataChegada;
             Frequencia = new Frequencia(diasFrequencia, horaFrequencia);
             Status = statusEnum;
             Aeronave = aeronave;
@@ -51,7 +51,7 @@ namespace Agencia_De_Viagens
         public void Exibir()
         {
             Console.WriteLine("\n" + new string('-', 30));
-            Console.WriteLine("Informações do Voo:");
+            Console.WriteLine("INFORMAÇÕES DO VOO:");
             Console.WriteLine($"Código do Voo: {Codigo}");
             Console.WriteLine($"Aeroporto de Origem: {AeroportoOrigem.Nome} ({AeroportoOrigem.Sigla})");
             Console.WriteLine($"Aeroporto de Destino: {AeroportoDestino.Nome} ({AeroportoDestino.Sigla})");
@@ -77,7 +77,7 @@ namespace Agencia_De_Viagens
             return distancia/ Aeronave.VelocidadeMedia;
         }
 
-        private float CalculaDistancia(float x1, float y1, float x2, float y2)
+        public float CalculaDistancia(float x1, float y1, float x2, float y2)
         {
             return 110.57f * MathF.Sqrt(MathF.Pow(x2-x1, 2) + MathF.Pow(y2-y1 , 2));
         }

@@ -15,7 +15,7 @@ namespace Agencia_De_Viagens
         public Aeronave Aeronave { get; set; }
         public List<Voo> HistoricoDeVoos { get; set; } = new List<Voo>();
         public bool IsVip { get; set; }
-        public StatusEnum status {get; set;}
+        public StatusEnum Status {get; set;}
 
         public Cliente(string nome, string cpf, string rg, string email, string passaporte)
         {
@@ -72,7 +72,7 @@ namespace Agencia_De_Viagens
 
         public void AdicionarVooAoHistorico(List<Voo> voos)
         {
-            if (status == StatusEnum.Embarque_Realizado)
+            if (Status == StatusEnum.Embarque_Realizado)
             {
                 // Adiciona o voo ao histórico
                 foreach (var voo in voos)
@@ -106,7 +106,7 @@ namespace Agencia_De_Viagens
             }
         }
         
-            public void TornarVip()
+        public void TornarVip()
         {
             if (!IsVip)
             {

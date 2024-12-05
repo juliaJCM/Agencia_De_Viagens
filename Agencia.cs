@@ -12,10 +12,12 @@ namespace Agencia_De_Viagens
         public List<Cliente> Clientes { get; set; }
         public List<Funcionario> Funcionarios { get; set; }
         public List<Voo> Voos { get; set; }
+        public List<Aeronave> Aeronaves{ get; set; }
         public Voo voo { get; set; }
-        public Aeronave Aeronave { get; set; }
+        public Aeronave aeronave { get; set; }
+        private readonly ILog _logger;
 
-        public Agencia()
+        public Agencia(ILog log)
         {
             CompanhiasAereas = new List<CiaAerea>();
             Passagens = new List<Passagem>();
@@ -24,13 +26,24 @@ namespace Agencia_De_Viagens
             Aeroportos = new List<Aeroporto>();
             Voos = new List<Voo>();
             CartoesEmbarque = new List<CartaoEmbarque>();
+            _logger = log;
+            _logger.RegistraLog($"Agência inicializada.");
         }
+
+        //-----MÉTODOS RELACIONADOS À SPRINT 4-----//
+        public void RegistraLog(string registro)
+        {
+            Log log = new Log();
+            log.RegistraLog($"Dados do Sistema - {registro}");
+        }
+
         public void CriarCliente(Funcionario funcionarioResponsavelPelaCriacao)
         {
             if (funcionarioResponsavelPelaCriacao.AcessoSistema)
             {
                 var cliente = new Cliente("Joao", "12361213229", "12123123", "john.doe@email.com", "994360123");
                 Clientes.Add(cliente);
+                _logger.RegistraLog($"Cliente criado. {cliente.Nome}, {cliente.CPF}, {cliente.Email}");
             }
             else
             {
@@ -86,11 +99,13 @@ namespace Agencia_De_Viagens
             if (CompanhiasAereas.Count == 0)
             {
                 Console.WriteLine("Nenhuma companhia aérea criada.");
+                _logger.RegistraLog($"Erro ao tentar criar as companhias aereas.");
                 return;
             }
             else
             {
                 Console.WriteLine("\nCompanhia Aerea criada com sucesso!");
+                _logger.RegistraLog($"Companhias aereas criadas com sucesso.");
             }
             foreach (var companhia in CompanhiasAereas)
             {
@@ -118,10 +133,12 @@ namespace Agencia_De_Viagens
             if (Aeroportos.Count == 0)
             {
                 Console.WriteLine("\nNenhum aeroporto criado.");
+                _logger.RegistraLog($"Erro ao tentar criar os aeroportos.");
             }
             else
             {
                 Console.WriteLine("\nAeroportos criados com sucesso!");
+                _logger.RegistraLog($"nAeroportos criados com sucesso.");
                 foreach (var aeroporto in Aeroportos)
                 {
                     aeroporto.Exibir();
@@ -129,14 +146,14 @@ namespace Agencia_De_Viagens
             }
 
             // Criação das aeronaves
-            var aeronave1 = new Aeronave("Boeing 737", 250, 250, 30);
-            var aeronave2 = new Aeronave("Airbus A320", 150, 150, 45);
-            var aeronave3 = new Aeronave("Embraer E195-E2", 150, 150, 43);
+            var aeronave1 = new Aeronave("Boeing 737", 250, 250, 30, 850f);
+            var aeronave2 = new Aeronave("Airbus A320", 150, 150, 45, 850f);
+            var aeronave3 = new Aeronave("Embraer E195-E2", 150, 150, 43, 850f);
 
             
             // Adiciona as aeronaves aos aeroportos
             Aeroportos[0].AdicionarAeronave(aeronave1);
-            Aeroportos[1].AdicionarAeronave(aeronave2);
+            Aeroportos[0].AdicionarAeronave(aeronave2);
             Aeroportos[1].AdicionarAeronave(aeronave3);
         }
 
@@ -248,6 +265,7 @@ namespace Agencia_De_Viagens
 
         public void ComprarPassagens(string cpfCliente, string codigoPassagem)
         {
+            var quantidade = 5;
             var cliente = Clientes.FirstOrDefault(c => c.CPF == cpfCliente);
 
             if (cliente == null)
@@ -264,8 +282,8 @@ namespace Agencia_De_Viagens
                 return;
             }
 
-            Console.WriteLine("\nQual será a quantidade de bagagens?");
-            int quantidade = int.Parse(Console.ReadLine());
+            // Console.WriteLine("\nQual será a quantidade de bagagens?");
+            // int quantidade = int.Parse(Console.ReadLine());
 
             // Verificar se a passagem tem um AeroportoOrigem válido
             if (passagemComprada.AeroportoOrigem != null)
@@ -350,6 +368,7 @@ namespace Agencia_De_Viagens
 
                 Console.WriteLine($"Data de Partida: {passagemBilhete.DataPartida:dd/MM/yyyy HH:mm}");
                 Console.WriteLine($"Data de Chegada: {passagemBilhete.DataChegada:dd/MM/yyyy HH:mm}");
+                Console.WriteLine($"Duração do Voo: {(passagemBilhete.DataChegada - passagemBilhete.DataPartida):hh\\:mm}");
                 Console.WriteLine($"Nome do Passageiro: {cliente.Nome}");
                 Console.WriteLine($"Documento: {cliente.RG ?? cliente.CPF}"); // RG ou CPF
                 Console.WriteLine(new string('-', 30));
@@ -405,6 +424,7 @@ namespace Agencia_De_Viagens
         public void CancelarVoo(string CodigoVoo, string codigoPassagem)
         {
             Console.WriteLine(CodigoVoo);
+            var quantidade = 2;
             var voo = Voos.FirstOrDefault(x => x.Codigo == CodigoVoo);
 
             if (voo != null)
@@ -422,11 +442,11 @@ namespace Agencia_De_Viagens
                             {
                                 cliente.CancelarPassagem(passagem.Codigo);
 
-                                Console.WriteLine("\nQuantas bagagens foram inseridas?");
-                                int quantidade = int.Parse(Console.ReadLine());
+                                // Console.WriteLine("\nQuantas bagagens foram inseridas?");
+                                // int quantidade = int.Parse(Console.ReadLine());
 
                                 // Remove as bagagens usando o método RemoverBagagens
-                                Aeronave.RemoverBagagens(quantidade);
+                                aeronave.RemoverBagagens(quantidade);
                             }
                         }
                     }
@@ -466,7 +486,8 @@ namespace Agencia_De_Viagens
 
             foreach (var passagem in Passagens)
             {
-                passagem.ExibirPassagem();
+                // passagem.ExibirPassagem();
+                passagem.ExibirBuscaPassagem();
             }
         }
 
@@ -487,49 +508,72 @@ namespace Agencia_De_Viagens
 
         public void CriarVoosPadrao()
         {
+
+            Console.WriteLine("\nVerificando aeroportos e aeronaves associadas...");
+            foreach (var aeroporto in Aeroportos)
+            {
+                Console.WriteLine($"\nAeroporto: {aeroporto.Nome}");
+                var aeronaves = aeroporto.ObterAeronaves();
+                Console.WriteLine($"Número de aeronaves associadas: {aeronaves.Count}");
+                foreach (var aviao in aeronaves)
+                {
+                    Console.WriteLine($" - {aviao.Nome}");
+                }
+            }
+            
             var diasVoo = new List<DayOfWeek>
-        {
-            DayOfWeek.Sunday,
-            DayOfWeek.Monday,
-            DayOfWeek.Tuesday,
-            DayOfWeek.Wednesday,
-            DayOfWeek.Thursday,
-            DayOfWeek.Friday,
-            DayOfWeek.Saturday,
-        };
+            {
+                DayOfWeek.Sunday,
+                DayOfWeek.Monday,
+                DayOfWeek.Tuesday,
+                DayOfWeek.Wednesday,
+                DayOfWeek.Thursday,
+                DayOfWeek.Friday,
+                DayOfWeek.Saturday,
+            };
 
             // TimeSpan duracaoVoo = TimeSpan.FromHours(1).Add(TimeSpan.FromMinutes(10));
             var aeronave = Aeroportos.First().ObterAeronaves();
 
-            CriarVoo(Aeroportos.First(), Aeroportos.Last(), CompanhiasAereas.First(), diasVoo, "08:00", voo.CalculaHorarioPrevistoChegada(), aeronave[0]);
-            CriarVoo(Aeroportos.First(), Aeroportos.Last(), CompanhiasAereas.First(), diasVoo, "15:00", voo.CalculaHorarioPrevistoChegada(), aeronave[1]);
-            CriarVoo(Aeroportos.First(), Aeroportos.Last(), CompanhiasAereas.First(), diasVoo, "05:00", voo.CalculaHorarioPrevistoChegada(), aeronave[1]);
+            if (aeronave.Count < 2)
+            {
+                Console.WriteLine("Erro: Não há aeronaves suficientes no aeroporto de origem para criar os voos.");
+                return;
+            }
+
+            CriarVoo(Aeroportos.First(), Aeroportos.Last(), CompanhiasAereas.First(), diasVoo, "08:00", aeronave[0]);
+            CriarVoo(Aeroportos.First(), Aeroportos.Last(), CompanhiasAereas.First(), diasVoo, "15:00", aeronave[1]);
         }
 
-        public void CriarVoo(Aeroporto origem, Aeroporto destino, CiaAerea ciaAerea, List<DayOfWeek> diasFrequencia, string horaPartida, DateTime duracao, Aeronave aeronave)
+        public void CriarVoo(Aeroporto origem, Aeroporto destino, CiaAerea ciaAerea, List<DayOfWeek> diasFrequencia, string horaPartida, Aeronave aeronave)
         {
             DateTime dataAtual = DateTime.Now;
             DateTime dataFinal = dataAtual.AddDays(10);
 
-            TimeSpan duracaoTimeSpan = duracao.TimeOfDay;
+            // TimeSpan duracaoTimeSpan = duracao.TimeOfDay;
 
             for (DateTime data = dataAtual; data <= dataFinal; data = data.AddDays(1))
             {
                 if (diasFrequencia.Contains(data.DayOfWeek))
                 {
                     DateTime dataPartida = data.Date + TimeSpan.Parse(horaPartida);
-                    DateTime dataChegada = dataPartida.Add(duracaoTimeSpan);
+                    // DateTime dataChegada = dataPartida.Add(duracaoTimeSpan);
+
                     Voo novoVoo = new Voo(
                         origem,
                         destino,
                         ciaAerea,
                         dataPartida,
-                        dataChegada,
+                        // dataChegada,
                         diasFrequencia,
                         horaPartida,
                         StatusEnum.Ativo,
                         aeronave
                     );
+
+                    float tempoViagemHoras = novoVoo.CalculaTempoViagem();
+                    TimeSpan tempoViagem = TimeSpan.FromHours(tempoViagemHoras);
+                    novoVoo.DataChegada = dataPartida.Add(tempoViagem);
 
                     Voos.Add(novoVoo);
                     novoVoo.Exibir();
@@ -539,6 +583,7 @@ namespace Agencia_De_Viagens
 
         public void ReservarAssentoParaPassageiro(Cliente passageiro, string aeroportoId, List<Aeronave> aeronaveId)
         {
+            var assentoEscolhido = "1A";
             var aeroporto = Aeroportos.FirstOrDefault(a => a.Sigla == aeroportoId);
             if (aeroporto == null)
             {
@@ -554,16 +599,17 @@ namespace Agencia_De_Viagens
             }
 
             aeronave.ExibirAssentosDisponiveis();
-            Console.WriteLine("\nDigite o número do assento que deseja reservar:");
-            string assentoEscolhido = Console.ReadLine();
+            // Console.WriteLine("\nDigite o número do assento que deseja reservar:");
+            // string assentoEscolhido = Console.ReadLine();
 
             aeronave.ReservarAssento(assentoEscolhido, passageiro);
         }
 
         public void PromoverClienteParaVip(string cpfCliente)
         {
-            Console.WriteLine("\nGostaria de se torna um cliente VIP? (Escreva apenas S ou N)");
-            string vip = Console.ReadLine().Trim(); ;
+            var vip = "N";
+            // Console.WriteLine("\nGostaria de se torna um cliente VIP? (Escreva apenas S ou N)");
+            // string vip = Console.ReadLine().Trim();
 
             var cliente = Clientes.FirstOrDefault(c => c.CPF == cpfCliente);
 
@@ -605,9 +651,10 @@ namespace Agencia_De_Viagens
                 Console.WriteLine("\nA passagem não está ativa. Verifique o status da passagem.");
                 return;
             }
-
             passagemComprada.RealizaCheckIn();
-            passagemComprada.VerificaNoShow();
+
+            // passagemComprada.VerificaNoShow();
+
         }
 
         public void FazerCartaoEmbarque(string cpfCliente, string codigoPassagem)
@@ -628,14 +675,7 @@ namespace Agencia_De_Viagens
                 return;
             }
 
-            passagemComprada.GerarCartaoEmbarque();
-        }
-
-        //-----MÉTODOS RELACIONADOS À SPRINT 4-----//
-        public void RegistraLog(string registro)
-        {
-            Log log = new Log();
-            log.RegistraLog($"Dados do Sistema - {registro}");
+            // passagemComprada.GerarCartaoEmbarque();
         }
 
     }

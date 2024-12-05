@@ -13,11 +13,12 @@ public class Aeronave
     public List<string> Assentos { get; private set; }
     public int TotalBagagens { get; set; }
     public List<string> AssentosReservados { get; private set; }
+    public StatusEnum status {get; set;}
 
     //-----ATRIBUTOS RELACIONADOS À SPRINT 4-----//
     public float VelocidadeMedia { get; set; }
 
-    public Aeronave(string nome, int capacidadePassageiros, int capacidadeBagagens, int numeroFileiras)
+    public Aeronave(string nome, int capacidadePassageiros, int capacidadeBagagens, int numeroFileiras, float velocidadeMedia)
     {
         Nome = nome;
         CapacidadePassageiros = capacidadePassageiros;
@@ -25,6 +26,8 @@ public class Aeronave
         PassageirosEmbarcados = new List<Cliente>();
         Assentos = GerarAssentos(numeroFileiras);
         AssentosReservados = new List<string>();
+        VelocidadeMedia = velocidadeMedia;
+
     }
 
     private List<string> GerarAssentos(int numeroFileiras)
@@ -94,7 +97,7 @@ public class Aeronave
 
         AssentosReservados.Add(assento);
         Console.WriteLine($"\nAssento {assento} reservado com sucesso para {passageiro.Nome}!");
-        InserirPassageiro(passageiro);
+        // InserirPassageiro(passageiro);
         return true;
     }
 

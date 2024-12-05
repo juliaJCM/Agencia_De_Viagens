@@ -10,30 +10,26 @@ namespace Agencia_De_Viagens
         public string AssentoReservado { get; set; }
         public Passagem passagem{ get; set; }
         public Cliente Nome { get; set; }
+        public Aeronave aeronave { get; set; }
         
         // Horário de embarque calculado como 40 minutos antes da partida
         public DateTime HorarioEmbarque => passagem.DataPartida.AddMinutes(-40);
 
-        public CartaoEmbarque(Aeroporto aeroportoOrigem, Aeroporto aeroportoDestino, DateTime dataPartida, Cliente nome, string assentoReservado)
+        public CartaoEmbarque(Aeroporto aeroportoOrigem, Aeroporto aeroportoDestino, DateTime dataPartida)
         {
-            Nome = nome;
             AeroportoOrigem = aeroportoOrigem;
             AeroportoDestino = aeroportoDestino;
             DataPartida = dataPartida;
-            AssentoReservado = assentoReservado;
         }
 
         // Método para exibir informações do cartão de embarque
         public void ExibirCartao()
         {
             Console.WriteLine("\n" + new string('-', 30));
-            Console.WriteLine("Cartão de Embarque");
-            Console.WriteLine($"Passageiro: {Nome}");
+            Console.WriteLine("CARTÃO DE EMBARQUE:");
             Console.WriteLine($"Origem: {AeroportoOrigem.Nome} ({AeroportoOrigem.Sigla})");
             Console.WriteLine($"Destino: {AeroportoDestino.Nome} ({AeroportoDestino.Sigla})");
-            Console.WriteLine($"Horário de Embarque: {HorarioEmbarque:dd/MM/yyyy HH:mm}");
             Console.WriteLine($"Data de Partida: {DataPartida:dd/MM/yyyy HH:mm}");
-            Console.WriteLine($"Assento: {AssentoReservado}");
             Console.WriteLine(new string('-', 30));
         }
     }
