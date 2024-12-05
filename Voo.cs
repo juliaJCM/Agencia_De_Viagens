@@ -15,16 +15,19 @@ namespace Agencia_De_Viagens
         public Frequencia Frequencia { get; private set; }
         public StatusEnum Status { get; set; }
 
+        //-----ATRIBUTOS RELACIONADOS À SPRINT 4-----//
+        public Aeronave Aeronave{ get; set; }
+
         public Voo(
             Aeroporto aeroportoOrigem,
             Aeroporto aeroportoDestino,
             CiaAerea ciaAerea,
             DateTime dataPartida,
-            DateTime dataChegada,
+            // DateTime dataChegada,
             List<DayOfWeek> diasFrequencia,
             string horaFrequencia,
-            StatusEnum statusEnum
-
+            StatusEnum statusEnum,
+            Aeronave aeronave
         )
         {
             Codigo = GerarCodigoVoo();
@@ -32,9 +35,10 @@ namespace Agencia_De_Viagens
             AeroportoDestino = aeroportoDestino;
             CiaAerea = ciaAerea;
             DataPartida = dataPartida;
-            DataChegada = dataChegada;
+            // DataChegada = dataChegada;
             Frequencia = new Frequencia(diasFrequencia, horaFrequencia);
             Status = statusEnum;
+            Aeronave = aeronave;
         }
 
         public static string GerarCodigoVoo()
@@ -47,7 +51,7 @@ namespace Agencia_De_Viagens
         public void Exibir()
         {
             Console.WriteLine("\n" + new string('-', 30));
-            Console.WriteLine("Informações do Voo:");
+            Console.WriteLine("INFORMAÇÕES DO VOO");
             Console.WriteLine($"Código do Voo: {Codigo}");
             Console.WriteLine($"Aeroporto de Origem: {AeroportoOrigem.Nome} ({AeroportoOrigem.Sigla})");
             Console.WriteLine($"Aeroporto de Destino: {AeroportoDestino.Nome} ({AeroportoDestino.Sigla})");
@@ -55,9 +59,34 @@ namespace Agencia_De_Viagens
             Console.WriteLine($"Data de Partida: {DataPartida:dd/MM/yyyy HH:mm}");
             Console.WriteLine($"Data de Chegada: {DataChegada:dd/MM/yyyy HH:mm}");
             Console.WriteLine($"Frequência: {Frequencia.Hora} nos dias {string.Join(", ", Frequencia.Dias)}");
-            Console.WriteLine($"Status: {Status}");
+            Console.WriteLine($"Status: {StatusEnum.Ativo}");
             Console.WriteLine(new string('-', 30));
         }
 
+//-----MÉTODOS RELACIONADOS À SPRINT 4-----//
+        public float CalculaTempoViagem()
+        {
+            float distancia = CalculaDistancia(AeroportoOrigem.Latitude, AeroportoOrigem.Longitude, AeroportoDestino.Latitude, AeroportoDestino.Longitude
+            );
+
+            if(Aeronave == null || Aeronave.VelocidadeMedia <=0)
+            {
+                throw new InvalidOperationException("A velocidade média da aeronave é inválida!");
+            }
+
+            return distancia/ Aeronave.VelocidadeMedia;
+        }
+
+        public float CalculaDistancia(float x1, float y1, float x2, float y2)
+        {
+            return 110.57f * MathF.Sqrt(MathF.Pow(x2-x1, 2) + MathF.Pow(y2-y1 , 2));
+        }
+
+        public DateTime CalculaHorarioPrevistoChegada()
+        {
+            float tempoViagemHoras = CalculaTempoViagem();
+            TimeSpan tempo = TimeSpan.FromHours(tempoViagemHoras);
+            return DataPartida.Add(tempo);
+        }
     }
 }
