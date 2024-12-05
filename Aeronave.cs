@@ -118,7 +118,12 @@ public class Aeronave
         if (TotalBagagens + quantidade <= CapacidadeBagagens)
         {
             TotalBagagens += quantidade;
-            Console.WriteLine($"\n{quantidade} bagagens adicionadas. Total de bagagens: {TotalBagagens}");
+            Console.WriteLine($"\nSuas bagagens foram adicionadas.");
+            Console.WriteLine($"\nDeseja incluir bagagens extras? Se sim, quantas?");
+            int BagagemExtra = 1;
+            // Console.ReadLine($"\nDeseja incluir bagagens extras? Se sim, quantas?");
+            // int BagagemExtra = int.Parse(Console.ReadLine());
+
         }
         else
         {

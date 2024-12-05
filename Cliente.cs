@@ -17,12 +17,13 @@ namespace Agencia_De_Viagens
         public bool IsVip { get; set; }
         public StatusEnum Status {get; set;}
 
-        public Cliente(string nome, string cpf, string rg, string email, string passaporte)
+        public Cliente(string nome, string cpf, string rg, string email, string passaporte, bool isVip)
         {
             Nome = nome;
             CPF = cpf;
             RG = rg;
             Email = email;
+            IsVip = isVip;
             Passaporte = passaporte;
             PassagensCompradas = new List<Passagem>();
             PassagensCanceladas = new List<Passagem>();
@@ -106,22 +107,21 @@ namespace Agencia_De_Viagens
             }
         }
         
-        public void TornarVip()
+        public void TornarVip(bool IsVip)
         {
             if (!IsVip)
             {
-                IsVip = true;
                 Console.WriteLine("\n" + new string('-', 30));
-                Console.WriteLine($"PARABÉNS! Você agora é um Passageiro VIP!");
+                Console.WriteLine($"Parábens, {Nome}! Você agora é um Passageiro VIP!");
                 Console.WriteLine("\nEstes são os seu benefícios:");
                 Console.WriteLine("Alteração e cancelamento de vôo sem custo");
-                Console.WriteLine("1 franquia de passagem gratuita por viagem");
+                Console.WriteLine("1 franquia de bagagem gratuita por viagem");
                 Console.WriteLine("Franquias adicionais com desconto de 50%");
                 Console.WriteLine(new string('-', 30));
             }
             else
             {
-                Console.WriteLine($"\nVocê já é um Passageiro VIP");
+                Console.WriteLine($"\nVocê já é um Passageiro VIP, {Nome}");
             }
         }
 

@@ -125,7 +125,12 @@ namespace Agencia_De_Viagens
             Console.WriteLine($"Data de Partida: {DataPartida:dd/MM/yyyy HH:mm}");
             Console.WriteLine($"Data de Chegada: {DataChegada:dd/MM/yyyy HH:mm}");
             Console.WriteLine($"Duração do Voo: {(DataChegada - DataPartida):hh\\:mm}");
+            if()
+            {
+                
+            }
             Console.WriteLine($"Valor Passagem: {(Tarifa.TarifaBasica + ValorDaPrimeiraBagagem):F2} {Moeda}");
+
             Console.WriteLine(new string('-', 30));
         }
 

@@ -41,7 +41,7 @@ namespace Agencia_De_Viagens
         {
             if (funcionarioResponsavelPelaCriacao.AcessoSistema)
             {
-                var cliente = new Cliente("Joao", "12361213229", "12123123", "john.doe@email.com", "994360123");
+                var cliente = new Cliente("Joao", "12361213229", "12123123", "john.doe@email.com", "994360123", false);
                 Clientes.Add(cliente);
                 _logger.RegistraLog($"Cliente criado. {cliente.Nome}, {cliente.CPF}, {cliente.Email}");
             }
@@ -290,15 +290,20 @@ namespace Agencia_De_Viagens
             {
                 List<Aeronave> aeronaves = passagemComprada.AeroportoOrigem.ObterAeronaves();
 
-                // Verificar se a lista de aeronaves não é nula ou vazia
-                if (aeronaves != null && aeronaves.Count > 0)
+                if(cliente.IsVip = true)
                 {
-                    Aeronave aeronave = aeronaves.First(); // Aqui você pode usar a lógica para escolher uma aeronave específica
-                    aeronave.CadastrarBagagens(quantidade); // Adicionar as bagagens
-                }
-                else
-                {
-                    Console.WriteLine("\nNão há aeronaves disponíveis para este voo.");
+                    // Verificar se a lista de aeronaves não é nula ou vazia
+                    if (aeronaves != null && aeronaves.Count > 0)
+                    {
+                        Aeronave aeronave = aeronaves.First();
+                        Console.WriteLine("Você já é um cliente VIP e possui uma franquia de bagagem por viagem! \nSuas bagagens adicionais serão incluídas sem custo extra.");
+                        // Aqui você pode usar a lógica para escolher uma aeronave específica
+                        aeronave.CadastrarBagagens(quantidade); // Adicionar as bagagens
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nNão há aeronaves disponíveis para este voo.");
+                    }
                 }
 
                 // Agora, com aeronaves válidas, você pode reservar o assento
@@ -605,17 +610,18 @@ namespace Agencia_De_Viagens
             aeronave.ReservarAssento(assentoEscolhido, passageiro);
         }
 
-        public void PromoverClienteParaVip(string cpfCliente)
+        public void PromoverClienteParaVip(string cpfCliente, string vip)
         {
-            var vip = "N";
             // Console.WriteLine("\nGostaria de se torna um cliente VIP? (Escreva apenas S ou N)");
             // string vip = Console.ReadLine().Trim();
 
             var cliente = Clientes.FirstOrDefault(c => c.CPF == cpfCliente);
+            var ClienteStatusVip = cliente.IsVip;
 
             if (vip == "S")
             {
-                cliente.TornarVip();
+                ClienteStatusVip = true;
+                cliente.TornarVip(ClienteStatusVip);
             }
             else if (vip == "N")
             {
