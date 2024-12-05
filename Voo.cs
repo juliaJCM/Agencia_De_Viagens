@@ -51,7 +51,7 @@ namespace Agencia_De_Viagens
         public void Exibir()
         {
             Console.WriteLine("\n" + new string('-', 30));
-            Console.WriteLine("INFORMAÇÕES DO VOO:");
+            Console.WriteLine("INFORMAÇÕES DO VOO");
             Console.WriteLine($"Código do Voo: {Codigo}");
             Console.WriteLine($"Aeroporto de Origem: {AeroportoOrigem.Nome} ({AeroportoOrigem.Sigla})");
             Console.WriteLine($"Aeroporto de Destino: {AeroportoDestino.Nome} ({AeroportoDestino.Sigla})");
@@ -59,7 +59,7 @@ namespace Agencia_De_Viagens
             Console.WriteLine($"Data de Partida: {DataPartida:dd/MM/yyyy HH:mm}");
             Console.WriteLine($"Data de Chegada: {DataChegada:dd/MM/yyyy HH:mm}");
             Console.WriteLine($"Frequência: {Frequencia.Hora} nos dias {string.Join(", ", Frequencia.Dias)}");
-            Console.WriteLine($"Status: {Status}");
+            Console.WriteLine($"Status: {StatusEnum.Ativo}");
             Console.WriteLine(new string('-', 30));
         }
 

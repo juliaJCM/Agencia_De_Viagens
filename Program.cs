@@ -33,18 +33,19 @@ namespace Agencia_De_Viagens
 
             // Criar uma passagem
             agencia.CriarPassagem();
-            agencia.ListarPassagens();
 
             string cpfCliente = agencia.Clientes[0].CPF; 
             string codigoPassagem = agencia.Passagens[0].Codigo; 
 
+            agencia.ListarPassagens(cpfCliente);
+
             //Buscando voos
-            var voosEncontrados = agencia.BuscarVoos("CNF", "GRU", new DateTime(2024, 10, 11), "LATAM");
-            Console.WriteLine("\nVOOS ENCONTRADOS");
-            foreach (var voo in voosEncontrados)
-            {
-                voo.ExibirPassagem();
-            }
+            // var voosEncontrados = agencia.BuscarVoos("CNF", "GRU", new DateTime(2024, 10, 11), "LATAM");
+            // Console.WriteLine("\nVOOS ENCONTRADOS");
+            // foreach (var voo in voosEncontrados)
+            // {
+            //     voo.ExibirPassagemFinal();
+            // }
 
             agencia.ComprarPassagens(cpfCliente, codigoPassagem);
                         
@@ -75,35 +76,38 @@ namespace Agencia_De_Viagens
             agencia.CriarCompaniaAerea();
 
             // Criar voos padrão
-            agencia.CriarVoosPadrao();
+            agencia.CriarVoosPadrao(); 
 
             // Criar uma passagem
             agencia.CriarPassagem();
-            agencia.ListarPassagens();
 
             string cpfCliente = agencia.Clientes[0].CPF; 
-            string codigoPassagem = agencia.Passagens[0].Codigo; 
-
-            //Buscando voos
-            var voosEncontrados = agencia.BuscarVoos("CNF", "GRU", new DateTime(2024, 10, 11), "LATAM");
-            Console.WriteLine("\nVOOS ENCONTRADOS");
+            string codigoPassagem = agencia.Passagens[0].Codigo;
+            string codigoVoo = agencia.Passagens[0].Voos[0].Codigo;
 
             agencia.PromoverClienteParaVip(cpfCliente, "S");
 
-            foreach (var voo in voosEncontrados)
-            {
-                voo.ExibirPassagem();
-            }
+            agencia.ListarPassagens(cpfCliente);
+
+            //Buscando voos
+            // var voosEncontrados = agencia.BuscarVoos("CNF", "GRU", new DateTime(2024, 10, 11), "LATAM");
+            // Console.WriteLine("\nVOOS ENCONTRADOS");
+
+            // foreach (var voo in voosEncontrados)
+            // {
+            //     voo.ExibirPassagem();
+            // }
             
             agencia.ComprarPassagens(cpfCliente, codigoPassagem);
                         
             agencia.EmitirBilhete(cpfCliente, codigoPassagem);
 
-            agencia.FazerCheckIn(cpfCliente, codigoPassagem);
+            agencia.CancelarVoo(codigoVoo, codigoPassagem);
         }
 
         static void Main(string[] args)
         {
+            //------------------CENÁRIOS PARA TESTES SOLICITADOS NA SPRINT 4----------------\\
             // PrimeiroCenarioTeste();
             SegundoCenarioTeste();
 

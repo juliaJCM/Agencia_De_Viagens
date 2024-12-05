@@ -113,30 +113,66 @@ public class Aeronave
             Console.WriteLine($"\nAssento {assento} não está reservado, não é possível liberá-lo.");
         }
     }
-    public void CadastrarBagagens(int quantidade)
+    public int CadastrarBagagens(int quantidade, int bagagemExtra)
     {
         if (TotalBagagens + quantidade <= CapacidadeBagagens)
         {
             TotalBagagens += quantidade;
-            Console.WriteLine($"\nSuas bagagens foram adicionadas.");
-            Console.WriteLine($"\nDeseja incluir bagagens extras? Se sim, quantas?");
-            int BagagemExtra = 1;
+            // Console.WriteLine($"\nDeseja incluir bagagens extras? Se sim, quantas?");
+            if(bagagemExtra > 0 )
+            {
+                if(TotalBagagens + bagagemExtra <= CapacidadeBagagens)
+                {
+                    TotalBagagens += bagagemExtra;
+                }
+                else
+                {
+                    Console.WriteLine($"\nNão há capacidade suficiente para as bagagens extras.");
+                    bagagemExtra = 0;
+                }
+            }
             // Console.ReadLine($"\nDeseja incluir bagagens extras? Se sim, quantas?");
             // int BagagemExtra = int.Parse(Console.ReadLine());
 
+            Console.WriteLine("\n" + new string('-', 30));
+            Console.WriteLine($"INFORMAÇÕES DE BAGAGENS");
+            Console.WriteLine($"Quantidade de bagagens principais: {quantidade}");
+            if(bagagemExtra > 0)
+            {
+                 Console.WriteLine($"Bagagens extras: {bagagemExtra}");
+                 Console.WriteLine($"Total: {quantidade + bagagemExtra}");
+                 Console.WriteLine(new string('-', 30)); Console.WriteLine("");
+                 return bagagemExtra;
+            }
+            else 
+            {
+                Console.WriteLine($"Total de bagagens: {quantidade}");
+                Console.WriteLine(new string('-', 30)); Console.WriteLine("");
+                return 0;
+            }
         }
         else
         {
-            Console.WriteLine("\nCapacidade de bagagens atingida. Não é possível adicionar mais bagagens.");
+            Console.WriteLine("\nCapacidade de bagagens atingida. Não é possível adicionar mais.");
+            return 0;
         }
     }
 
-    public void RemoverBagagens(int quantidade)
+    public void RemoverBagagens(int quantidade, int bagagemExtra)
     {
-        if (TotalBagagens - quantidade >= 0)
+        if (TotalBagagens - quantidade - bagagemExtra >= 0)
         {
-            TotalBagagens -= quantidade;
-            Console.WriteLine($"\n{quantidade} bagagens removidas. Total de bagagens: {TotalBagagens}");
+            if(bagagemExtra > 0 )
+            {
+                var QtdeBagagem = quantidade += bagagemExtra;
+                TotalBagagens -= QtdeBagagem;
+                Console.WriteLine($"\n{quantidade} bagagens removidas.");
+            }
+            else 
+            {
+                TotalBagagens -= quantidade;
+                Console.WriteLine($"\n{quantidade} bagagens removidas.");
+            }
         }
         else
         {
