@@ -5,8 +5,7 @@ namespace Agencia_De_Viagens
 {
     class Program
     {
-        
-        
+      
         //------------------CENÁRIO 1----------------\\
         public static void PrimeiroCenarioTeste()
         {
@@ -108,8 +107,8 @@ namespace Agencia_De_Viagens
         static void Main(string[] args)
         {
             //------------------CENÁRIOS PARA TESTES SOLICITADOS NA SPRINT 4----------------\\
-            // PrimeiroCenarioTeste();
-            SegundoCenarioTeste();
+            PrimeiroCenarioTeste();
+            // SegundoCenarioTeste();
 
 
             // agencia.CriarFuncionario("Maria Moreira", "12345678900", "maria@email.com");
