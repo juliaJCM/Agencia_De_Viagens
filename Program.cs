@@ -39,12 +39,12 @@ namespace Agencia_De_Viagens
             agencia.ListarPassagens(cpfCliente);
 
             //Buscando voos
-            // var voosEncontrados = agencia.BuscarVoos("CNF", "GRU", new DateTime(2024, 10, 11), "LATAM");
-            // Console.WriteLine("\nVOOS ENCONTRADOS");
-            // foreach (var voo in voosEncontrados)
-            // {
-            //     voo.ExibirPassagemFinal();
-            // }
+            var voosEncontrados = agencia.BuscarVoos("CNF", "GRU", new DateTime(2024, 12, 14), "LATAM");
+            Console.WriteLine("\nVOOS ENCONTRADOS");
+            foreach (var voo in voosEncontrados)
+            {
+                voo.ExibirPassagemFinal(false);
+            }
 
             agencia.ComprarPassagens(cpfCliente, codigoPassagem);
 
