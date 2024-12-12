@@ -7,10 +7,10 @@ namespace Agencia_De_Viagens
     public class Passagem : ILog
     {
         public string Codigo { get; private set; }
-        public Aeroporto AeroportoOrigem { get; private set; } 
-        public Aeroporto AeroportoDestino { get; private set; } 
-        public Aeroporto? AeroportoConexao { get; private set; } 
-        public CiaAerea CiaAerea { get; private set; } 
+        public Aeroporto AeroportoOrigem { get; private set; }
+        public Aeroporto AeroportoDestino { get; private set; }
+        public Aeroporto? AeroportoConexao { get; private set; }
+        public CiaAerea CiaAerea { get; private set; }
         public DateTime DataPartida { get; private set; }
         public DateTime DataChegada { get; private set; }
         public Cliente cliente { get; set; }
@@ -19,8 +19,8 @@ namespace Agencia_De_Viagens
         public string Moeda { get; private set; }
         public double ValorDaPrimeiraBagagem { get; private set; }
         public double ValorDaBagagemAdicional { get; private set; }
-        public int Bagagem { get;set; }
-        public int BagagensExtras { get; set;}
+        public int Bagagem { get; set; }
+        public int BagagensExtras { get; set; }
         public bool Ativo { get; private set; } = false;
         public TipoPassagemEnum TipoPassagem { get; private set; }
         private static double TarifaViagemInternacional = 5.60;
@@ -28,8 +28,8 @@ namespace Agencia_De_Viagens
         public StatusEnum Status { get; set; }
         public string AssentoReservado { get; set; }
         public bool VerificaCheckIn { get; set; }
-        public List<CartaoEmbarque> CartoesEmbarque { get; private set; }  = new List<CartaoEmbarque>();
-        public CartaoEmbarque cartaoEmbarque {get; set;}
+        public List<CartaoEmbarque> CartoesEmbarque { get; private set; } = new List<CartaoEmbarque>();
+        public CartaoEmbarque cartaoEmbarque { get; set; }
 
         private readonly ILog _logger;
 
@@ -108,7 +108,7 @@ namespace Agencia_De_Viagens
 
             double valorPassagem = Tarifa.TarifaBasica + ValorDaPrimeiraBagagem;
 
-            if (IsVip =  true)
+            if (IsVip == true)
             {
                 Console.WriteLine($"Valor Passagem: {(Tarifa.TarifaPremium + ValorDaPrimeiraBagagem):F2} {Moeda}");
             }
@@ -140,7 +140,7 @@ namespace Agencia_De_Viagens
             Console.WriteLine($"Moeda: {Moeda}");
             Console.WriteLine($"Tipo de Passagem: {TipoPassagem}");
             Console.WriteLine($"Tarifa Básica: {Tarifa.TarifaBasica:F2} {Moeda}");
-            if (IsVip =  true)
+            if (IsVip == true)
             {
                 Console.WriteLine($"Valor Passagem: {(Tarifa.TarifaPremium + ValorDaPrimeiraBagagem):F2} {Moeda}");
             }
@@ -174,10 +174,10 @@ namespace Agencia_De_Viagens
             // DateTime agora = DateTime.Now;
             DateTime agora = DateTime.Now.AddHours(-48);
 
-            DateTime inicioCheckIn = DataPartida.AddHours(-48); 
+            DateTime inicioCheckIn = DataPartida.AddHours(-48);
             DateTime limiteCheckIn = DataPartida.AddMinutes(-30);
 
-            if(agora >= inicioCheckIn && agora <= limiteCheckIn)
+            if (agora >= inicioCheckIn && agora <= limiteCheckIn)
             {
                 VerificaCheckIn = true;
                 VerificaNoShow(VerificaCheckIn);
@@ -191,7 +191,7 @@ namespace Agencia_De_Viagens
 
         public void VerificaNoShow(bool VerificaCheckIn)
         {
-            if(!VerificaCheckIn)
+            if (!VerificaCheckIn)
             {
                 Status = StatusEnum.NoShow;
                 _logger.RegistraLog($"ERR: Check In não pôde ser realizado!");
@@ -209,7 +209,7 @@ namespace Agencia_De_Viagens
 
         public void GerarCartaoEmbarque(bool VerificaCheckIn)
         {
-            if(!VerificaCheckIn)
+            if (!VerificaCheckIn)
             {
                 Console.WriteLine("\nNão foi possível gerar o cartão de embarque uma vez que o check-in não foi realizado!");
             }
