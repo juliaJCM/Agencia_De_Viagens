@@ -104,11 +104,11 @@ namespace Agencia_De_Viagens
             Console.WriteLine("INFORMAÇÕES INICIAIS DA PASSAGEM");
             Console.WriteLine($"Data de Partida: {DataPartida:dd/MM/yyyy HH:mm}");
             Console.WriteLine($"Data de Chegada: {DataChegada:dd/MM/yyyy HH:mm}");
-            Console.WriteLine($"Duração do Voo: {(DataChegada - DataPartida):hh\\:mm}");
+            Console.WriteLine($"Duração do Voo: {DataChegada - DataPartida:hh\\:mm}");
 
             double valorPassagem = Tarifa.TarifaBasica + ValorDaPrimeiraBagagem;
 
-            if (IsVip == true)
+            if (IsVip)
             {
                 Console.WriteLine($"Valor Passagem: {(Tarifa.TarifaPremium + ValorDaPrimeiraBagagem):F2} {Moeda}");
             }

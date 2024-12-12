@@ -277,7 +277,7 @@ namespace Agencia_De_Viagens
                     voo.DataChegada,
                     "BRL",
                     15.0,
-                    20.0,
+                    30.0,
                     18.0,
                     TipoPassagemEnum.Nacional,
                     listaVoosPassagem,
