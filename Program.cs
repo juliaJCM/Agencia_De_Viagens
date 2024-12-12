@@ -1,52 +1,171 @@
 ﻿using System;
+using System.Security.Cryptography;
 
 namespace Agencia_De_Viagens
 {
     class Program
     {
-        static void Main(string[] args)
-        {
-            Agencia agencia = new Agencia();
 
+
+        //------------------CENÁRIO 1----------------\\
+        public static void PrimeiroCenarioTeste()
+        {
+            ILog log = new Log("system_log.txt");
+            Agencia agencia = new Agencia(log);
+
+            // Criar um funcionário
             agencia.CriarFuncionario("Maria Moreira", "12345678900", "maria@email.com");
             agencia.ListarFuncionario();
 
+            // Criar um cliente associado ao funcionário
             Funcionario funcionario = agencia.Funcionarios[0];
             agencia.CriarCliente(funcionario);
             agencia.ListarClientes();
 
-            agencia.CriarCompaniaAerea();
+            // Criar um aeroporto
             agencia.CriarAeroporto();
 
+            // Criar uma companhia aérea
+            agencia.CriarCompaniaAerea();
+
+            // Criar voos padrão
             agencia.CriarVoosPadrao();
 
-            agencia.CriarPassagem();
-            agencia.ListarPassagens();
+            // Criar uma passagem
+            agencia.CriarPassagem(false);
 
+            string cpfCliente = agencia.Clientes[0].CPF;
+            string codigoPassagem = agencia.Passagens[0].Codigo;
 
-            string cpfCliente = agencia.Clientes[0].CPF; // teste com Primeiro
-            string codigoPassagem = agencia.Passagens[0].Codigo; // teste com Primeiro
+            agencia.ListarPassagens(cpfCliente);
 
             //Buscando voos
-            var voosEncontrados = agencia.BuscarVoos("CNF", "GRU", new DateTime(2024, 10, 11));
+            // var voosEncontrados = agencia.BuscarVoos("CNF", "GRU", new DateTime(2024, 10, 11), "LATAM");
+            // Console.WriteLine("\nVOOS ENCONTRADOS");
+            // foreach (var voo in voosEncontrados)
+            // {
+            //     voo.ExibirPassagemFinal();
+            // }
+
+            agencia.ComprarPassagens(cpfCliente, codigoPassagem);
+
+            agencia.EmitirBilhete(cpfCliente, codigoPassagem);
+
+            agencia.FazerCheckIn(cpfCliente, codigoPassagem);
+        }
+
+        //------------------CENÁRIO 2----------------\\
+        public static void SegundoCenarioTeste()
+        {
+            ILog log = new Log("system_log.txt");
+            Agencia agencia = new Agencia(log);
+
+            // Criar um funcionário
+            agencia.CriarFuncionario("Maria Moreira", "12345678900", "maria@email.com");
+            agencia.ListarFuncionario();
+
+            // Criar um cliente associado ao funcionário
+            Funcionario funcionario = agencia.Funcionarios[0];
+            agencia.CriarCliente(funcionario);
+            agencia.ListarClientes();
+
+            // Criar um aeroporto
+            agencia.CriarAeroporto();
+
+            // Criar uma companhia aérea
+            agencia.CriarCompaniaAerea();
+
+            // Criar voos padrão
+            agencia.CriarVoosPadrao();
+
+            // Criar uma passagem
+            agencia.CriarPassagem(true);
+            string cpfCliente = agencia.Clientes[0].CPF;
+
+            string codigoPassagem = "";
+
+            if (agencia.Passagens != null && agencia.Passagens.Count > 0)
+            {
+                foreach (var aaaaaa in agencia.Passagens)
+                {
+                    aaaaaa.ExibirPassagemFinal(false);
+                }
+                codigoPassagem = agencia.Passagens[0].Codigo;
+            }
+            else
+            {
+                Console.WriteLine("Nenhuma passagem disponível.");
+            }
+
+            string codigoVoo = agencia.Passagens[0].Voos[0].Codigo;
+
+            agencia.PromoverClienteParaVip(cpfCliente, "S");
+
+            agencia.ListarPassagens(cpfCliente);
+
+            //Buscando voos
+            var voosEncontrados = agencia.BuscarVoos("CNF", "GRU", new DateTime(2024, 10, 11), "LATAM");
             Console.WriteLine("\nVOOS ENCONTRADOS");
+
             foreach (var voo in voosEncontrados)
             {
-                voo.ExibirPassagem();
+                voo.ExibirPassagemFinal(true);
             }
 
             agencia.ComprarPassagens(cpfCliente, codigoPassagem);
+
             agencia.EmitirBilhete(cpfCliente, codigoPassagem);
 
-            agencia.PromoverClienteParaVip(cpfCliente);
+            agencia.CancelarVoo(codigoVoo, codigoPassagem);
+        }
 
-            agencia.FazerCheckIn(cpfCliente, codigoPassagem);
+        static void Main(string[] args)
+        {
+            //------------------CENÁRIOS PARA TESTES SOLICITADOS NA SPRINT 4----------------\\
+            // PrimeiroCenarioTeste();
+            SegundoCenarioTeste();
 
-            agencia.FazerCartaoEmbarque(cpfCliente, codigoPassagem);
+
+            // agencia.CriarFuncionario("Maria Moreira", "12345678900", "maria@email.com");
+            // agencia.ListarFuncionario();
+
+            // Funcionario funcionario = agencia.Funcionarios[0];
+            // agencia.CriarCliente(funcionario);
+            // agencia.ListarClientes();
+
+            // agencia.CriarAeroporto();
+            // agencia.CriarCompaniaAerea();
+
+            // agencia.CriarVoosPadrao();
+
+            // agencia.CriarPassagem();
+            // agencia.ListarPassagens();
+
+            // string cpfCliente = agencia.Clientes[0].CPF; 
+            // string codigoPassagem = agencia.Passagens[0].Codigo; 
+
+            // //Buscando voos
+            // var voosEncontrados = agencia.BuscarVoos("CNF", "GRU", new DateTime(2024, 10, 11), "LATAM");
+            // Console.WriteLine("\nVOOS ENCONTRADOS");
+            // foreach (var voo in voosEncontrados)
+            // {
+            //     voo.ExibirPassagem();
+            // }
+
+            // agencia.ComprarPassagens(cpfCliente, codigoPassagem);
+
+            // agencia.FazerCheckIn(cpfCliente, codigoPassagem);
+
+            // agencia.EmitirBilhete(cpfCliente, codigoPassagem);
+
+            // agencia.PromoverClienteParaVip(cpfCliente);
+
+            // agencia.FazerCartaoEmbarque(cpfCliente, codigoPassagem);
 
             // agencia.CancelarVoo(codigoVoo, codigoPassagem);
             // agencia.ExcluirFuncionario("12345678900");
             // agencia.ListarFuncionario();
         }
+
     }
 }

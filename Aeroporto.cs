@@ -12,8 +12,12 @@ namespace Agencia_De_Viagens
         public string Pais { get; set; }
         public List<Aeronave> Aeronaves { get; set; }
 
+        //-----ATRIBUTOS RELACIONADOS À SPRINT 4-----//
+        public float Latitude { get; set; }
+        public float Longitude { get; set; }
+
         // Construtor opcional
-        public Aeroporto(string nome, string sigla, string cidade, string estado, string pais)
+        public Aeroporto(string nome, string sigla, string cidade, string estado, string pais, float latitude, float longitude)
         {
             if (ValidarAeroporto(nome, sigla, cidade, estado, pais))
             {
@@ -23,6 +27,8 @@ namespace Agencia_De_Viagens
                 Estado = estado;
                 Pais = pais;
                 Aeronaves = new List<Aeronave>();
+                Latitude = latitude;
+                Longitude = longitude;
             }
             else
             {
@@ -62,11 +68,13 @@ namespace Agencia_De_Viagens
             Console.WriteLine($"País: {Pais}");
             Console.WriteLine(new string('-', 30));
         }
+        
         public void AdicionarAeronave(Aeronave aeronave)
         {
             Aeronaves.Add(aeronave);
             Console.WriteLine($"\nAeronave {aeronave.Nome} adicionada ao {Nome}.");
         }
+
         public List<Aeronave> ObterAeronaves()
         {
             return Aeronaves;
